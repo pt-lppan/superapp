@@ -43,7 +43,7 @@ define("DEV_ERROR_REPORTING_LV", 1);
 define("DEV_MYSQL_DUMP_WIN_LOC", '"D:\wamp64\bin\mysql\mysql5.7.26\bin\mysqldump.exe"');
 
 // server yg di atas server live apa server dev?
-$force_dev_mode =  false;
+$force_dev_mode =  true;
 define("LIVE_HTTP_PREFIX", 'https');
 if ($_SERVER['HTTP_HOST'] == 'devsuperapp.lpp.co.id') { // devsuperapp
 	define("LIVE_SQL_HOST", 'localhost');
