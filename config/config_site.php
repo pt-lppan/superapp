@@ -43,21 +43,21 @@ define("DEV_ERROR_REPORTING_LV", 1);
 define("DEV_MYSQL_DUMP_WIN_LOC", '"D:\wamp64\bin\mysql\mysql5.7.26\bin\mysqldump.exe"');
 
 // server yg di atas server live apa server dev?
-$force_dev_mode =  true;
-define("LIVE_HTTP_PREFIX", 'https');
-if ($_SERVER['HTTP_HOST'] == 'devsuperapp.lpp.co.id') { // devsuperapp
+$force_dev_mode =  false;
+define("LIVE_HTTP_PREFIX", 'http');
+if ($_SERVER['HTTP_HOST'] == 'localhost') { // devsuperapp
 	define("LIVE_SQL_HOST", 'localhost');
 	define("LIVE_SQL_PORT", '3306');
-	define("LIVE_SQL_USER", 'admin_superAPP');
-	define("LIVE_SQL_PASS", 'toocfZGTeJ');
-	define("LIVE_SQL_DB", 'admin_2020_APP');
+	define("LIVE_SQL_USER", 'root');
+	define("LIVE_SQL_PASS", '');
+	define("LIVE_SQL_DB", 'superapp');
 	$force_dev_mode =  true;
 } else {
 	define("LIVE_SQL_HOST", 'localhost');
 	define("LIVE_SQL_PORT", '3306');
-	define("LIVE_SQL_USER", 'admin_superLIVE');
-	define("LIVE_SQL_PASS", 'XKecLgdBVv');
-	define("LIVE_SQL_DB", 'admin_dbsuperlive');
+	define("LIVE_SQL_USER", 'root');
+	define("LIVE_SQL_PASS", '');
+	define("LIVE_SQL_DB", 'superapp');
 }
 define("LIVE_ERROR_REPORTING_LV", 0);
 define("LIVE_MYSQL_DUMP_WIN_LOC", '');
