@@ -1,0 +1,115 @@
+# ----------------------------------------------------------------------
+# Start rewrite engine
+# ----------------------------------------------------------------------
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*) index.php/$1 [L]
+
+# redirect to https
+RewriteCond %{HTTP_HOST} !=localhost
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# get .htaccess current dir
+RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+RewriteRule ^(.*)$ - [E=BASE:%1]
+
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+# Options +SymLinksIfOwnerMatch
+# RewriteEngine On
+
+RewriteRule cert/(.*)$				%{ENV:BASE}/_sertifikat.php?s=$1 [L,QSA]
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Suppress or force the "www." at the beginning of URLs
+# ----------------------------------------------------------------------
+
+# The same content should never be available under two different URLs -
+# especially not with and without "www." at the beginning, since this can cause
+# SEO problems (duplicate content). That's why you should choose one of the
+# alternatives and redirect the other one.
+
+# By default option 1 (no "www.") is activated.
+# no-www.org/faq.php?q=class_b
+
+# If you'd prefer to use option 2, just comment out all option 1 lines
+# and uncomment option 2.
+
+# IMPORTANT: NEVER USE BOTH RULES AT THE SAME TIME!
+
+# ----------------------------------------------------------------------
+
+# Option 1:
+# Rewrite "www.example.com -> example.com".
+
+<IfModule mod_rewrite.c>
+# RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------
+
+# Option 2:
+# Rewrite "example.com -> www.example.com".
+# Be aware that the following rule might not be a good idea if you use "real"
+# subdomains for certain parts of your website.
+
+# <IfModule mod_rewrite.c>
+#   RewriteCond %{HTTPS} !=on
+#   RewriteCond %{HTTP_HOST} !^www\..+$ [NC]
+#   RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# </IfModule>
+
+# ----------------------------------------------------------------------
+# A little more security
+# ----------------------------------------------------------------------
+
+# To avoid displaying the exact version number of Apache being used, add the
+# following to httpd.conf (it will not work in .htaccess):
+# ServerTokens Prod
+
+# "-Indexes" will have Apache block users from browsing folders without a
+# default document Usually you should leave this activated, because you
+# shouldn't allow everybody to surf through every folder on your server (which
+# includes rather private places like CMS system folders).
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
+
+# Block access to "hidden" directories or files whose names begin with a
+# period. This includes directories used by version control systems such as
+# Subversion or Git.
+<IfModule mod_rewrite.c>
+  RewriteCond %{SCRIPT_FILENAME} -d [OR]
+  RewriteCond %{SCRIPT_FILENAME} -f
+  RewriteRule "(^|/)\." - [F]
+</IfModule>
+
+# Block access to backup and source files. These files may be left by some
+# text/html editors and pose a great security danger, when anyone can access
+# them.
+<FilesMatch "(\.(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist)|~)$">
+  Order allow,deny
+  Deny from all
+  Satisfy All
+</FilesMatch>
+
+php_value short_open_tag on
+php_value post_max_size 400M
+php_value upload_max_filesize 200M
+php_value max_execution_time 5000
+php_value max_input_time 5000
+php_value memory_limit 500M
+
+# use -1 to display all error; 4: all except warning dan notice; 1: basic; 0 to disable
+# php_value error_reporting 4
+# php_value display_errors on
+
+php_value session.name "SUPERAPPSESSID"
+
+ErrorDocument 403 '<!DOCTYPE html><html lang="en"><head><title>403 Forbidden</title></head><p>Sorry, access to this page is forbidden.</p></body></html>'
