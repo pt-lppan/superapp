@@ -6,27 +6,27 @@
  *
  */
 
-class Umum extends func {
-	function __construct() {
-		
-    }
-	
-	function getKategori($tipe) { 
+class Umum extends func
+{
+	function __construct() {}
+
+	function getKategori($tipe)
+	{
 		$arr = array();
 		$arr[''] = "";
-		if($tipe=="ya_tidak") {
+		if ($tipe == "ya_tidak") {
 			$arr['1'] = "Ya";
 			$arr['0'] = "Tidak";
-		} else if($tipe=="status_data") {
+		} else if ($tipe == "status_data") {
 			$arr['draft'] = "Draft";
 			$arr['publish'] = "Publish";
-		} else if($tipe=="kategori_posisi") {
+		} else if ($tipe == "kategori_posisi") {
 			$arr['kantor_pusat'] = "Kantor Pusat";
 			$arr['kantor_jogja'] = "Kantor Jogja";
 			$arr['kantor_medan'] = "Kantor Medan";
 			$arr['poliklinik'] = "Poliklinik";
 			$arr['tidak_perlu_presensi'] = "Tidak Perlu Presensi";
-		} else if($tipe=="status_karyawan") {
+		} else if ($tipe == "status_karyawan") {
 			$arr['komisaris_utama'] = "Komisaris Utama";
 			$arr['anggota_komisaris'] = "Anggota Komisaris";
 			$arr['direktur'] = "Direktur";
@@ -40,7 +40,7 @@ class Umum extends func {
 			$arr['karyawan_pelaksana'] = "Karyawan Pelaksana";
 			$arr['asosiat'] = "Asosiat";
 			$arr['helper_aplikasi'] = "Helper Aplikasi";
-		} else if($tipe=="konfig_manhour") {
+		} else if ($tipe == "konfig_manhour") {
 			$arr['gm'] = 'General Manager';
 			$arr['hoa'] = 'Kepala Akademi';
 			$arr['koordinator_sme'] = 'Koordinator Akademi';
@@ -57,22 +57,22 @@ class Umum extends func {
 			$arr['koordinator_digital_bisnis'] = "Koordinator Digital Business";
 			$arr['karyawan_pimpinan_administrasi'] = "Karyawan Pimpinan Administrasi";
 			$arr['karyawan_pelaksana'] = "Karyawan Pelaksana";
-		} else if($tipe=="jenis_karyawan") {
-			$arr['dalam_masa_percobaan'] = "Dalam Masa Percobaan";
-			$arr['dalam_masa_orientasi'] = "Dalam Masa Orientasi";
+		} else if ($tipe == "jenis_karyawan") {
+			// $arr['dalam_masa_percobaan'] = "Dalam Masa Percobaan";
+			// $arr['dalam_masa_orientasi'] = "Dalam Masa Orientasi";
 			$arr['kontrak'] = "Kontrak";
 			$arr['tetap'] = "Tetap";
-		} else if($tipe=="tipe_karyawan") {
+		} else if ($tipe == "tipe_karyawan") {
 			$arr['reguler'] = "Reguler";
 			$arr['shift'] = "Shift (Umum)";
 			$arr['shift_kebersihan'] = 'Shift (Kebersihan)';
 			$arr['shift_kebun'] = 'Shift (Kebun)';
 			$arr['shift_listrik'] = 'Shift (Listrik)';
 			$arr['shift_security'] = 'Shift (Security)';
-		} else if($tipe=="jenis_kelamin") {
+		} else if ($tipe == "jenis_kelamin") {
 			$arr['Laki-Laki'] = "Laki-Laki";
 			$arr['Perempuan'] = "Perempuan";
-		} else if($tipe=="filter_status_karyawan") {
+		} else if ($tipe == "filter_status_karyawan") {
 			$arr['aktif'] = "Aktif";
 			$arr['mbt'] = "Masa Bebas Tugas";
 			$arr['pensiun'] = "Pensiun";
@@ -82,7 +82,7 @@ class Umum extends func {
 			$arr['tugas_ke_perusahaan_lain'] = "Penugasan Ke Perusahaan Lain";
 			$arr['istirahat_dokter'] = "Istirahat Dokter";
 			$arr['cuti_diluar_tanggungan'] = "Cuti Di Luar Tanggungan";
-		} else if($tipe=="kategori_unit_kerja") {
+		} else if ($tipe == "kategori_unit_kerja") {
 			$arr['sme'] = "SME/Akademi";
 			$arr['koko'] = "Koko";
 			$arr['biro'] = "Biro";
@@ -93,7 +93,7 @@ class Umum extends func {
 			$arr['politeknik'] = "Politeknik";
 			$arr['stipap'] = "STIPAP";
 			$arr['lain-lain'] = "Lain-Lain";
-		} else if($tipe=="jenjang_pendidikan") {
+		} else if ($tipe == "jenjang_pendidikan") {
 			$arr['5'] = "Tidak Sekolah/Buta Huruf";
 			$arr['10'] = "SD";
 			$arr['20'] = "SMP";
@@ -106,34 +106,34 @@ class Umum extends func {
 			$arr['80'] = "S1";
 			$arr['90'] = "S2";
 			$arr['100'] = "S3";
-		} else if($tipe=="kategori_pelatihan") {
+		} else if ($tipe == "kategori_pelatihan") {
 			$arr['workshop'] = "Workshop";
 			$arr['training'] = "Training";
 			$arr['sertifikasi_bnsp'] = "Sertifikasi BNSP";
 			$arr['sertifikasi_nonbnsp'] = "Sertifikasi Non BNSP";
 			$arr['benchmark'] = "Benchmark";
 			$arr['kjb'] = "KJB";
-		} else if($tipe=="kategori_strata") {
+		} else if ($tipe == "kategori_strata") {
 			$arr['i'] = "Strata I";
 			$arr['ii'] = "Strata II";
 			$arr['iii'] = "Strata III";
 			$arr['iv'] = "Strata IV";
 			$arr['v'] = "Strata V";
-		} else if($tipe=="kategori_golongan") {
+		} else if ($tipe == "kategori_golongan") {
 			$arrK = $this->getKategori('kategori_strata');
-			
+
 			$sql = "select id,strata,golongan, alias from sdm_golongan where status='1' order by id";
-			$res = mysqli_query($GLOBALS['notif']->con,$sql);
-			while($row = mysqli_fetch_object($res)) {
-				if(!empty($row->alias)) $row->golongan = $row->alias." (".$row->golongan.")";
+			$res = mysqli_query($GLOBALS['notif']->con, $sql);
+			while ($row = mysqli_fetch_object($res)) {
+				if (!empty($row->alias)) $row->golongan = $row->alias . " (" . $row->golongan . ")";
 				$arr[$row->id] = $row->golongan;
 			}
-		} else if($tipe=="kategori_sp") {
+		} else if ($tipe == "kategori_sp") {
 			$arr['teguran'] = "Teguran";
 			$arr['sp1'] = "Peringatan I";
 			$arr['sp2'] = "Peringatan II";
 			$arr['sp3'] = "Peringatan III";
-		} else if($tipe=="level_karyawan") {
+		} else if ($tipe == "level_karyawan") {
 			// perubahan 1 okt 2021
 			$arr['1'] = "BOC";
 			$arr['10'] = "BOM (Direktur)";
@@ -143,7 +143,7 @@ class Umum extends func {
 			$arr['40'] = "BOD-3";
 			$arr['50'] = "BOD-4";
 			$arr['60'] = "BOD-5";
-			
+
 			/* 
 			// data awal
 			$arr['1'] = "Komisaris";
@@ -152,7 +152,7 @@ class Umum extends func {
 			$arr['12'] = "BOD-2";
 			$arr['13'] = "BOD-3";
 			*/
-		} else if($tipe=="suku_karyawan") {
+		} else if ($tipe == "suku_karyawan") {
 			$arr['Aceh'] = "Aceh";
 			$arr['Ambon'] = "Ambon";
 			$arr['Arab'] = "Arab";
@@ -177,184 +177,187 @@ class Umum extends func {
 			$arr['Sunda'] = "Sunda";
 			$arr['Tionghoa'] = "Tionghoa";
 			$arr['Lain-Lain'] = "Lain-Lain";
-		} else if($tipe=="status_nikah") {
+		} else if ($tipe == "status_nikah") {
 			$arr['Kawin'] = "Kawin";
 			$arr['Belum Kawin'] = "Belum Kawin";
 			$arr['Duda'] = "Duda";
 			$arr['Janda'] = "Janda";
 			$arr['Cerai'] = "Cerai";
-		} else if($tipe=="tingkat_penghargaan") {
+		} else if ($tipe == "tingkat_penghargaan") {
 			$arr['Perusahaan'] = "Perusahaan";
 			$arr['Nasional'] = "Nasional";
 			$arr['Internasional'] = "Internasional";
-		} else if($tipe=="tingkat_pelatihan") {
+		} else if ($tipe == "tingkat_pelatihan") {
 			$arr['Perusahaan'] = "Perusahaan";
 			$arr['Nasional'] = "Nasional";
 			$arr['Internasional'] = "Internasional";
-		} else if($tipe=="filter_log_aplikasi") {
+		} else if ($tipe == "filter_log_aplikasi") {
 			$arr['digidoc'] = "Dokumen Digital";
-		} else if($tipe=="status_mh_invoice") {
+		} else if ($tipe == "status_mh_invoice") {
 			unset($arr['']);
 			$arr['0'] = 'Belum Bisa Diklaim';
 			$arr['1'] = 'Bisa Diklaim';
-		} else if($tipe=="status_invoice") {
+		} else if ($tipe == "status_invoice") {
 			unset($arr['']);
 			$arr['0'] = 'Belum Selesai Dibuat';
 			$arr['1'] = 'Selesai Dibuat';
-		} else if($tipe=="filter_status_konfirmasi_pdp") {
+		} else if ($tipe == "filter_status_konfirmasi_pdp") {
 			unset($arr['']);
 			$arr['0'] = 'Belum Konfirmasi';
 			$arr['1'] = 'Sudah Konfirmasi';
-		} else if($tipe=="cari_status_konfirmasi_pdp") {
+		} else if ($tipe == "cari_status_konfirmasi_pdp") {
 			unset($arr['']);
 			$arr['0'] = 'Belum Konfirmasi';
 			$arr['1'] = 'Sudah Konfirmasi';
 			$arr['2'] = 'Semua Data';
-		} else if($tipe=="format_cv") {
+		} else if ($tipe == "format_cv") {
 			unset($arr['']);
 			$arr['bumn'] = 'BUMN';
 			$arr['pemasaran'] = 'Pemasaran';
-		} else if($tipe=="kode_faktur_pajak") {
+		} else if ($tipe == "kode_faktur_pajak") {
 			$arr['020'] = '020 - dinas, ACC';
 			$arr['030'] = '030 - bumn (ACC > 10jt)';
 			$arr['040'] = '040 - umum, selain pelatihan';
 			$arr['080'] = '080 - pelatihan';
-		} else if($tipe=="jabatan_bom") {
+		} else if ($tipe == "jabatan_bom") {
 			$arr['Direktur'] = 'Direktur';
 			$arr['SEVP Business Support'] = 'SEVP Business Support';
 			$arr['SEVP Operation'] = 'SEVP Operation';
 		}
-		
+
 		return $arr;
 	}
-	
-	function reformatArrayFromVT($arr) {
+
+	function reformatArrayFromVT($arr)
+	{
 		$arrH = array();
 		$arrH[''] = '';
-		foreach($arr as $key => $id_user) {
-			$sql = "select concat('[',d.nik,'] ',d.nama) as nama from sdm_user_detail d, sdm_user s where s.id=d.id_user and s.level=50 and d.id_user='".$id_user."' ";
-			$res = mysqli_query($GLOBALS['notif']->con,$sql);
+		foreach ($arr as $key => $id_user) {
+			$sql = "select concat('[',d.nik,'] ',d.nama) as nama from sdm_user_detail d, sdm_user s where s.id=d.id_user and s.level=50 and d.id_user='" . $id_user . "' ";
+			$res = mysqli_query($GLOBALS['notif']->con, $sql);
 			$row = mysqli_fetch_object($res);
 			$arrH[$id_user] = $row->nama;
 		}
 		return $arrH;
 	}
-	
-	function getThisPageURL() {
+
+	function getThisPageURL()
+	{
 		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 	}
-	
-	function cekFile($dFile, $kat, $ket, $fileWajibAda, $target_w=0, $target_h=0, $target_fsize=0, $target_ext='') {
+
+	function cekFile($dFile, $kat, $ket, $fileWajibAda, $target_w = 0, $target_h = 0, $target_fsize = 0, $target_ext = '')
+	{
 		$strError = "";
 		$tmp_name = $dFile['tmp_name'];
 		$filetype = $dFile['type'];
 		$filesize = $dFile['size'];
 		$filename = $dFile['name'];
 		$path_parts = pathinfo($filename);
-		if(is_uploaded_file($tmp_name)) {
+		if (is_uploaded_file($tmp_name)) {
 			// check 1
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
 			$mime = finfo_file($finfo, $tmp_name);
-			finfo_close($finfo); 
-			
+			finfo_close($finfo);
+
 			// check 2
 			$size2 = @getimagesize($tmp_name);
-			
-			if($kat=="logo") {
-				if ($filesize > LOGO_FILESIZE) $strError .= "<li>Ukuran file ".$ket." maksimal ".(LOGO_FILESIZE/1024)." KB! Ukuran file yg hendak diupload: ".round($filesize/1024)." KB.</li>";
-				if ($size2[2]!=3 || $mime!="image/png") $strError .=  "<li>Tipe file ".$ket." harus PNG.</li>";
-			} else if($kat=="avatar") {
-				if ($filesize > FOTO_FILESIZE) $strError .= "<li>Ukuran file ".$ket." maksimal ".(FOTO_FILESIZE/1024)." KB! Ukuran file yg hendak diupload: ".round($filesize/1024)." KB.</li>";
-				if ($size2[2]!=2 || $mime!="image/jpeg") $strError .= "<li>Tipe file ".$ket." harus JPG.</li>";
-			} else if($kat=="pengumuman_header") {
-				if ($filesize > FOTO_FILESIZE) $strError .= "<li>Ukuran file ".$ket." maksimal ".(FOTO_FILESIZE/1024)." KB! Ukuran file yg hendak diupload: ".round($filesize/1024)." KB.</li>";
-				if ($size2[0]!=PENGUMUMAN_HEADER_W) $strError .= "<li>Lebar file ".$ket." harus ".PENGUMUMAN_HEADER_W." pixel.</li>";
-				if ($size2[1]!=PENGUMUMAN_HEADER_H) $strError .= "<li>Tinggi file ".$ket." harus ".PENGUMUMAN_HEADER_H." pixel.</li>";
-				if ($size2[2]!=2 || $mime!="image/jpeg") $strError .= "<li>Tipe file ".$ket." harus JPG.</li>";
-			} else if($kat=="dok_file") {
-				if ($filesize > DOK_FILESIZE) $strError .= "<li>Ukuran file ".$ket." maksimal ".(DOK_FILESIZE/1024)." KB! Ukuran file yg hendak diupload: ".round($filesize/1024)." KB.</li>";
-				if (strtolower($path_parts['extension'])!=strtolower('pdf') || $mime!="application/pdf") $strError .= "<li>Tipe file ".$ket." harus PDF.</li>";
-			} else if($kat=="csv") {
+
+			if ($kat == "logo") {
+				if ($filesize > LOGO_FILESIZE) $strError .= "<li>Ukuran file " . $ket . " maksimal " . (LOGO_FILESIZE / 1024) . " KB! Ukuran file yg hendak diupload: " . round($filesize / 1024) . " KB.</li>";
+				if ($size2[2] != 3 || $mime != "image/png") $strError .=  "<li>Tipe file " . $ket . " harus PNG.</li>";
+			} else if ($kat == "avatar") {
+				if ($filesize > FOTO_FILESIZE) $strError .= "<li>Ukuran file " . $ket . " maksimal " . (FOTO_FILESIZE / 1024) . " KB! Ukuran file yg hendak diupload: " . round($filesize / 1024) . " KB.</li>";
+				if ($size2[2] != 2 || $mime != "image/jpeg") $strError .= "<li>Tipe file " . $ket . " harus JPG.</li>";
+			} else if ($kat == "pengumuman_header") {
+				if ($filesize > FOTO_FILESIZE) $strError .= "<li>Ukuran file " . $ket . " maksimal " . (FOTO_FILESIZE / 1024) . " KB! Ukuran file yg hendak diupload: " . round($filesize / 1024) . " KB.</li>";
+				if ($size2[0] != PENGUMUMAN_HEADER_W) $strError .= "<li>Lebar file " . $ket . " harus " . PENGUMUMAN_HEADER_W . " pixel.</li>";
+				if ($size2[1] != PENGUMUMAN_HEADER_H) $strError .= "<li>Tinggi file " . $ket . " harus " . PENGUMUMAN_HEADER_H . " pixel.</li>";
+				if ($size2[2] != 2 || $mime != "image/jpeg") $strError .= "<li>Tipe file " . $ket . " harus JPG.</li>";
+			} else if ($kat == "dok_file") {
+				if ($filesize > DOK_FILESIZE) $strError .= "<li>Ukuran file " . $ket . " maksimal " . (DOK_FILESIZE / 1024) . " KB! Ukuran file yg hendak diupload: " . round($filesize / 1024) . " KB.</li>";
+				if (strtolower($path_parts['extension']) != strtolower('pdf') || $mime != "application/pdf") $strError .= "<li>Tipe file " . $ket . " harus PDF.</li>";
+			} else if ($kat == "csv") {
 				$e = 0;
-				if($mime!="text/csv" && $mime!="text/plain") $e++;
-				if(strtolower($path_parts['extension'])!=strtolower('csv')) $e++;
-				if($e>0) $strError .= "<li>Tipe file ".$ket." harus CSV.</li>";
-			} else if($kat=="foto_cv") {
-				if ($filesize > FOTO_FILESIZE) $strError .= "<li>Ukuran file ".$ket." maksimal ".(FOTO_FILESIZE/1024)." KB! Ukuran file yg hendak diupload: ".round($filesize/1024)." KB.</li>";
-				if ($size2[0]!=FOTO_CV_W) $strError .= "<li>Lebar file ".$ket." harus ".FOTO_CV_W." pixel.</li>";
-				if ($size2[1]!=FOTO_CV_H) $strError .= "<li>Tinggi file ".$ket." harus ".FOTO_CV_H." pixel.</li>";
-				if ($size2[2]!=2 || $mime!="image/jpeg") $strError .= "<li>Tipe file ".$ket." harus JPG.</li>";
+				if ($mime != "text/csv" && $mime != "text/plain") $e++;
+				if (strtolower($path_parts['extension']) != strtolower('csv')) $e++;
+				if ($e > 0) $strError .= "<li>Tipe file " . $ket . " harus CSV.</li>";
+			} else if ($kat == "foto_cv") {
+				if ($filesize > FOTO_FILESIZE) $strError .= "<li>Ukuran file " . $ket . " maksimal " . (FOTO_FILESIZE / 1024) . " KB! Ukuran file yg hendak diupload: " . round($filesize / 1024) . " KB.</li>";
+				if ($size2[0] != FOTO_CV_W) $strError .= "<li>Lebar file " . $ket . " harus " . FOTO_CV_W . " pixel.</li>";
+				if ($size2[1] != FOTO_CV_H) $strError .= "<li>Tinggi file " . $ket . " harus " . FOTO_CV_H . " pixel.</li>";
+				if ($size2[2] != 2 || $mime != "image/jpeg") $strError .= "<li>Tipe file " . $ket . " harus JPG.</li>";
 			}
 		} else {
-			if($fileWajibAda==true) $strError .=  "<li>Silahkan memilih file ".$ket." yang akan diupload.</li>";
+			if ($fileWajibAda == true) $strError .=  "<li>Silahkan memilih file " . $ket . " yang akan diupload.</li>";
 		}
 		return $strError;
 	}
-	
-	function date_indo($data,$format=""){
-		if(substr($data,0,10)=="0000-00-00"){
+
+	function date_indo($data, $format = "")
+	{
+		if (substr($data, 0, 10) == "0000-00-00") {
 			$newDate = "-";
-		}
-		else{
+		} else {
 			$newDate = "";
 			$arrMonth = $this->arrMonths("id");
-			
-			$bulan2 = (int) substr($data,5,2);
-			
-			$day = substr($data,8,2);
+
+			$bulan2 = (int) substr($data, 5, 2);
+
+			$day = substr($data, 8, 2);
 			$month = $arrMonth[$bulan2];
-			$year = substr($data,0,4);
-			$hour = substr($data,11,2); 
-			$minute= substr($data,14,2);
-			$second = substr($data,17,2);
-			
-			$newDate = $day." ".substr($month,0,3)." ".$year;
-			if($format=="dd FF YYYY"){
-				$newDate = $day." ".$month." ".$year;
+			$year = substr($data, 0, 4);
+			$hour = substr($data, 11, 2);
+			$minute = substr($data, 14, 2);
+			$second = substr($data, 17, 2);
+
+			$newDate = $day . " " . substr($month, 0, 3) . " " . $year;
+			if ($format == "dd FF YYYY") {
+				$newDate = $day . " " . $month . " " . $year;
+			} elseif ($format == "datetime") {
+				$newDate = $day . " " . substr($month, 0, 3) . " " . $year . " " . $hour . ":" . $minute . ":" . $second;
+			} elseif ($format == "time") {
+				$newDate = $hour . ":" . $minute . ":" . $second;
+			} elseif ($format == "dd-mm-YYYY") {
+				$newDate = $day . "-" . substr($data, 5, 2) . "-" . $year;
 			}
-			elseif($format=="datetime"){
-				$newDate = $day." ".substr($month,0,3)." ".$year." ".$hour.":".$minute.":".$second;
-			}
-			elseif($format=="time"){
-				$newDate = $hour.":".$minute.":".$second;
-			}
-			elseif($format=="dd-mm-YYYY"){
-				$newDate = $day."-".substr($data,5,2)."-".$year;
-			}
-		}	
+		}
 		return $newDate;
 	}
-	
-	function tgl2detik($tanggal,$separator="-") {
+
+	function tgl2detik($tanggal, $separator = "-")
+	{
 		// default >> format:D-M-Y; contoh: 01-01-2010
 		$tanggal_a = explode($separator, $tanggal);
 		return adodb_mktime(0, 0, 0, $tanggal_a['1'], $tanggal_a['0'], $tanggal_a['2']);
 	}
-	
-	function tglJam2detik($tanggal,$separator=" ",$separator1="-",$separator2=":") {
+
+	function tglJam2detik($tanggal, $separator = " ", $separator1 = "-", $separator2 = ":")
+	{
 		// default >> format:D-M-Y H:i:s; contoh: 01-01-2010 23:59:59
 		$tanggal_a = explode($separator, $tanggal);
-		if(empty($tanggal_a['0'])) $tanggal_a['0'] = adodb_date("d-m-Y");
-		if(empty($tanggal_a['1'])) $tanggal_a['1'] = adodb_date("H:i:s");
+		if (empty($tanggal_a['0'])) $tanggal_a['0'] = adodb_date("d-m-Y");
+		if (empty($tanggal_a['1'])) $tanggal_a['1'] = adodb_date("H:i:s");
 		$tgl = explode($separator1, $tanggal_a['0']);
 		$jam = explode($separator2, $tanggal_a['1']);
 		return adodb_mktime($jam['0'], $jam['1'], $jam['2'], $tgl['1'], $tgl['0'], $tgl['2']);
 		exit;
 	}
 
-	function filterTanggalFromListTanggal($list,$target_bulan,$target_tahun) {
+	function filterTanggalFromListTanggal($list, $target_bulan, $target_tahun)
+	{
 		$list = $GLOBALS['security']->teksEncode($list);
 		$target_bulan = (int) $target_bulan;
 		$target_tahun = (int) $target_tahun;
-		$arrL = explode(',',$list);
+		$arrL = explode(',', $list);
 		$hasil = array();
 		$i = 0;
-		foreach($arrL as $key => $val) {
-			$arrD = explode('-',$val);
+		foreach ($arrL as $key => $val) {
+			$arrD = explode('-', $val);
 			$dtahun = (int) $arrD[0];
 			$dbulan = (int) $arrD[1];
 			$dtgl = (int) $arrD[2];
-			if($dtahun==$target_tahun && $dbulan==$target_bulan) {
+			if ($dtahun == $target_tahun && $dbulan == $target_bulan) {
 				$hasil[$i]['tahun'] = $dtahun;
 				$hasil[$i]['bulan'] = $dbulan;
 				$hasil[$i]['tgl'] = $dtgl;
@@ -363,34 +366,43 @@ class Umum extends func {
 		}
 		return $hasil;
 	}
-	
-	function reformatBaseNominalMH($number) {
+
+	function reformatBaseNominalMH($number)
+	{
 		return number_format($number, DEF_MANHOUR_DIGIT_BELAKANG_KOMA, ',', '');
 	}
 
-	function prettifyPersen($persen) {
+	function prettifyPersen($persen)
+	{
 		$persen = $GLOBALS['umum']->reformatNilai($persen);
 		$code = $persen;
 		$is_negatif = false;
 		$prefix = '';
-		if($persen<0) {
+		if ($persen < 0) {
 			$is_negatif = true;
 			$persen = abs($persen);
 			$prefix = '-';
 		}
-		
-			   if($persen<10) { $code = $prefix."00".$persen;
-		} else if($persen<100) { $code = $prefix."0".$persen;
+
+		if ($persen < 10) {
+			$code = $prefix . "00" . $persen;
+		} else if ($persen < 100) {
+			$code = $prefix . "0" . $persen;
 		}
 		return $code;
 	}
 
-	function prettifyID($id) {
+	function prettifyID($id)
+	{
 		$code = $id;
-			   if($id<10) { $code = "0000".$id;
-		} else if($id<100) { $code = "000".$id;
-		} else if($id<1000) { $code = "00".$id;
-		} else if($id<10000) { $code = "0".$id;
+		if ($id < 10) {
+			$code = "0000" . $id;
+		} else if ($id < 100) {
+			$code = "000" . $id;
+		} else if ($id < 1000) {
+			$code = "00" . $id;
+		} else if ($id < 10000) {
+			$code = "0" . $id;
 		}
 		return $code;
 	}
@@ -401,116 +413,126 @@ class Umum extends func {
 	 * to: 15; kalo nomor: 3, output: 15
 	 * to: 15; kalo nomor: 16, output: 30
 	 */
-	function ceilTo($number, $to) {
-		return ceil($number/$to)*$to;
+	function ceilTo($number, $to)
+	{
+		return ceil($number / $to) * $to;
 	}
 
-	function reformatJam4Chart($jam) {
-		$arrT = explode(':',$jam);
+	function reformatJam4Chart($jam)
+	{
+		$arrT = explode(':', $jam);
 		$arrT[0] = (int) $arrT[0];
 		$arrT[1] = (int) $arrT[1];
-		return $arrT[0].'.'.$arrT[1];
+		return $arrT[0] . '.' . $arrT[1];
 	}
 
-	function reformatTglDB($date_time,$format) {
+	function reformatTglDB($date_time, $format)
+	{
 		$hasil = $date_time;
-		$arr = explode(" ",$date_time);
-		if($format=="d m H:i") {
+		$arr = explode(" ", $date_time);
+		if ($format == "d m H:i") {
 			$arrMonth = $this->arrMonths("id");
-			
-			$arr1 = explode("-",$arr[0]);
-			$arr2 = explode(":",$arr[1]);
-			
-			$month = substr($arrMonth[$arr1[1]],0,3);
-			
-			$hasil = $arr1[2].' '.$month.' '.$arr2[0].':'.$arr2[1];
+
+			$arr1 = explode("-", $arr[0]);
+			$arr2 = explode(":", $arr[1]);
+
+			$month = substr($arrMonth[$arr1[1]], 0, 3);
+
+			$hasil = $arr1[2] . ' ' . $month . ' ' . $arr2[0] . ':' . $arr2[1];
 		}
 		return $hasil;
 	}
-	
-	function is_base64_string($string) {
-		if (!preg_match('/^(?:[data]{4}:(text|image|application)\/[a-z]*)/', $string)){
+
+	function is_base64_string($string)
+	{
+		if (!preg_match('/^(?:[data]{4}:(text|image|application)\/[a-z]*)/', $string)) {
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	// banner push
-	function setup_banner($img_url, $detail_url) {
+	function setup_banner($img_url, $detail_url)
+	{
 		$arr = array();
 		$arr['img'] = $img_url;
 		$arr['url'] = $detail_url;
 		return $arr;
 	}
-	
+
 	// pertanyaan covid
-	function getArrPertanyaanCovid() {
+	function getArrPertanyaanCovid()
+	{
 		$arr = array();
 		$arr[1]['p'] = 'Apakah pernah keluar rumah/tempat umum (pasar, fasilitas pelayanan kesehatan, kerumunan orang, dan lain lain)?';
 		$arr[1]['j_y'] = '1';
 		$arr[1]['j_n'] = '0';
-		
+
 		$arr[2]['p'] = 'Apakah pernah menggunakan transportasi umum?';
 		$arr[2]['j_y'] = '1';
 		$arr[2]['j_n'] = '0';
-		
+
 		$arr[3]['p'] = 'Apakah pernah melakukan perjalanan ke luar kota/internasional? (wilayah yang terjangkit/zona merah)';
 		$arr[3]['j_y'] = '1';
 		$arr[3]['j_n'] = '0';
-		
+
 		$arr[4]['p'] = 'Apakah anda mengikuti kegiatan yang melibatkan orang banyak?';
 		$arr[4]['j_y'] = '1';
 		$arr[4]['j_n'] = '0';
-		
+
 		$arr[5]['p'] = 'Apakah memiliki riwayat kontak erat dengan orang yang dinyatakan ODP, PDP atau konfirm COVID-19 (berjabat tangan, berbicara, berada dalam satu ruangan/ satu rumah)?';
 		$arr[5]['j_y'] = '5';
 		$arr[5]['j_n'] = '0';
-		
+
 		$arr[6]['p'] = 'Apakah pernah mengalami demam/batuk/pilek/sakit tenggorokan/sesak dalam 14 hari terakhir?';
 		$arr[6]['j_y'] = '5';
 		$arr[6]['j_n'] = '0';
-		
+
 		return $arr;
 	}
-	
-	function generateRandFileName($fromApp,$suffix,$ekstensi) {
+
+	function generateRandFileName($fromApp, $suffix, $ekstensi)
+	{
 		$suffix = $GLOBALS['security']->teksEncode($suffix);
 		$ekstensi = $GLOBALS['security']->teksEncode($ekstensi);
 		$ekstensi = strtolower($ekstensi);
-		
-		$nama_file = uniqid().'_'.$suffix.'.'.$ekstensi;
+
+		$nama_file = uniqid() . '_' . $suffix . '.' . $ekstensi;
 		return $nama_file;
 	}
-	
+
 	// $unique_prefix: diisi dengan id data dari database untuk memastikan kodenya 100% unik
-	function generateRandCodeMySql($unique_prefix) {
+	function generateRandCodeMySql($unique_prefix)
+	{
 		$prefix = $GLOBALS['security']->teksEncode($prefix);
-		$sql = "select CONCAT('".$unique_prefix."','.',HEX(RAND()*0xFFF),'.',HEX(RAND()*0xFFF)) as dkode";
-		$res = mysqli_query($GLOBALS['notif']->con,$sql);
+		$sql = "select CONCAT('" . $unique_prefix . "','.',HEX(RAND()*0xFFF),'.',HEX(RAND()*0xFFF)) as dkode";
+		$res = mysqli_query($GLOBALS['notif']->con, $sql);
 		$row = mysqli_fetch_object($res);
 		$dkode = $row->dkode;
-		
+
 		return $dkode;
 	}
-	
-	function is_akses_readonly($kat,$mode) {
+
+	function is_akses_readonly($kat, $mode)
+	{
 		$hasil = "";
-		
-		if($kat=="manpro" && strtolower($_SESSION['sess_admin']['singkatan_unitkerja'])=="trs") {
-			if($mode=="error_message") {
+
+		if ($kat == "manpro" && strtolower($_SESSION['sess_admin']['singkatan_unitkerja']) == "trs") {
+			if ($mode == "error_message") {
 				$hasil = '<li>Anda hanya memiliki akses readonly pada halaman ini.</li>';
-			} else if($mode=="true_false") {
+			} else if ($mode == "true_false") {
 				$hasil = "1";
 			}
 		}
-		
+
 		return $hasil;
 	}
-	
-	function getIntepretasiAgroTalk($code) {
+
+	function getIntepretasiAgroTalk($code)
+	{
 		$arr = array();
-		
+
 		$arr['AAA']['code'] = 'AAA';
 		$arr['AAA']['interpretasi'] = 'SELAMAT! Kondisi psikologismu saat ini sangat baik! Tetap jaga dan pertahankan ya!';
 		$arr['AAA']['kategori'] = 'ok';
@@ -886,18 +908,19 @@ class Umum extends func {
 		$arr['EEE']['code'] = 'EEE';
 		$arr['EEE']['interpretasi'] = 'Saat ini ada beberapa kondisi psikologismu yang terasa kurang baik, kamu disarankan untuk bercerita dengan profesional psikolog. Bagian SDM akan menghubungimu nanti untuk proses appointment bersama psikolog. Semangat!';
 		$arr['EEE']['kategori'] = 'tidak_ok';
-		
+
 		$arrH = $arr[$code];
 		return $arrH;
 	}
-	
-	function getHasilAgroTalk($id_user,$periode) {
+
+	function getHasilAgroTalk($id_user, $periode)
+	{
 		$id_user = (int) $id_user;
-		
+
 		$arr = array();
 		$hasil = '';
-		
-		if($periode=="oktober_22") {
+
+		if ($periode == "oktober_22") {
 			$arr[318] = "AAA";
 			$arr[48] = "DAB";
 			$arr[49] = "AAA";
@@ -980,16 +1003,17 @@ class Umum extends func {
 			$arr[5] = "AAA";
 			$arr[277] = "AAA";
 			$arr[55] = "AAA";
-			
+
 			$hasil = $this->getIntepretasiAgroTalk($arr[$id_user]);
 		}
-		
+
 		return $hasil;
 	}
 
 	// AUTH : KDE
 	// DATE : 10.07.2024 
-	function enkrip($string, $key) {
+	function enkrip($string, $key)
+	{
 		$cipher = "AES-256-CBC";
 		$ivlen = openssl_cipher_iv_length($cipher);
 		$iv = openssl_random_pseudo_bytes($ivlen);
@@ -997,8 +1021,9 @@ class Umum extends func {
 		$hmac = hash_hmac('sha256', $ciphertext, $key, true);
 		return base64_encode($iv . $hmac . $ciphertext);
 	}
-	
-	function dekrip($string, $key) {
+
+	function dekrip($string, $key)
+	{
 		$cipher = "AES-256-CBC";
 		$c = base64_decode($string);
 		$ivlen = openssl_cipher_iv_length($cipher);
@@ -1013,4 +1038,3 @@ class Umum extends func {
 		return false;
 	}
 }
-?>
