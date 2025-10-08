@@ -23,6 +23,7 @@
 			<ul class="sub-menu">
 				<li class="sub-header"><span><i class="os-icon os-icon-hash"> Umum</i></span></li>
 				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_DASHBOARD) ?>"><a href="<?= BE_MAIN_HOST; ?>/presensi/dashboard/masuk">Presensi Masuk</a></li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_DASHBOARD) ?>"><a href="<?= BE_MAIN_HOST; ?>/presensi/rekap">Rekap Presensi</a></li>
 				<!--
 				<li class="<?= $sdm->setupCSSSidebar('manpro', APP_AL_DASHBOARD) ?>"><a href="<?= BE_MAIN_HOST; ?>/lembur/dashboard/manhour">Manhour</a></li>
 				-->
@@ -106,29 +107,45 @@
 		<div class="sub-menu-i">
 			<ul class="sub-menu">
 				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_DAFTAR) ?>"><a href="<?= BE_MAIN_HOST; ?>/presensi/daftar">Daftar Presensi Harian</a></li>
-				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_DASHBOARD) ?>"><a href="<?= BE_MAIN_HOST; ?>/presensi/rekap">Rekap Presensi</a></li>
 				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_JADWAL_SHIFT) ?>"><a href="<?= BE_MAIN_HOST; ?>/presensi/jadwal-shift">Jadwal Karyawan Shift</a></li>
 				<li>
 					<hr style="margin:5px 0;" />
 				</li>
-				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>"><a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-gps") {
-																									echo 'class="active"';
-																								} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-gps">Konfig GPS Presensi</a></li>
-				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>"><a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler") {
-																									echo 'class="active"';
-																								} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler">Konfig Jam Karyawan Reguler (Pusat&amp;Jogja)</a></li>
-				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>"><a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler-medan") {
-																									echo 'class="active"';
-																								} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler-medan">Konfig Jam Karyawan Reguler (Medan)</a></li>
-				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>"><a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler-poliklinik") {
-																									echo 'class="active"';
-																								} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler-poliklinik">Konfig Jam Karyawan Reguler (Poliklinik)</a></li>
-				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>"><a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-shift") {
-																									echo 'class="active"';
-																								} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-shift">Konfig Jam Karyawan Shift (Pusat&amp;Jogja)</a></li>
-				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>"><a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-shift-medan") {
-																									echo 'class="active"';
-																								} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-shift-medan">Konfig Jam Karyawan Shift (Medan)</a></li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
+					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-gps") {
+							echo 'class="active"';
+						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-gps">Konfig GPS Presensi</a>
+				</li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
+					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler") {
+							echo 'class="active"';
+						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler">Konfig Jam Karyawan Reguler (Pusat&amp;Jogja)</a>
+				</li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
+					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler-medan") {
+							echo 'class="active"';
+						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler-medan">Konfig Jam Karyawan Reguler (Medan)</a>
+				</li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
+					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler-poliklinik") {
+							echo 'class="active"';
+						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler-poliklinik">Konfig Jam Karyawan Reguler (Poliklinik)</a>
+				</li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
+					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler-holding") {
+							echo 'class="active"';
+						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler-holding">Konfig Jam Karyawan Reguler (Holding)</a>
+				</li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
+					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-shift") {
+							echo 'class="active"';
+						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-shift">Konfig Jam Karyawan Shift (Pusat&amp;Jogja)</a>
+				</li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
+					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-shift-medan") {
+							echo 'class="active"';
+						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-shift-medan">Konfig Jam Karyawan Shift (Medan)</a>
+				</li>
 			</ul>
 		</div>
 	</div>

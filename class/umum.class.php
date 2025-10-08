@@ -25,6 +25,8 @@ class Umum extends func
 			$arr['kantor_jogja'] = "Kantor Jogja";
 			$arr['kantor_medan'] = "Kantor Medan";
 			$arr['poliklinik'] = "Poliklinik";
+			$arr['holding'] = "Holding";
+			$arr['blk_rangkas'] = "BLK Rangkas";
 			$arr['tidak_perlu_presensi'] = "Tidak Perlu Presensi";
 		} else if ($tipe == "status_karyawan") {
 			$arr['komisaris_utama'] = "Komisaris Utama";

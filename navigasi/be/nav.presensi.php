@@ -2055,6 +2055,298 @@ else if($this->pageLevel2=="ringkasan"){
 				}
 			}
 		}
+	} else if ($this->pageLevel3 == "konfig-jam-reguler-holding") {
+		$sdm->isBolehAkses('presensi', APP_PRESENSI_KONFIG, true);
+
+		$this->pageTitle = "Konfigurasi Jam Karyawan Reguler Holding";
+		$this->pageName = "konfig-jam-reguler-holding";
+
+		$strError = "";
+		$arrD = array();
+		$holding_day_monday_masuk = $presensi->getData("holding_day_monday_masuk");
+		$holding_day_monday_pulang = $presensi->getData("holding_day_monday_pulang");
+		$holding_day_tuesday_masuk = $presensi->getData("holding_day_tuesday_masuk");
+		$holding_day_tuesday_pulang = $presensi->getData("holding_day_tuesday_pulang");
+		$holding_day_wednesday_masuk = $presensi->getData("holding_day_wednesday_masuk");
+		$holding_day_wednesday_pulang = $presensi->getData("holding_day_wednesday_pulang");
+		$holding_day_thursday_masuk = $presensi->getData("holding_day_thursday_masuk");
+		$holding_day_thursday_pulang = $presensi->getData("holding_day_thursday_pulang");
+		$holding_day_friday_masuk = $presensi->getData("holding_day_friday_masuk");
+		$holding_day_friday_pulang = $presensi->getData("holding_day_friday_pulang");
+
+		$holding_day_saturday_masuk = $presensi->getData("holding_day_saturday_masuk");
+		$holding_day_saturday_pulang = $presensi->getData("holding_day_saturday_pulang");
+		$holding_day_sunday_masuk = $presensi->getData("holding_day_sunday_masuk");
+		$holding_day_sunday_pulang = $presensi->getData("holding_day_sunday_pulang");
+
+		$holding_day_reguler_masuk_min = $presensi->getData("holding_day_reguler_masuk_min");
+		$holding_day_reguler_masuk_max = $presensi->getData("holding_day_reguler_masuk_max");
+		$holding_day_reguler_max_pulang = $presensi->getData("holding_day_reguler_max_pulang");
+
+		if ($_POST) {
+			$holding_day_monday_masuk = $security->teksEncode($_POST['holding_day_monday_masuk']);
+			$holding_day_monday_pulang = $security->teksEncode($_POST['holding_day_monday_pulang']);
+			$holding_day_tuesday_masuk = $security->teksEncode($_POST['holding_day_tuesday_masuk']);
+			$holding_day_tuesday_pulang = $security->teksEncode($_POST['holding_day_tuesday_pulang']);
+			$holding_day_wednesday_masuk = $security->teksEncode($_POST['holding_day_wednesday_masuk']);
+			$holding_day_wednesday_pulang = $security->teksEncode($_POST['holding_day_wednesday_pulang']);
+			$holding_day_thursday_masuk = $security->teksEncode($_POST['holding_day_thursday_masuk']);
+			$holding_day_thursday_pulang = $security->teksEncode($_POST['holding_day_thursday_pulang']);
+			$holding_day_friday_masuk = $security->teksEncode($_POST['holding_day_friday_masuk']);
+			$holding_day_friday_pulang = $security->teksEncode($_POST['holding_day_friday_pulang']);
+
+			$holding_day_saturday_masuk = $security->teksEncode($_POST['holding_day_saturday_masuk']);
+			$holding_day_saturday_pulang = $security->teksEncode($_POST['holding_day_saturday_pulang']);
+			$holding_day_sunday_masuk = $security->teksEncode($_POST['holding_day_sunday_masuk']);
+			$holding_day_sunday_pulang = $security->teksEncode($_POST['holding_day_sunday_pulang']);
+
+			$holding_day_reguler_masuk_min = $security->teksEncode($_POST['holding_day_reguler_masuk_min']);
+			$holding_day_reguler_masuk_max = $security->teksEncode($_POST['holding_day_reguler_masuk_max']);
+			$holding_day_reguler_max_pulang = $security->teksEncode($_POST['holding_day_reguler_max_pulang']);
+
+			if (empty($holding_day_monday_masuk)) {
+				$strError .= '<li>Jam Masuk Senin masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_monday_masuk)) $strError .= "<li>Format Jam Masuk Senin salah.</li>";
+			}
+			if (empty($holding_day_monday_pulang)) {
+				$strError .= '<li>Jam Pulang Senin masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_monday_pulang)) $strError .= "<li>Format Jam Pulang Senin salah.</li>";
+			}
+			if (empty($holding_day_tuesday_masuk)) {
+				$strError .= '<li>Jam Masuk Selasa masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_tuesday_masuk)) $strError .= "<li>Format Jam Masuk Selasa salah.</li>";
+			}
+			if (empty($holding_day_tuesday_pulang)) {
+				$strError .= '<li>Jam Pulang Selasa masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_tuesday_pulang)) $strError .= "<li>Format Jam Pulang Selasa salah.</li>";
+			}
+			if (empty($holding_day_wednesday_masuk)) {
+				$strError .= '<li>Jam Masuk Rabu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_wednesday_masuk)) $strError .= "<li>Format Jam Masuk Rabu salah.</li>";
+			}
+			if (empty($holding_day_wednesday_pulang)) {
+				$strError .= '<li>Jam Pulang Rabu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_wednesday_pulang)) $strError .= "<li>Format Jam Pulang Rabu salah.</li>";
+			}
+			if (empty($holding_day_thursday_masuk)) {
+				$strError .= '<li>Jam Masuk Kamis masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_thursday_masuk)) $strError .= "<li>Format Jam Masuk Kamis salah.</li>";
+			}
+			if (empty($holding_day_thursday_pulang)) {
+				$strError .= '<li>Jam Pulang Kamis masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_thursday_pulang)) $strError .= "<li>Format Jam Pulang Kamis salah.</li>";
+			}
+			if (empty($holding_day_friday_masuk)) {
+				$strError .= '<li>Jam Masuk Jumat masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_friday_masuk)) $strError .= "<li>Format Jam Masuk Jumat salah.</li>";
+			}
+			if (empty($holding_day_friday_pulang)) {
+				$strError .= '<li>Jam Pulang Jumat masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_friday_pulang)) $strError .= "<li>Format Jam Pulang Jumat salah.</li>";
+			}
+
+			if (empty($holding_day_saturday_masuk)) {
+				$strError .= '<li>Jam Masuk Sabtu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_saturday_masuk)) $strError .= "<li>Format Jam Pulang Sabtu salah.</li>";
+			}
+			if (empty($holding_day_saturday_pulang)) {
+				$strError .= '<li>Jam Pulang Sabtu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_saturday_pulang)) $strError .= "<li>Format Jam Pulang Sabtu salah.</li>";
+			}
+			if (empty($holding_day_sunday_masuk)) {
+				$strError .= '<li>Jam Masuk Minggu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_sunday_masuk)) $strError .= "<li>Format Jam Pulang Minggu salah.</li>";
+			}
+			if (empty($holding_day_sunday_pulang)) {
+				$strError .= '<li>Jam Pulang Minggu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_sunday_pulang)) $strError .= "<li>Format Jam Pulang Minggu salah.</li>";
+			}
+
+			if (empty($holding_day_reguler_masuk_min)) {
+				$strError .= '<li>Batas Awal Presensi Masuk masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_reguler_masuk_min)) $strError .= "<li>Format Jam Batas Awal Presensi Masuk salah.</li>";
+			}
+			if (empty($holding_day_reguler_masuk_max)) {
+				$strError .= '<li>Jam Batas Akhir Presensi Masuk masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_reguler_masuk_max)) $strError .= "<li>Format Jam Batas Akhir Presensi Masuk salah.</li>";
+			}
+			if (empty($holding_day_reguler_max_pulang)) {
+				$strError .= '<li>Jam Batas Akhir Presensi Pulang masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($holding_day_reguler_max_pulang)) $strError .= "<li>Format Jam Batas Akhir Presensi Pulang salah.</li>";
+			}
+
+			if (strlen($strError) <= 0) {
+				mysqli_query($presensi->con, "START TRANSACTION");
+				$ok = true;
+				$sqlX1 = "";
+				$sqlX2 = "";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_monday_masuk . "' where nama='holding_day_monday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_monday_pulang . "' where nama='holding_day_monday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_tuesday_masuk . "' where nama='holding_day_tuesday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_tuesday_pulang . "' where nama='holding_day_tuesday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_wednesday_masuk . "' where nama='holding_day_wednesday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_wednesday_pulang . "' where nama='holding_day_wednesday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_thursday_masuk . "' where nama='holding_day_thursday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_thursday_pulang . "' where nama='holding_day_thursday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_friday_masuk . "' where nama='holding_day_friday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_friday_pulang . "' where nama='holding_day_friday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_saturday_masuk . "' where nama='holding_day_saturday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_saturday_pulang . "' where nama='holding_day_saturday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_sunday_masuk . "' where nama='holding_day_sunday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_sunday_pulang . "' where nama='holding_day_sunday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_reguler_masuk_min . "' where nama='holding_day_reguler_masuk_min' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_reguler_masuk_max . "' where nama='holding_day_reguler_masuk_max' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $holding_day_reguler_max_pulang . "' where nama='holding_day_reguler_max_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				if ($ok == true) {
+					mysqli_query($presensi->con, "COMMIT");
+					$presensi->insertLog('berhasil update konfig jam karyawan reguler (holding)', $sqlX1, $sqlX2);
+					header("location:" . BE_MAIN_HOST . "/home/pesan?code=3");
+					exit;
+				} else {
+					mysqli_query($presensi->con, "ROLLBACK");
+					$presensi->insertLog('gagal update konfig jam karyawan reguler (holding)', $sqlX1, $sqlX2);
+					header("location:" . BE_MAIN_HOST . "/home/pesan?code=1");
+					exit;
+				}
+			}
+		}
 	} else if ($this->pageLevel3 == "konfig-gps") {
 		$sdm->isBolehAkses('presensi', APP_PRESENSI_KONFIG, true);
 

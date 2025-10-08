@@ -18,6 +18,8 @@ class Presensi extends db
 			$arr['kantor_jogja'] = "Kantor Jogja";
 			$arr['kantor_medan'] = "Kantor Medan";
 			$arr['poliklinik'] = "Poliklinik";
+			$arr['holding'] = "Holding";
+			$arr['blk_rangkas'] = "BLK Rangkas";
 			$arr['tugas_luar'] = "Tugas Luar";
 			$arr['ijin_sehari'] = "Ijin Sehari";
 			$arr['cuti'] = "Cuti";
@@ -27,6 +29,8 @@ class Presensi extends db
 			$arr['kantor_jogja'] = "Kantor Jogja";
 			$arr['kantor_medan'] = "Kantor Medan";
 			$arr['poliklinik'] = "Poliklinik";
+			$arr['holding'] = "Holding";
+			$arr['blk_rangkas'] = "BLK Rangkas";
 		} else if ($tipe == "filter_presensi") {
 			$arr['tepat_waktu'] = "Tepat Waktu";
 			$arr['terlambat'] = "Terlambat";
@@ -388,6 +392,146 @@ class Presensi extends db
 			$hasil = $data[0]->nilai;
 		} else if ($kategori == "poliklinik_day_reguler_max_pulang") {
 			$sql = "select nilai from presensi_konfig where nama='poliklinik_day_reguler_max_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		}
+		//holding
+		else if ($kategori == "holding_day_monday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_monday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_monday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_monday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_tuesday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_tuesday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_tuesday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_tuesday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_wednesday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_wednesday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_wednesday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_wednesday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_thursday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_thursday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_thursday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_thursday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_friday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_friday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_friday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_friday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_saturday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_saturday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_saturday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_saturday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_sunday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_sunday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_sunday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_sunday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_reguler_masuk_min") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_reguler_masuk_min' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_reguler_masuk_max") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_reguler_masuk_max' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "holding_day_reguler_max_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='holding_day_reguler_max_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		}
+		//rangkas
+		else if ($kategori == "blk_rangkas_day_monday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_monday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_monday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_monday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_tuesday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_tuesday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_tuesday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_tuesday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_wednesday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_wednesday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_wednesday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_wednesday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_thursday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_thursday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_thursday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_thursday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_friday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_friday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_friday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_friday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_saturday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_saturday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_saturday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_saturday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_sunday_masuk") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_sunday_masuk' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_sunday_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_sunday_pulang' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_reguler_masuk_min") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_reguler_masuk_min' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_reguler_masuk_max") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_reguler_masuk_max' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
+		} else if ($kategori == "blk_rangkas_day_reguler_max_pulang") {
+			$sql = "select nilai from presensi_konfig where nama='blk_rangkas_day_reguler_max_pulang' ";
 			$data = $this->doQuery($sql, 0, 'object');
 			$hasil = $data[0]->nilai;
 		} else if ($kategori == "tugas_luar_masuk_min") {
