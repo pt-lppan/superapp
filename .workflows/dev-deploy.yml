@@ -22,7 +22,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             # Masuk ke direktori proyek di server
-            cd /var/www/my-php-project
+            cd /var/www/superapp
 
             # Ambil kode terbaru dari branch main
             git pull origin main
