@@ -38,21 +38,21 @@
 						<label class="col-sm-2 col-form-label" for="">GPS Kantor Holding<em class="text-danger">*</em></label>
 						<div class="col-sm-2">
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="1" <?= $stat_gps_kantor_holding_is_enabled ?> name="gps_kantor_holding_is_enabled" id="gps_kantor_holding_is_enabled">
-								<label class="form-check-label" for="gps_kantor_holding_is_enabled">Aktifkan</label>
+								<input class="form-check-input" type="checkbox" value="1" <?= $stat_gps_holding_is_enabled ?> name="gps_holding_is_enabled" id="gps_holding_is_enabled">
+								<label class="form-check-label" for="gps_holding_is_enabled">Aktifkan</label>
 							</div>
 						</div>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" id="gps_kantor_holding_lati" name="gps_kantor_holding_lati" value="<?= $gps_kantor_holding_lati ?>" placeholder="Latitude" />
+							<input type="text" class="form-control" id="gps_holding_lati" name="gps_holding_lati" value="<?= $gps_holding_lati ?>" placeholder="Latitude" />
 						</div>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" id="gps_kantor_holding_longi" name="gps_kantor_holding_longi" value="<?= $gps_kantor_holding_longi ?>" placeholder="Longitude" />
+							<input type="text" class="form-control" id="gps_holding_longi" name="gps_holding_longi" value="<?= $gps_holding_longi ?>" placeholder="Longitude" />
 						</div>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" id="gps_kantor_holding_radius" name="gps_kantor_holding_radius" value="<?= $gps_kantor_holding_radius ?>" alt="juml" placeholder="e.g. 50" />
+							<input type="text" class="form-control" id="gps_holding_radius" name="gps_holding_radius" value="<?= $gps_holding_radius ?>" alt="juml" placeholder="e.g. 50" />
 						</div>
 						<div class="col-sm-2">
-							<a href="javascript:void(0)" onclick="setMap('GPS Kantor Holding',<?= $gps_kantor_holding_lati ?>,<?= $gps_kantor_holding_longi ?>,<?= $gps_kantor_holding_radius ?>)"><i class="os-icon os-icon-map-pin"></i> Lihat Peta</a>
+							<a href="javascript:void(0)" onclick="setMap('GPS Kantor Holding',<?= $gps_holding_lati ?>,<?= $gps_holding_longi ?>,<?= $gps_holding_radius ?>)"><i class="os-icon os-icon-map-pin"></i> Lihat Peta</a>
 						</div>
 					</div>
 
@@ -198,9 +198,9 @@
 		}).addTo(dmap).bindPopup("-");
 
 		// Ambil data lokasi pertama yang valid untuk tampilan awal peta
-		const lat_awal = <?= json_encode($gps_kantor_holding_lati ?: $gps_kantor_pusat_lati) ?>;
-		const long_awal = <?= json_encode($gps_kantor_holding_longi ?: $gps_kantor_pusat_longi) ?>;
-		const radius_awal = <?= json_encode($gps_kantor_holding_radius ?: $gps_kantor_pusat_radius) ?>;
+		const lat_awal = <?= json_encode($gps_holding_lati ?: $gps_kantor_pusat_lati) ?>;
+		const long_awal = <?= json_encode($gps_holding_longi ?: $gps_kantor_pusat_longi) ?>;
+		const radius_awal = <?= json_encode($gps_holding_radius ?: $gps_kantor_pusat_radius) ?>;
 
 		setMap('Lokasi Awal', lat_awal, long_awal, radius_awal);
 	});

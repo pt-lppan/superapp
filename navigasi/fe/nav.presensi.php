@@ -267,6 +267,13 @@ if ($this->pageBase == "presensi") {
 					$timeMasuk = $tgl_presensi_aktif . " " . $dataConfig['poliklinik_day_' . $thisDay . '_masuk'];
 					$timeMasuk = strtotime($timeMasuk);
 					$recData['detikTerlambat']  = $timePresensi - $timeMasuk;
+				} elseif ($posisi_asli == "holding") {
+
+					$regularMasukMin = strtotime($tgl_presensi_aktif . " " . $dataConfig['holding_day_reguler_masuk_min']);
+					$regularMasukMax = strtotime($tgl_presensi_aktif . " " . $dataConfig['holding_day_reguler_masuk_max']);
+					$timeMasuk = $tgl_presensi_aktif . " " . $dataConfig['holding_day_' . $thisDay . '_masuk'];
+					$timeMasuk = strtotime($timeMasuk);
+					$recData['detikTerlambat']  = $timePresensi - $timeMasuk;
 				}
 				/* elseif($posisi=="tugas_luar"){
 					$regularMasukMin = strtotime($tgl_presensi_aktif." ".$dataConfig['tugas_luar_masuk_min']);
@@ -360,6 +367,8 @@ if ($this->pageBase == "presensi") {
 		$arrPosisi = $user->getKategori("kategori_presensi");
 		$seld = ($posisi == $detailUser['posisi_presensi']) ? "selected" : "";
 		$opsiPosisiPresensi = '<option value="' . $posisi . '" ' . $seld . '>' . $arrPosisi[$posisi] . '</option>';
+		// var_dump($opsiPosisiPresensi);
+		// exit;
 	} else if ($this->pageLevel1 == "pulang") {
 		$this->setView("Presensi", "pulang", "");
 
@@ -468,6 +477,13 @@ if ($this->pageBase == "presensi") {
 
 					if ($timePresensi < $regularPulangMin || $timePresensi > $regularPulangMax) {
 						$error['generic'] = "<li>Presensi pulang bisa dilakukan setelah jam " . substr($dataConfig['poliklinik_day_' . $thisDay . '_pulang'], 0, 5) . "</li>";
+					}
+				} elseif ($posisi == "holding") {
+					$regularPulangMin = strtotime($tgl_presensi_aktif . " " . $dataConfig['holding_day_' . $thisDay . '_pulang']);
+					$regularPulangMax = strtotime($tomorrow . " " . $dataConfig['holding_day_reguler_max_pulang']);
+
+					if ($timePresensi < $regularPulangMin || $timePresensi > $regularPulangMax) {
+						$error['generic'] = "<li>Presensi pulang bisa dilakukan setelah jam " . substr($dataConfig['holding_day_' . $thisDay . '_pulang'], 0, 5) . "</li>";
 					}
 				}
 

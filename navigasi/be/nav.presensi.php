@@ -2356,21 +2356,21 @@ else if($this->pageLevel2=="ringkasan"){
 		$strError = "";
 
 		$gps_kantor_pusat = $presensi->getData("gps_kantor_pusat");
-		$gps_kantor_holding = $presensi->getData("gps_kantor_holding");
+		$gps_holding = $presensi->getData("gps_holding");
 		$gps_kantor_jogja = $presensi->getData("gps_kantor_jogja");
 		$gps_kantor_medan = $presensi->getData("gps_kantor_medan");
 		$gps_poliklinik = $presensi->getData("gps_poliklinik");
-		$gps_kantor_holding_json = $presensi->getData("gps_kantor_holding");
+		$gps_holding_json = $presensi->getData("gps_holding");
 
 		// TAMBAHKAN INI UNTUK DEBUG
 		// echo "Isi mentah dari DB untuk holding: ";
-		// var_dump($gps_kantor_holding_json);
+		// var_dump($gps_holding_json);
 		// die();
-		$arrK = json_decode($gps_kantor_holding, true);
-		$gps_kantor_holding_lati = $arrK['lati'];
-		$gps_kantor_holding_longi = $arrK['longi'];
-		$gps_kantor_holding_radius = $arrK['radius'];
-		$gps_kantor_holding_is_enabled = $arrK['is_enabled'];
+		$arrK = json_decode($gps_holding, true);
+		$gps_holding_lati = $arrK['lati'];
+		$gps_holding_longi = $arrK['longi'];
+		$gps_holding_radius = $arrK['radius'];
+		$gps_holding_is_enabled = $arrK['is_enabled'];
 		$arrK = json_decode($gps_kantor_pusat, true);
 		$gps_kantor_pusat_lati = $arrK['lati'];
 		$gps_kantor_pusat_longi = $arrK['longi'];
@@ -2393,10 +2393,10 @@ else if($this->pageLevel2=="ringkasan"){
 		$gps_poliklinik_is_enabled = $arrK['is_enabled'];
 
 		if ($_POST) {
-			$gps_kantor_holding_lati = (float) $_POST['gps_kantor_holding_lati'];
-			$gps_kantor_holding_longi = (float) $_POST['gps_kantor_holding_longi'];
-			$gps_kantor_holding_radius = (int) $_POST['gps_kantor_holding_radius'];
-			$gps_kantor_holding_is_enabled = (int) $_POST['gps_kantor_holding_is_enabled'];
+			$gps_holding_lati = (float) $_POST['gps_holding_lati'];
+			$gps_holding_longi = (float) $_POST['gps_holding_longi'];
+			$gps_holding_radius = (int) $_POST['gps_holding_radius'];
+			$gps_holding_is_enabled = (int) $_POST['gps_holding_is_enabled'];
 			$gps_kantor_pusat_lati = (float) $_POST['gps_kantor_pusat_lati'];
 			$gps_kantor_pusat_longi = (float) $_POST['gps_kantor_pusat_longi'];
 			$gps_kantor_pusat_radius = (int) $_POST['gps_kantor_pusat_radius'];
@@ -2414,7 +2414,7 @@ else if($this->pageLevel2=="ringkasan"){
 			$gps_poliklinik_radius = (int) $_POST['gps_poliklinik_radius'];
 			$gps_poliklinik_is_enabled = (int) $_POST['gps_poliklinik_is_enabled'];
 
-			if ($gps_kantor_holding_is_enabled && empty($gps_kantor_holding_radius)) {
+			if ($gps_holding_is_enabled && empty($gps_holding_radius)) {
 				$strError .= '<li>Radius kantor holding masih kosong.</li>';
 			}
 			if ($gps_kantor_pusat_is_enabled && empty($gps_kantor_pusat_radius)) {
@@ -2437,11 +2437,11 @@ else if($this->pageLevel2=="ringkasan"){
 				$sqlX2 = "";
 
 				$arrK = array();
-				$arrK['lati'] = $gps_kantor_holding_lati;
-				$arrK['longi'] = $gps_kantor_holding_longi;
-				$arrK['radius'] = $gps_kantor_holding_radius;
-				$arrK['is_enabled'] = $gps_kantor_holding_is_enabled;
-				$sql = "update presensi_konfig set nilai='" . json_encode($arrK) . "' where nama='gps_kantor_holding' ";
+				$arrK['lati'] = $gps_holding_lati;
+				$arrK['longi'] = $gps_holding_longi;
+				$arrK['radius'] = $gps_holding_radius;
+				$arrK['is_enabled'] = $gps_holding_is_enabled;
+				$sql = "update presensi_konfig set nilai='" . json_encode($arrK) . "' where nama='gps_holding' ";
 				mysqli_query($presensi->con, $sql);
 				if (strlen(mysqli_error($presensi->con)) > 0) {
 					$sqlX2 .= mysqli_error($presensi->con) . "; ";
@@ -2516,7 +2516,7 @@ else if($this->pageLevel2=="ringkasan"){
 			}
 		}
 
-		$stat_gps_kantor_holding_is_enabled = ($gps_kantor_holding_is_enabled) ? 'checked' : '';
+		$stat_gps_holding_is_enabled = ($gps_holding_is_enabled) ? 'checked' : '';
 		$stat_gps_kantor_pusat_is_enabled = ($gps_kantor_pusat_is_enabled) ? 'checked' : '';
 		$stat_gps_kantor_jogja_is_enabled = ($gps_kantor_jogja_is_enabled) ? 'checked' : '';
 		$stat_gps_kantor_medan_is_enabled = ($gps_kantor_medan_is_enabled) ? 'checked' : '';
