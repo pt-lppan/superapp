@@ -46,17 +46,17 @@ define("DEV_MYSQL_DUMP_WIN_LOC", '"D:\wamp64\bin\mysql\mysql5.7.26\bin\mysqldump
 $force_dev_mode =  false;
 define("LIVE_HTTP_PREFIX", 'http');
 if ($_SERVER['HTTP_HOST'] == 'localhost') { // devsuperapp
-	define("LIVE_SQL_HOST", 'localhost');
+	define("LIVE_SQL_HOST", 'db');
 	define("LIVE_SQL_PORT", '3306');
-	define("LIVE_SQL_USER", 'root');
-	define("LIVE_SQL_PASS", '');
+	define("LIVE_SQL_USER", 'superapp-user');
+	define("LIVE_SQL_PASS", 'your_database_password');
 	define("LIVE_SQL_DB", 'superapp');
 	$force_dev_mode =  true;
 } else {
-	define("LIVE_SQL_HOST", 'localhost');
+	define("LIVE_SQL_HOST", 'db');
 	define("LIVE_SQL_PORT", '3306');
-	define("LIVE_SQL_USER", 'root');
-	define("LIVE_SQL_PASS", '');
+	define("LIVE_SQL_USER", 'superapp-user');
+	define("LIVE_SQL_PASS", 'your_database_password');
 	define("LIVE_SQL_DB", 'superapp');
 }
 define("LIVE_ERROR_REPORTING_LV", 0);
