@@ -1,0 +1,36 @@
+name: Deploy PHP Application
+
+on:
+  push:
+    branches:
+      - testing
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            # Masuk ke direktori proyek di server
+            cd /var/www/my-php-project
+
+            # Ambil kode terbaru dari branch main
+            git pull origin main
+
+            # Hentikan container yang sedang berjalan (jika ada)
+            docker-compose down
+
+            # Bangun ulang image dan jalankan container di background
+            docker-compose up -d --build
+
+            echo "🚀 Deployment successful!"
