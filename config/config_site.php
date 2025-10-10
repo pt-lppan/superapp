@@ -32,7 +32,7 @@ $frontClasses = array(
 );
 
 // konfig localhost
-define("DEV_HTTP_PREFIX", 'http');
+define("DEV_HTTP_PREFIX", 'https');
 define("DEV_SQL_HOST", 'db');
 define("DEV_SQL_PORT", '3306');
 define("DEV_SQL_USER", 'superapp-user');
