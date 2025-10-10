@@ -2354,6 +2354,298 @@ else if($this->pageLevel2=="ringkasan"){
 				}
 			}
 		}
+	} else if ($this->pageLevel3 == "konfig-jam-reguler-blk-rangkas") {
+		$sdm->isBolehAkses('presensi', APP_PRESENSI_KONFIG, true);
+
+		$this->pageTitle = "Konfigurasi Jam Karyawan Reguler BLK Rangkas";
+		$this->pageName = "konfig-jam-reguler-blk-rangkas";
+
+		$strError = "";
+		$arrD = array();
+		$blk_rangkas_day_monday_masuk = $presensi->getData("blk_rangkas_day_monday_masuk");
+		$blk_rangkas_day_monday_pulang = $presensi->getData("blk_rangkas_day_monday_pulang");
+		$blk_rangkas_day_tuesday_masuk = $presensi->getData("blk_rangkas_day_tuesday_masuk");
+		$blk_rangkas_day_tuesday_pulang = $presensi->getData("blk_rangkas_day_tuesday_pulang");
+		$blk_rangkas_day_wednesday_masuk = $presensi->getData("blk_rangkas_day_wednesday_masuk");
+		$blk_rangkas_day_wednesday_pulang = $presensi->getData("blk_rangkas_day_wednesday_pulang");
+		$blk_rangkas_day_thursday_masuk = $presensi->getData("blk_rangkas_day_thursday_masuk");
+		$blk_rangkas_day_thursday_pulang = $presensi->getData("blk_rangkas_day_thursday_pulang");
+		$blk_rangkas_day_friday_masuk = $presensi->getData("blk_rangkas_day_friday_masuk");
+		$blk_rangkas_day_friday_pulang = $presensi->getData("blk_rangkas_day_friday_pulang");
+
+		$blk_rangkas_day_saturday_masuk = $presensi->getData("blk_rangkas_day_saturday_masuk");
+		$blk_rangkas_day_saturday_pulang = $presensi->getData("blk_rangkas_day_saturday_pulang");
+		$blk_rangkas_day_sunday_masuk = $presensi->getData("blk_rangkas_day_sunday_masuk");
+		$blk_rangkas_day_sunday_pulang = $presensi->getData("blk_rangkas_day_sunday_pulang");
+
+		$blk_rangkas_day_reguler_masuk_min = $presensi->getData("blk_rangkas_day_reguler_masuk_min");
+		$blk_rangkas_day_reguler_masuk_max = $presensi->getData("blk_rangkas_day_reguler_masuk_max");
+		$blk_rangkas_day_reguler_max_pulang = $presensi->getData("blk_rangkas_day_reguler_max_pulang");
+
+		if ($_POST) {
+			$blk_rangkas_day_monday_masuk = $security->teksEncode($_POST['blk_rangkas_day_monday_masuk']);
+			$blk_rangkas_day_monday_pulang = $security->teksEncode($_POST['blk_rangkas_day_monday_pulang']);
+			$blk_rangkas_day_tuesday_masuk = $security->teksEncode($_POST['blk_rangkas_day_tuesday_masuk']);
+			$blk_rangkas_day_tuesday_pulang = $security->teksEncode($_POST['blk_rangkas_day_tuesday_pulang']);
+			$blk_rangkas_day_wednesday_masuk = $security->teksEncode($_POST['blk_rangkas_day_wednesday_masuk']);
+			$blk_rangkas_day_wednesday_pulang = $security->teksEncode($_POST['blk_rangkas_day_wednesday_pulang']);
+			$blk_rangkas_day_thursday_masuk = $security->teksEncode($_POST['blk_rangkas_day_thursday_masuk']);
+			$blk_rangkas_day_thursday_pulang = $security->teksEncode($_POST['blk_rangkas_day_thursday_pulang']);
+			$blk_rangkas_day_friday_masuk = $security->teksEncode($_POST['blk_rangkas_day_friday_masuk']);
+			$blk_rangkas_day_friday_pulang = $security->teksEncode($_POST['blk_rangkas_day_friday_pulang']);
+
+			$blk_rangkas_day_saturday_masuk = $security->teksEncode($_POST['blk_rangkas_day_saturday_masuk']);
+			$blk_rangkas_day_saturday_pulang = $security->teksEncode($_POST['blk_rangkas_day_saturday_pulang']);
+			$blk_rangkas_day_sunday_masuk = $security->teksEncode($_POST['blk_rangkas_day_sunday_masuk']);
+			$blk_rangkas_day_sunday_pulang = $security->teksEncode($_POST['blk_rangkas_day_sunday_pulang']);
+
+			$blk_rangkas_day_reguler_masuk_min = $security->teksEncode($_POST['blk_rangkas_day_reguler_masuk_min']);
+			$blk_rangkas_day_reguler_masuk_max = $security->teksEncode($_POST['blk_rangkas_day_reguler_masuk_max']);
+			$blk_rangkas_day_reguler_max_pulang = $security->teksEncode($_POST['blk_rangkas_day_reguler_max_pulang']);
+
+			if (empty($blk_rangkas_day_monday_masuk)) {
+				$strError .= '<li>Jam Masuk Senin masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_monday_masuk)) $strError .= "<li>Format Jam Masuk Senin salah.</li>";
+			}
+			if (empty($blk_rangkas_day_monday_pulang)) {
+				$strError .= '<li>Jam Pulang Senin masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_monday_pulang)) $strError .= "<li>Format Jam Pulang Senin salah.</li>";
+			}
+			if (empty($blk_rangkas_day_tuesday_masuk)) {
+				$strError .= '<li>Jam Masuk Selasa masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_tuesday_masuk)) $strError .= "<li>Format Jam Masuk Selasa salah.</li>";
+			}
+			if (empty($blk_rangkas_day_tuesday_pulang)) {
+				$strError .= '<li>Jam Pulang Selasa masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_tuesday_pulang)) $strError .= "<li>Format Jam Pulang Selasa salah.</li>";
+			}
+			if (empty($blk_rangkas_day_wednesday_masuk)) {
+				$strError .= '<li>Jam Masuk Rabu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_wednesday_masuk)) $strError .= "<li>Format Jam Masuk Rabu salah.</li>";
+			}
+			if (empty($blk_rangkas_day_wednesday_pulang)) {
+				$strError .= '<li>Jam Pulang Rabu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_wednesday_pulang)) $strError .= "<li>Format Jam Pulang Rabu salah.</li>";
+			}
+			if (empty($blk_rangkas_day_thursday_masuk)) {
+				$strError .= '<li>Jam Masuk Kamis masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_thursday_masuk)) $strError .= "<li>Format Jam Masuk Kamis salah.</li>";
+			}
+			if (empty($blk_rangkas_day_thursday_pulang)) {
+				$strError .= '<li>Jam Pulang Kamis masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_thursday_pulang)) $strError .= "<li>Format Jam Pulang Kamis salah.</li>";
+			}
+			if (empty($blk_rangkas_day_friday_masuk)) {
+				$strError .= '<li>Jam Masuk Jumat masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_friday_masuk)) $strError .= "<li>Format Jam Masuk Jumat salah.</li>";
+			}
+			if (empty($blk_rangkas_day_friday_pulang)) {
+				$strError .= '<li>Jam Pulang Jumat masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_friday_pulang)) $strError .= "<li>Format Jam Pulang Jumat salah.</li>";
+			}
+
+			if (empty($blk_rangkas_day_saturday_masuk)) {
+				$strError .= '<li>Jam Masuk Sabtu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_saturday_masuk)) $strError .= "<li>Format Jam Pulang Sabtu salah.</li>";
+			}
+			if (empty($blk_rangkas_day_saturday_pulang)) {
+				$strError .= '<li>Jam Pulang Sabtu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_saturday_pulang)) $strError .= "<li>Format Jam Pulang Sabtu salah.</li>";
+			}
+			if (empty($blk_rangkas_day_sunday_masuk)) {
+				$strError .= '<li>Jam Masuk Minggu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_sunday_masuk)) $strError .= "<li>Format Jam Pulang Minggu salah.</li>";
+			}
+			if (empty($blk_rangkas_day_sunday_pulang)) {
+				$strError .= '<li>Jam Pulang Minggu masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_sunday_pulang)) $strError .= "<li>Format Jam Pulang Minggu salah.</li>";
+			}
+
+			if (empty($blk_rangkas_day_reguler_masuk_min)) {
+				$strError .= '<li>Batas Awal Presensi Masuk masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_reguler_masuk_min)) $strError .= "<li>Format Jam Batas Awal Presensi Masuk salah.</li>";
+			}
+			if (empty($blk_rangkas_day_reguler_masuk_max)) {
+				$strError .= '<li>Jam Batas Akhir Presensi Masuk masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_reguler_masuk_max)) $strError .= "<li>Format Jam Batas Akhir Presensi Masuk salah.</li>";
+			}
+			if (empty($blk_rangkas_day_reguler_max_pulang)) {
+				$strError .= '<li>Jam Batas Akhir Presensi Pulang masih kosong.</li>';
+			} else {
+				if (!$umum->validateTime($blk_rangkas_day_reguler_max_pulang)) $strError .= "<li>Format Jam Batas Akhir Presensi Pulang salah.</li>";
+			}
+
+			if (strlen($strError) <= 0) {
+				mysqli_query($presensi->con, "START TRANSACTION");
+				$ok = true;
+				$sqlX1 = "";
+				$sqlX2 = "";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_monday_masuk . "' where nama='blk_rangkas_day_monday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_monday_pulang . "' where nama='blk_rangkas_day_monday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_tuesday_masuk . "' where nama='blk_rangkas_day_tuesday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_tuesday_pulang . "' where nama='blk_rangkas_day_tuesday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_wednesday_masuk . "' where nama='blk_rangkas_day_wednesday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_wednesday_pulang . "' where nama='blk_rangkas_day_wednesday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_thursday_masuk . "' where nama='blk_rangkas_day_thursday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_thursday_pulang . "' where nama='blk_rangkas_day_thursday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_friday_masuk . "' where nama='blk_rangkas_day_friday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_friday_pulang . "' where nama='blk_rangkas_day_friday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_saturday_masuk . "' where nama='blk_rangkas_day_saturday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_saturday_pulang . "' where nama='blk_rangkas_day_saturday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_sunday_masuk . "' where nama='blk_rangkas_day_sunday_masuk' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_sunday_pulang . "' where nama='blk_rangkas_day_sunday_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_reguler_masuk_min . "' where nama='blk_rangkas_day_reguler_masuk_min' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_reguler_masuk_max . "' where nama='blk_rangkas_day_reguler_masuk_max' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$sql = "update presensi_konfig set nilai='" . $blk_rangkas_day_reguler_max_pulang . "' where nama='blk_rangkas_day_reguler_max_pulang' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				if ($ok == true) {
+					mysqli_query($presensi->con, "COMMIT");
+					$presensi->insertLog('berhasil update konfig jam karyawan reguler (blk_rangkas)', $sqlX1, $sqlX2);
+					header("location:" . BE_MAIN_HOST . "/home/pesan?code=3");
+					exit;
+				} else {
+					mysqli_query($presensi->con, "ROLLBACK");
+					$presensi->insertLog('gagal update konfig jam karyawan reguler (blk_rangkas)', $sqlX1, $sqlX2);
+					header("location:" . BE_MAIN_HOST . "/home/pesan?code=1");
+					exit;
+				}
+			}
+		}
 	} else if ($this->pageLevel3 == "konfig-gps") {
 		$sdm->isBolehAkses('presensi', APP_PRESENSI_KONFIG, true);
 
@@ -2367,12 +2659,18 @@ else if($this->pageLevel2=="ringkasan"){
 		$gps_kantor_jogja = $presensi->getData("gps_kantor_jogja");
 		$gps_kantor_medan = $presensi->getData("gps_kantor_medan");
 		$gps_poliklinik = $presensi->getData("gps_poliklinik");
+		$gps_blk_rangkas = $presensi->getData("gps_blk_rangkas");
 		$gps_holding_json = $presensi->getData("gps_holding");
 
 		// TAMBAHKAN INI UNTUK DEBUG
 		// echo "Isi mentah dari DB untuk holding: ";
 		// var_dump($gps_holding_json);
 		// die();
+		$arrK = json_decode($gps_blk_rangkas, true);
+		$gps_blk_rangkas_lati = $arrK['lati'];
+		$gps_blk_rangkas_longi = $arrK['longi'];
+		$gps_blk_rangkas_radius = $arrK['radius'];
+		$gps_blk_rangkas_is_enabled = $arrK['is_enabled'];
 		$arrK = json_decode($gps_holding, true);
 		$gps_holding_lati = $arrK['lati'];
 		$gps_holding_longi = $arrK['longi'];
@@ -2400,6 +2698,10 @@ else if($this->pageLevel2=="ringkasan"){
 		$gps_poliklinik_is_enabled = $arrK['is_enabled'];
 
 		if ($_POST) {
+			$gps_blk_rangkas_lati = (float) $_POST['gps_blk_rangkas_lati'];
+			$gps_blk_rangkas_longi = (float) $_POST['gps_blk_rangkas_longi'];
+			$gps_blk_rangkas_radius = (int) $_POST['gps_blk_rangkas_radius'];
+			$gps_blk_rangkas_is_enabled = (int) $_POST['gps_blk_rangkas_is_enabled'];
 			$gps_holding_lati = (float) $_POST['gps_holding_lati'];
 			$gps_holding_longi = (float) $_POST['gps_holding_longi'];
 			$gps_holding_radius = (int) $_POST['gps_holding_radius'];
@@ -2421,6 +2723,9 @@ else if($this->pageLevel2=="ringkasan"){
 			$gps_poliklinik_radius = (int) $_POST['gps_poliklinik_radius'];
 			$gps_poliklinik_is_enabled = (int) $_POST['gps_poliklinik_is_enabled'];
 
+			if ($gps_blk_rangkas_is_enabled && empty($gps_blk_rangkas_radius)) {
+				$strError .= '<li>Radius kantor BLK Rangkas masih kosong.</li>';
+			}
 			if ($gps_holding_is_enabled && empty($gps_holding_radius)) {
 				$strError .= '<li>Radius kantor holding masih kosong.</li>';
 			}
@@ -2449,6 +2754,19 @@ else if($this->pageLevel2=="ringkasan"){
 				$arrK['radius'] = $gps_holding_radius;
 				$arrK['is_enabled'] = $gps_holding_is_enabled;
 				$sql = "update presensi_konfig set nilai='" . json_encode($arrK) . "' where nama='gps_holding' ";
+				mysqli_query($presensi->con, $sql);
+				if (strlen(mysqli_error($presensi->con)) > 0) {
+					$sqlX2 .= mysqli_error($presensi->con) . "; ";
+					$ok = false;
+				}
+				$sqlX1 .= $sql . "; ";
+
+				$arrK = array();
+				$arrK['lati'] = $gps_blk_rangkas_lati;
+				$arrK['longi'] = $gps_blk_rangkas_longi;
+				$arrK['radius'] = $gps_blk_rangkas_radius;
+				$arrK['is_enabled'] = $gps_blk_rangkas_is_enabled;
+				$sql = "update presensi_konfig set nilai='" . json_encode($arrK) . "' where nama='gps_blk_rangkas' ";
 				mysqli_query($presensi->con, $sql);
 				if (strlen(mysqli_error($presensi->con)) > 0) {
 					$sqlX2 .= mysqli_error($presensi->con) . "; ";
@@ -2523,6 +2841,7 @@ else if($this->pageLevel2=="ringkasan"){
 			}
 		}
 
+		$stat_gps_blk_rangkas_is_enabled = ($gps_blk_rangkas_is_enabled) ? 'checked' : '';
 		$stat_gps_holding_is_enabled = ($gps_holding_is_enabled) ? 'checked' : '';
 		$stat_gps_kantor_pusat_is_enabled = ($gps_kantor_pusat_is_enabled) ? 'checked' : '';
 		$stat_gps_kantor_jogja_is_enabled = ($gps_kantor_jogja_is_enabled) ? 'checked' : '';

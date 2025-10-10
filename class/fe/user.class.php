@@ -43,12 +43,14 @@ class User extends db
 			$arr['kantor_medan'] = "Kantor Medan";
 			$arr['poliklinik'] = "Poliklinik";
 			$arr['holding'] = "Holding";
+			$arr['blk_rangkas'] = "BLK Rangkas";
 		} else if ($tipe == "kategori_presensi") {
 			$arr['kantor_pusat'] = "Kantor Pusat";
 			$arr['kantor_jogja'] = "Kantor Jogja";
 			$arr['kantor_medan'] = "Kantor Medan";
 			$arr['poliklinik'] = "Poliklinik";
 			$arr['holding'] = "Holding";
+			$arr['blk_rangkas'] = "BLK Rangkas";
 			$arr['tugas_luar'] = "Tugas Luar";
 			$arr['ijin_sehari'] = "Ijin Sehari";
 		} else if ($tipe == "kode_presensi") {

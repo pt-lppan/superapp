@@ -23,7 +23,7 @@
 			<ul class="sub-menu">
 				<li class="sub-header"><span><i class="os-icon os-icon-hash"> Umum</i></span></li>
 				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_DASHBOARD) ?>"><a href="<?= BE_MAIN_HOST; ?>/presensi/dashboard/masuk">Presensi Masuk</a></li>
-				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_DASHBOARD) ?>"><a href="<?= BE_MAIN_HOST; ?>/presensi/rekap">Rekap Presensi</a></li>
+				<!-- <li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_DASHBOARD) ?>"><a href="<?= BE_MAIN_HOST; ?>/presensi/rekap">Rekap Presensi</a></li> -->
 				<!--
 				<li class="<?= $sdm->setupCSSSidebar('manpro', APP_AL_DASHBOARD) ?>"><a href="<?= BE_MAIN_HOST; ?>/lembur/dashboard/manhour">Manhour</a></li>
 				-->
@@ -135,6 +135,11 @@
 					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler-holding") {
 							echo 'class="active"';
 						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler-holding">Konfig Jam Karyawan Reguler (Holding)</a>
+				</li>
+				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
+					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-reguler-blk-rangkas") {
+							echo 'class="active"';
+						} ?> href="<?= BE_MAIN_HOST; ?>/presensi/master-data/konfig-jam-reguler-blk-rangkas">Konfig Jam Karyawan Reguler (BLK rangkas)</a>
 				</li>
 				<li class="<?= $sdm->setupCSSSidebar('presensi', APP_PRESENSI_KONFIG) ?>">
 					<a <?php if ($this->pageLevel1 == "presensi" && $this->pageLevel2 == "konfig-jam-shift") {

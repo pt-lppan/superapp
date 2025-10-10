@@ -57,6 +57,28 @@
 					</div>
 
 					<div class="form-group row">
+						<label class="col-sm-2 col-form-label" for="">GPS Kantor BLK Rangkas<em class="text-danger">*</em></label>
+						<div class="col-sm-2">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" value="1" <?= $stat_gps_blk_rangkas_is_enabled ?> name="gps_blk_rangkas_is_enabled" id="gps_blk_rangkas_is_enabled">
+								<label class="form-check-label" for="gps_blk_rangkas_is_enabled">Aktifkan</label>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="gps_blk_rangkas_lati" name="gps_blk_rangkas_lati" value="<?= $gps_blk_rangkas_lati ?>" placeholder="Latitude" />
+						</div>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="gps_blk_rangkas_longi" name="gps_blk_rangkas_longi" value="<?= $gps_blk_rangkas_longi ?>" placeholder="Longitude" />
+						</div>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="gps_blk_rangkas_radius" name="gps_blk_rangkas_radius" value="<?= $gps_blk_rangkas_radius ?>" alt="juml" placeholder="e.g. 50" />
+						</div>
+						<div class="col-sm-2">
+							<a href="javascript:void(0)" onclick="setMap('GPS Kantor blk_rangkas',<?= $gps_blk_rangkas_lati ?>,<?= $gps_blk_rangkas_longi ?>,<?= $gps_blk_rangkas_radius ?>)"><i class="os-icon os-icon-map-pin"></i> Lihat Peta</a>
+						</div>
+					</div>
+
+					<div class="form-group row">
 						<label class="col-sm-2 col-form-label" for="">GPS Kantor Pusat<em class="text-danger">*</em></label>
 						<div class="col-sm-2">
 							<div class="form-check">
