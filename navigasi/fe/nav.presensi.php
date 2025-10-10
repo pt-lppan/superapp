@@ -274,6 +274,13 @@ if ($this->pageBase == "presensi") {
 					$timeMasuk = $tgl_presensi_aktif . " " . $dataConfig['holding_day_' . $thisDay . '_masuk'];
 					$timeMasuk = strtotime($timeMasuk);
 					$recData['detikTerlambat']  = $timePresensi - $timeMasuk;
+				} elseif ($posisi_asli == "blk_rangkas") {
+
+					$regularMasukMin = strtotime($tgl_presensi_aktif . " " . $dataConfig['blk_rangkas_day_reguler_masuk_min']);
+					$regularMasukMax = strtotime($tgl_presensi_aktif . " " . $dataConfig['blk_rangkas_day_reguler_masuk_max']);
+					$timeMasuk = $tgl_presensi_aktif . " " . $dataConfig['blk_rangkas_day_' . $thisDay . '_masuk'];
+					$timeMasuk = strtotime($timeMasuk);
+					$recData['detikTerlambat']  = $timePresensi - $timeMasuk;
 				}
 				/* elseif($posisi=="tugas_luar"){
 					$regularMasukMin = strtotime($tgl_presensi_aktif." ".$dataConfig['tugas_luar_masuk_min']);
@@ -484,6 +491,13 @@ if ($this->pageBase == "presensi") {
 
 					if ($timePresensi < $regularPulangMin || $timePresensi > $regularPulangMax) {
 						$error['generic'] = "<li>Presensi pulang bisa dilakukan setelah jam " . substr($dataConfig['holding_day_' . $thisDay . '_pulang'], 0, 5) . "</li>";
+					}
+				} elseif ($posisi == "blk_rangkas") {
+					$regularPulangMin = strtotime($tgl_presensi_aktif . " " . $dataConfig['blk_rangkas_day_' . $thisDay . '_pulang']);
+					$regularPulangMax = strtotime($tomorrow . " " . $dataConfig['blk_rangkas_day_reguler_max_pulang']);
+
+					if ($timePresensi < $regularPulangMin || $timePresensi > $regularPulangMax) {
+						$error['generic'] = "<li>Presensi pulang bisa dilakukan setelah jam " . substr($dataConfig['blk_rangkas_day_' . $thisDay . '_pulang'], 0, 5) . "</li>";
 					}
 				}
 

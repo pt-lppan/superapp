@@ -32,7 +32,7 @@ $frontClasses = array(
 );
 
 // konfig localhost
-define("DEV_HTTP_PREFIX", 'https');
+define("DEV_HTTP_PREFIX", 'http');
 define("DEV_SQL_HOST", 'db');
 define("DEV_SQL_PORT", '3306');
 define("DEV_SQL_USER", 'superapp-user');
@@ -45,7 +45,7 @@ define("DEV_MYSQL_DUMP_WIN_LOC", '"D:\wamp64\bin\mysql\mysql5.7.26\bin\mysqldump
 
 // server yg di atas server live apa server dev?
 $force_dev_mode =  false;
-define("LIVE_HTTP_PREFIX", 'https');
+define("LIVE_HTTP_PREFIX", 'http');
 if ($_SERVER['HTTP_HOST'] == 'localhost') { // devsuperapp
 	define("LIVE_SQL_HOST", 'db');
 	define("LIVE_SQL_PORT", '3306');

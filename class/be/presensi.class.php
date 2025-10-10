@@ -226,6 +226,10 @@ class Presensi extends db
 			$sql = "select nilai from presensi_konfig where nama='gps_holding' ";
 			$data = $this->doQuery($sql, 0, 'object');
 			$hasil = $data[0]->nilai;
+		} else if ($kategori == "gps_blk_rangkas") {
+			$sql = "select nilai from presensi_konfig where nama='gps_blk_rangkas' ";
+			$data = $this->doQuery($sql, 0, 'object');
+			$hasil = $data[0]->nilai;
 		} else if ($kategori == "medan_day_monday_masuk") {
 			$sql = "select nilai from presensi_konfig where nama='medan_day_monday_masuk' ";
 			$data = $this->doQuery($sql, 0, 'object');
