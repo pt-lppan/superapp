@@ -393,62 +393,52 @@ if ($this->pageLevel2 == "") {
 		}
 
 		$head3 =
-			'<tr>
-        <td>No</td>
-        <td>NIK</td>
-        <td>Nama Karyawan</td>
-        <td>Tipe Karyawan</td>
-        <td>Level Karyawan</td>
-        <td>Posisi Presensi</td>';
-
+			'<td>No</td>
+			 <td>NIK</td>
+			 <td>Nama Karyawan</td>
+			 <td>Tipe Karyawan</td>
+			 <td>Level Karyawan</td>
+			 <td>Posisi Presensi</td>';
 		foreach ($arrDT1 as $key => $val) {
-			$head3 .= '<td>' . $val . '</td>';
+			$head3 .= '<td>' . $key . '</td>';
 		}
-
 		$head3 .= '<td>Jumlah PM</td>';
 		$head3 .= '<td>Jumlah TL</td>';
-		$head3 .= '<td>Bantuan Makan per Hari</td>';
+		$head3 .= '<td>Jumlah Bantuan Makan</td>';
 		$head3 .= '<td>Total Bantuan Makan</td>';
-		$head3 .= '</tr>';
 
 		$i = 0;
 		$ui3 = '';
-		$bm = 10000;
-
 		foreach ($arrDT2 as $key => $val) {
 			$i++;
 
 			$ui3 .= '<tr>';
 			$ui3 .=
 				'<td>' . $i . '</td>
-        <td>' . $val['nik'] . '</td>
-        <td>' . $val['nama'] . '</td>
-        <td>' . $val['tipe_karyawan'] . '</td>
-        <td>' . $arr_level_karyawan[$val['level_karyawan']] . '</td>
-        <td>' . $val['posisi_presensi'] . '</td>';
+				 <td>' . $val['nik'] . '</td>
+				 <td>' . $val['nama'] . '</td>
+				 <td>' . $val['tipe_karyawan'] . '</td>
+				 <td>' . $arr_level_karyawan[$val['level_karyawan']] . '</td>
+				 <td>' . $val['posisi_presensi'] . '</td>';
 
 			$juml_PM = 0;
 			$juml_TL = 0;
-
+			$bm = 10000;
+			$count_bm = 0;
 			foreach ($arrDT1 as $key2 => $val2) {
 				$stat_presensi = $val['presensi_' . $key2];
 				$ui3 .= '<td>' . $stat_presensi . '</td>';
 
-				if ($stat_presensi == "PM") {
-					$juml_PM++;
-				}
-				if ($stat_presensi == "TL") {
-					$juml_TL++;
-				}
+				if ($stat_presensi == "PM") $juml_PM++;
+				if ($stat_presensi == "TL") $juml_TL++;
 			}
 
-			$total_bm = $juml_PM * $bm;
-
+			$count_bm = $juml_PM * $bm;
 			$ui3 .=
 				'<td>' . $juml_PM . '</td>
-        <td>' . $juml_TL . '</td>
-        <td>' . number_format($bm) . '</td>
-        <td>' . number_format($total_bm) . '</td>';
+				 <td>' . $juml_TL . '</td>;
+				 <td>' . number_format($bm) . '</td>
+       			 <td>' . number_format($count_bm) . '</td>';
 
 			$ui3 .= '</tr>';
 		}
