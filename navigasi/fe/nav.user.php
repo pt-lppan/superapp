@@ -3502,8 +3502,5 @@ if($this->pageBase=="user"){
 			}
 		}
 		//echo "koneksi ke SIAS";
-	}
-	
-	
+	}	
 }
-?>

@@ -33,13 +33,14 @@ $frontClasses = array(
 
 // konfig localhost
 define("DEV_HTTP_PREFIX", 'http');
-define("DEV_SQL_HOST", 'localhost');
+define("DEV_SQL_HOST", 'db');
 define("DEV_SQL_PORT", '3306');
-define("DEV_SQL_USER", 'root');
-define("DEV_SQL_PASS", '');
+define("DEV_SQL_USER", 'superapp-user');
+define("DEV_SQL_PASS", 'password_untuk_app');
 define("DEV_SQL_DB", 'superapp');
 define("DEV_BASE_NUMBER_ARRURL", 2); // jalankan file z.php dari browser untuk mengetahui value DEV_BASE_NUMBER_ARRURL
 define("DEV_ERROR_REPORTING_LV", 1);
+// define("LIVE_ERROR_REPORTING_LV", 1); 
 define("DEV_MYSQL_DUMP_WIN_LOC", '"D:\wamp64\bin\mysql\mysql5.7.26\bin\mysqldump.exe"');
 
 // server yg di atas server live apa server dev?
@@ -49,17 +50,17 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') { // devsuperapp
 	define("LIVE_SQL_HOST", 'db');
 	define("LIVE_SQL_PORT", '3306');
 	define("LIVE_SQL_USER", 'superapp-user');
-	define("LIVE_SQL_PASS", 'your_database_password');
+	define("LIVE_SQL_PASS", 'password_untuk_app');
 	define("LIVE_SQL_DB", 'superapp');
 	$force_dev_mode =  true;
 } else {
 	define("LIVE_SQL_HOST", 'db');
 	define("LIVE_SQL_PORT", '3306');
 	define("LIVE_SQL_USER", 'superapp-user');
-	define("LIVE_SQL_PASS", 'your_database_password');
+	define("LIVE_SQL_PASS", 'password_untuk_app');
 	define("LIVE_SQL_DB", 'superapp');
 }
-define("LIVE_ERROR_REPORTING_LV", 0);
+define("LIVE_ERROR_REPORTING_LV", 1);
 define("LIVE_MYSQL_DUMP_WIN_LOC", '');
 
 // setting timezone
