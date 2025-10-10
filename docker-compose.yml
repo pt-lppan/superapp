@@ -16,7 +16,7 @@ services:
   # Layanan Nginx
   nginx:
     image: nginx:1.22.0
-    container_name: nginx_server
+    container_name: superapp-nginx
     ports:
       - "8075:80"
     volumes:
@@ -29,14 +29,14 @@ services:
 
   # Layanan Database MySQL
   db:
-    image: mysql:5.7.39
+    image: mariadb:10.6
     container_name: superapp-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: "superapp"
-      MYSQL_USER: "superapp-user"
-      MYSQL_PASSWORD: "password_untuk_app"
-      MYSQL_ROOT_PASSWORD: "root"
+      MARIADB_DATABASE: "superapp"
+      MARIADB_USER: "superapp-user"
+      MARIADB_PASSWORD: "password_untuk_app"
+      MARIADB_ROOT_PASSWORD: "root"
     volumes:
       - db-data:/var/lib/mysql
     command: --sql-mode="NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
