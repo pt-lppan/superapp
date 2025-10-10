@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  # Layanan Aplikasi PHP
+  # Layanan Aplikasi PHP-FPM
   app:
     build:
       context: .
@@ -9,6 +9,7 @@ services:
     container_name: superapp-app
     volumes:
       - ./:/var/www/html
+      - ./php.ini:/usr/local/etc/php/php.ini
     networks:
       - app-network
 
@@ -17,7 +18,7 @@ services:
     image: nginx:1.22.0
     container_name: nginx_server
     ports:
-      - "8075:80" # <-- PERUBAHAN DI SINI
+      - "8075:80"
     volumes:
       - ./:/var/www/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
@@ -28,17 +29,16 @@ services:
 
   # Layanan Database MySQL
   db:
-    image: mysql:5.7
+    image: mysql:5.7.39
     container_name: superapp-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: superapp
-      MYSQL_USER: superapp-user
-      MYSQL_PASSWORD: your_database_password
-      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: "superapp"
+      MYSQL_USER: "superapp-user"
+      MYSQL_PASSWORD: "password_untuk_app"
+      MYSQL_ROOT_PASSWORD: "root"
     volumes:
       - db-data:/var/lib/mysql
-    # SQL Mode sesuai permintaan
     command: --sql-mode="NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
     networks:
       - app-network
