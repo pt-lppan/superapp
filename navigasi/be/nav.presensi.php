@@ -404,6 +404,8 @@ if ($this->pageLevel2 == "") {
 		}
 		$head3 .= '<td>Jumlah PM</td>';
 		$head3 .= '<td>Jumlah TL</td>';
+		$head3 .= '<td>Jumlah Bantuan Makan</td>';
+		$head3 .= '<td>Total Bantuan Makan</td>';
 
 		$i = 0;
 		$ui3 = '';
@@ -421,6 +423,8 @@ if ($this->pageLevel2 == "") {
 
 			$juml_PM = 0;
 			$juml_TL = 0;
+			$bm = 10000;
+			$count_bm = 0;
 			foreach ($arrDT1 as $key2 => $val2) {
 				$stat_presensi = $val['presensi_' . $key2];
 				$ui3 .= '<td>' . $stat_presensi . '</td>';
@@ -429,9 +433,12 @@ if ($this->pageLevel2 == "") {
 				if ($stat_presensi == "TL") $juml_TL++;
 			}
 
+			$count_bm = $juml_PM * $bm;
 			$ui3 .=
 				'<td>' . $juml_PM . '</td>
-				 <td>' . $juml_TL . '</td>';
+				 <td>' . $juml_TL . '</td>;
+				 <td>' . number_format($bm) . '</td>
+       			 <td>' . number_format($count_bm) . '</td>';
 
 			$ui3 .= '</tr>';
 		}
