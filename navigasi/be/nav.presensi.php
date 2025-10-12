@@ -404,7 +404,7 @@ if ($this->pageLevel2 == "") {
 		}
 		$head3 .= '<td>Jumlah PM</td>';
 		$head3 .= '<td>Jumlah TL</td>';
-		$head3 .= '<td>Jumlah Bantuan Makan</td>';
+		$head3 .= '<td>Bantuan Makan</td>';
 		$head3 .= '<td>Total Bantuan Makan</td>';
 
 		$i = 0;
@@ -437,8 +437,8 @@ if ($this->pageLevel2 == "") {
 			$ui3 .=
 				'<td>' . $juml_PM . '</td>
 				 <td>' . $juml_TL . '</td>;
-				 <td>' . number_format($bm) . '</td>
-       			 <td>' . number_format($count_bm) . '</td>';
+				 <td>' . number_format($bm, 0, ',', '.') . '</td>
+       			 <td>' . number_format($count_bm, 0, ',', '.') . '</td>';
 
 			$ui3 .= '</tr>';
 		}
