@@ -2122,6 +2122,8 @@ if ($this->pageLevel2 == "") {
 		include_once("nav.sdm-data-buku-bacaan.php");
 	} else if ($this->pageLevel3 == "data-seminar") {
 		include_once("nav.sdm-data-seminar.php");
+	} else if ($this->pageLevel3 == "generate-pdf") {
+		include_once("nav.sdm-generate-pdf.php");
 	}
 } else if ($this->pageLevel2 == "cek-sikiky") {
 	$sdm->isBolehAkses('sdm', APP_SDM_KARYAWAN, true);
