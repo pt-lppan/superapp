@@ -75,37 +75,30 @@ require_once 'third_party/dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// 5.1. Tentukan HTML Template
 $tgl_mulai_format = date('d F Y', strtotime($data_final['tgl_mulai']));
 $tgl_selesai_format = date('d F Y', strtotime($data_final['tgl_selesai']));
 
+// Definisikan path ke folder template PDF
+define('PDF_TEMPLATE_PATH', TEMPLATE_PATH . '/be/sdm/pdf'); // Ganti TEMPLATE_PATH sesuai project Anda
+
+// --- LOGIKA OUTPUT BUFFERING ---
+ob_start();
+
 if ($type === 'spk') {
-    $html = '
-    <!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Surat Perjanjian Kerja</title><style>/* ... CSS SPK ... */</style>
-    </head><body>
-        <h1>SURAT PERJANJIAN KERJA (SPK)</h1>
-        <p>Nomor: ' . $data_final['nomor_sk'] . '</p>
-        <p>Karyawan: ' . $data_final['nama'] . ' (' . $data_final['nik'] . ')</p>
-        <p>Periode: ' . $tgl_mulai_format . ' s/d ' . $tgl_selesai_format . '</p>
-        <p style="margin-top: 50px;">Disetujui oleh: ' . $data_final['pejabat_sdm'] . '</p>
-    </body></html>';
+    // Eksekusi template SPK dan tangkap output-nya
+    include_once(PDF_TEMPLATE_PATH . '/template-spk.php');
 } else {
-    $html = '
-    <!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Surat Keputusan Pengangkatan</title><style>/* ... CSS SK ... */</style>
-    </head><body>
-        <h1>SURAT KEPUTUSAN PENGANGKATAN (SK)</h1>
-        <p>Nomor: ' . $data_final['nomor_sk'] . '</p>
-        <p>Tanggal SK: ' . date('d F Y', strtotime($data_final['tgl_sk'])) . '</p>
-        <p>Mengangkat: ' . $data_final['nama'] . ' dalam Jabatan ' . $data_final['jabatan'] . ' efektif sejak ' . $tgl_mulai_format . '.</p>
-        <p style="text-align: right; margin-top: 50px;">Ditetapkan oleh: ' . $data_final['pejabat_sdm'] . '</p>
-    </body></html>';
+    // Eksekusi template SK dan tangkap output-nya
+    include_once(PDF_TEMPLATE_PATH . '/template-sk.php');
 }
+
+// Tangkap semua output dari file include dan simpan ke variabel $html
+$html = ob_get_clean();
+// --- AKHIR LOGIKA OUTPUT BUFFERING ---
 
 // 5.2. PENGHENTIAN ROUTING KRUSIAL: Membersihkan semua output sebelumnya
 if (ob_get_length() > 0) {
-    ob_end_clean(); // Menghapus buffer output
+    ob_end_clean();
 }
 
 // 5.3. Render PDF
