@@ -819,7 +819,7 @@ if ($this->pageBase == "presensi") {
 			$opsiInsidental .= '<option value=' . $val['id'] . ' ' . $fefunc->set_select("id_insidental", $val['id'], $detailActivity['id_insidental']) . '>' . $val['nama_wo'] . ' (dapat dientri tgl ' . $umum->tglDB2Indo($val['tgl_mulai'], 'dmY') . ' sd ' . $umum->tglDB2Indo($val['tgl_selesai'], 'dmY') . ')</option>';
 		}
 	} else if ($this->pageLevel1 == "lembur") {
-		$this->setView("Laporan Lembur Hari Ini", "lembur_laporan", "");
+		$this->setView("Laporan Lembur Hari asfdsfds", "lembur_laporan", "");
 
 		$error = array();
 		$id_activity = "";
@@ -924,7 +924,7 @@ if ($this->pageBase == "presensi") {
 				$dataA = strtotime($recData['timeStart']);
 				$dataB = strtotime($recData['timeEnd']);
 				$recData['duration'] =	$dataB - $dataA;
-
+				$recData['actual_duration'] = $umum->detik2jam($recData['duration']);
 				$recData['activityId'] = $activityId;
 				$user->update_aktifitas_harian("lembur", $recData);
 				$user->insertLogFromApp('APP berhasil update ' . $jenis_lembur, '', $sqlX2);
