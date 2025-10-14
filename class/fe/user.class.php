@@ -435,7 +435,54 @@ class User extends db
 		$result = $this->execute($sql);
 		return $result;
 	}
+	function calculatePaidOvertime(string $overtime_type, float $actual_duration_hours): float
+	{
+		$paid_overtime_hours = 0.0;
+		$duration = $actual_duration_hours;
 
+		switch ($overtime_type) {
+			case 'lembur_hari_kerja':
+				$boundary_1 = 1.0;
+				if ($duration <= $boundary_1) {
+					$paid_overtime_hours = $duration * 1.5;
+				} else {
+					$paid_overtime_hours = ($boundary_1 * 1.5) + (($duration - $boundary_1) * 2);
+				}
+				break;
+
+			case 'lembur_hari_minggu':
+				$boundary_7 = 7.0;
+				if ($duration <= $boundary_7) {
+					$paid_overtime_hours = $duration * 2;
+				} else {
+					$paid_overtime_hours = ($boundary_7 * 2) + (($duration - $boundary_7) * 3);
+				}
+				break;
+
+			case 'lembur_libur_nasional':
+			case 'lembur_libur_keagamaan':
+				$boundary_5 = 5.0;
+				$boundary_6 = 6.0;
+
+				if ($duration <= $boundary_5) {
+					$paid_overtime_hours = $duration * 2;
+				} elseif ($duration <= $boundary_6) {
+					$paid_overtime_hours = ($boundary_5 * 2) + (($duration - $boundary_5) * 3);
+				} else {
+					$paid_overtime_hours = ($boundary_5 * 2) + (($boundary_6 - $boundary_5) * 3) + (($duration - $boundary_6) * 4);
+				}
+				break;
+
+			case 'lembur_cuti_bersama':
+				$paid_overtime_hours = 0.0;
+				break;
+
+			default:
+				$paid_overtime_hours = 0.0;
+				break;
+		}
+		return round($paid_overtime_hours, 2);
+	}
 	function update_aktifitas_harian($opt = "", $data = array())
 	{
 		if ($opt == "aktifitas") {
@@ -458,6 +505,7 @@ class User extends db
 			$result = $this->execute($sql);
 			return $result;
 		} else if ($opt == "lembur") {
+			$jam_lembur = $this->calculatePaidOvertime($data['jenis_lembur'], $data['actual_duration']);
 			$sql = "UPDATE aktifitas_harian 
 							SET 
 								tipe = '" . $data['jenis_lembur'] . "', 
@@ -466,6 +514,7 @@ class User extends db
 								waktu_mulai = '" . $data['timeStart'] . "', 
 								waktu_selesai = '" . $data['timeEnd'] . "', 
 								detik_aktifitas	= '" . $data['duration'] . "', 
+								jam_lembur = '" . $jam_lembur . "',
 								status = 'publish',
 								status_read = '1'
 							WHERE id = '" . $data['activityId'] . "' and jenis='lembur' and id_user = '" . $data['userId'] . "' ";
