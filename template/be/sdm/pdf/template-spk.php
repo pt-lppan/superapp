@@ -13,7 +13,7 @@
         body {
             font-family: "Times New Roman", Times, serif;
             font-size: 11pt;
-            line-height: 1;
+            line-height: 1.2;
             text-align: justify;
             margin: 0;
             padding: 0;
@@ -52,8 +52,8 @@
         /* Romawi list (Word-like indent) */
         ol.romawi {
             list-style: none;
-            margin-top: 12pt;
-            margin-bottom: 12pt;
+            margin-top: 0pt;
+            margin-bottom: 6pt;
             /* indent ~1.27cm */
             counter-reset: romawi var(--start, 0);
         }
@@ -80,7 +80,6 @@
             justify-content: center;
             font-weight: bold;
             font-size: 11pt;
-            margin: 6pt 0 10pt 0;
         }
 
         .garis-center::before,
@@ -101,7 +100,6 @@
 
         /* Numbered subpoints (1., (1), a., etc.) - reuse ol defaults for nested lists */
         .arabic {
-
             margin-top: 12pt;
             margin-bottom: 12pt;
         }
@@ -115,7 +113,8 @@
 
         /* Table identitas */
         table.identitas {
-            width: 100%;
+            text-align: justify;
+            width: 93%;
             border-collapse: collapse;
             font-size: 11pt;
             margin-left: 36pt;
@@ -126,6 +125,8 @@
         table.identitas td {
             vertical-align: top;
             padding: 1pt 3pt;
+            text-align: justify;
+            /* border: 1px solid black; */
         }
 
         table.identitas td:first-child {
@@ -152,24 +153,6 @@
             border: 1px solid blue;
             width: 40%;
         }
-
-        /* PAGE NUMBER - fixed bottom right on every page */
-        .page-footer {
-            position: fixed;
-            bottom: 10pt;
-            right: 20pt;
-            font-size: 10pt;
-        }
-
-        /* Dompdf supports counters in pseudo elements */
-        .page-footer::after {
-            content: "Hal " counter(page) " dari " counter(pages);
-        }
-
-        /* Force page breaks where original PDF had them (optional) */
-        .page-break {
-            page-break-after: always;
-        }
     </style>
 </head>
 
@@ -194,7 +177,7 @@
     <div class="garis-center">-------------------------------------------------PIHAK PERTAMA------------------------------------------------</div>
 
     <!-- ROMAWI II -->
-    <ol class="romawi" style="--start: 1;">
+    <ol class="romawi" style="--start: 1; ">
         <li><strong>Eric Surya Satria</strong></li>
     </ol>
 
@@ -435,9 +418,6 @@
             <td style="text-align:center;"><strong><u>Feby Dwiardiani</u></strong></td>
         </tr>
     </table>
-
-    <div class="page-footer"></div>
-
 </body>
 
 </html>

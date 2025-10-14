@@ -101,19 +101,52 @@ if (ob_get_length() > 0) {
     ob_end_clean();
 }
 
-// 5.3. Render PDF
+
+
 $options = new Options();
-$options->set('Times New Roman');
+$options->set('defaultFont', 'Times New Roman');
 $dompdf = new Dompdf($options);
 
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
 
+// pastikan render() dipanggil dulu baru lanjut di bawah
+$canvas = $dompdf->getCanvas();
+$font = $dompdf->getFontMetrics()->getFont('Times-Roman', 'normal');
+$size = 10;
+
+// ambil lebar & tinggi halaman
+$w = $canvas->get_width();
+$h = $canvas->get_height();
+
+// teks footer
+$text = "Hal {PAGE_NUM} dari {PAGE_COUNT}";
+
+// hitung lebar teks supaya posisi kanan bawah rapi
+$textWidth = $dompdf->getFontMetrics()->getTextWidth($text, $font, $size);
+
+// posisi (x,y)
+$x = $w - $textWidth - 40; // 40pt dari kanan
+$y = $h - 40; // 40pt dari bawah
+
+// tambahkan teks ke semua halaman
+$font = $dompdf->getFontMetrics()->getFont("Times New Roman", "bold");
+$size = 9;
+
+// Atur posisi X dan Y (semakin besar X => makin ke kanan; semakin besar Y => makin ke bawah)
+$canvas->page_text(
+    490,
+    815,  // <-- ini posisinya lebih ke kanan & sedikit ke bawah
+    "Hal {PAGE_NUM} dari {PAGE_COUNT}",
+    $font,
+    $size,
+    [0, 0, 0]
+);
+
+
+// stream ke browser
 $filename = ($type === 'spk' ? 'SPK-' : 'SK_Pengangkatan-') . $data_final['nik'] . "-" . date('Ymd') . ".pdf";
+$dompdf->stream($filename, ["Attachment" => 0]);
 
-// 5.4. Stream PDF dan Hentikan Skrip
-$dompdf->stream($filename, array("Attachment" => 0));
-
-// Hentikan eksekusi script utama router secara paksa
 exit;
