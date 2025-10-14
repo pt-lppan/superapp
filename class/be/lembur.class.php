@@ -471,7 +471,7 @@ class Lembur extends db
 									<th><b>Waktu&nbsp;Mulai</b></th>
 									<th><b>Waktu&nbsp;Selesai</b></th>
 									<th><b>Lama&nbsp;Aktivitas</b></th>
-									<th><b>Lama&nbsp;Lembur</b></th>
+									<th><b>Jam&nbsp;Lembur</b></th>
 									<th><b>Nama&nbsp;Kegiatan</b></th>
 									<th><b>Kategori/Sebagai&nbsp;Kegiatan</b></th>
 									<th><b>Keterangan</b></th>
