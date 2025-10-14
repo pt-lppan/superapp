@@ -103,7 +103,7 @@ if (ob_get_length() > 0) {
 
 // 5.3. Render PDF
 $options = new Options();
-$options->set('defaultFont', 'Helvetica');
+$options->set('Times New Roman');
 $dompdf = new Dompdf($options);
 
 $dompdf->loadHtml($html);
