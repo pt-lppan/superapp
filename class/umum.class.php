@@ -138,8 +138,9 @@ class Umum extends func
 		} else if ($tipe == "level_karyawan") {
 			// perubahan 1 okt 2021
 			$arr['1'] = "BOC";
-			$arr['10'] = "BOM (Direktur)";
-			$arr['15'] = "BOM (SEVP)";
+			$arr['10'] = "BOM-Direktur";
+			$arr['15'] = "BOM-SEVP Operation";
+			$arr['25'] = "BOM-SEVP Business Support";
 			$arr['20'] = "BOD-1";
 			$arr['30'] = "BOD-2";
 			$arr['40'] = "BOD-3";
@@ -295,7 +296,69 @@ class Umum extends func
 		}
 		return $strError;
 	}
+	function terbilang_rupiah($angka)
+	{
+		// Memastikan angka berupa string dan membersihkan pemisah ribuan/desimal non-standar
+		$angka = trim((string)$angka);
+		$angka = preg_replace('/[^0-9.]/', '', $angka);
 
+		// Pisahkan Rupiah dan Sen
+		$parts = explode('.', $angka);
+		$rupiah = $parts[0];
+		$sen = isset($parts[1]) ? substr($parts[1], 0, 2) : '00';
+		if (strlen($sen) == 1) {
+			$sen .= '0';
+		}
+
+		$satuan = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan");
+		$belasan = array("", "sebelas", "dua belas", "tiga belas", "empat belas", "lima belas", "enam belas", "tujuh belas", "delapan belas", "sembilan belas");
+
+		$bilang_core = function ($nilai) use (&$bilang_core, $satuan, $belasan) {
+			$nilai = (int)$nilai;
+			if ($nilai < 12) { // 0 - 11
+				return $satuan[$nilai];
+			} elseif ($nilai < 20) { // 12 - 19
+				return $belasan[$nilai - 10];
+			} elseif ($nilai < 100) { // 20 - 99
+				return $satuan[floor($nilai / 10)] . " puluh " . $satuan[$nilai % 10];
+			} elseif ($nilai < 200) { // 100 - 199
+				return "seratus " . $bilang_core($nilai - 100);
+			} elseif ($nilai < 1000) { // 200 - 999
+				return $satuan[floor($nilai / 100)] . " ratus " . $bilang_core($nilai % 100);
+			} elseif ($nilai < 2000) { // 1000 - 1999
+				return "seribu " . $bilang_core($nilai - 1000);
+			} elseif ($nilai < 1000000) { // 2000 - 999999
+				return $bilang_core(floor($nilai / 1000)) . " ribu " . $bilang_core($nilai % 1000);
+			} elseif ($nilai < 1000000000) { // Juta
+				return $bilang_core(floor($nilai / 1000000)) . " juta " . $bilang_core($nilai % 1000000);
+			} elseif ($nilai < 1000000000000) { // Miliar
+				return $bilang_core(floor($nilai / 1000000000)) . " miliar " . $bilang_core($nilai % 1000000000);
+			}
+			return "Angka terlalu besar";
+		};
+
+		// Proses Rupiah
+		$terbilang_rupiah = '';
+		$rupiah_int = (int)$rupiah;
+		if ($rupiah_int > 0) {
+			$terbilang_rupiah = trim(ucwords($bilang_core($rupiah_int))) . ' Rupiah';
+		} else {
+			$terbilang_rupiah = 'Nol Rupiah';
+		}
+
+		// Proses Sen
+		$terbilang_sen = '';
+		$sen_int = (int)$sen;
+		if ($sen_int > 0) {
+			$terbilang_sen = trim(ucwords($bilang_core($sen_int)));
+			$terbilang_rupiah .= ' ' . $terbilang_sen . ' Sen';
+		}
+
+		// Membersihkan spasi ganda dan 'satu ratus' menjadi 'seratus' (optional)
+		$terbilang_rupiah = str_replace(['  ', 'satu ribu'], [' ', 'seribu'], $terbilang_rupiah);
+
+		return $terbilang_rupiah;
+	}
 	function date_indo($data, $format = "")
 	{
 		if (substr($data, 0, 10) == "0000-00-00") {

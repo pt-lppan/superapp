@@ -1,4 +1,7 @@
 <?
+// Asumsi: Fungsi dan variabel seperti $sdm, $umum, $manpro, $security, dan konstanta sudah didefinisikan.
+// Pastikan koneksi $manpro->con sudah terbuka.
+
 $sdm->isBolehAkses('sdm', APP_SDM_KARYAWAN, true);
 
 $this->pageTitle = "Riwayat Jabatan";
@@ -10,6 +13,7 @@ $prefix_folder = MEDIA_PATH . "/sdm";
 $id = (int) $_GET['id'];
 $det = $_POST["det"];
 $arrGOL = $umum->getKategori('kategori_golongan');
+
 
 $qD = 'select last_update_jabatan,status_karyawan,nik,nama from sdm_user_detail where id="' . $id . '"';
 $data1 = $manpro->doQuery($qD, 0, 'object');
@@ -28,45 +32,48 @@ $prefix_berkas = $nik;
 
 $addJS2 = '';
 $i = 0;
-// internal
+
+// ====================================================================
+// 1. BLOK LOAD DATA DARI DB (Sebelum POST)
+// ====================================================================
+
+// PERBAIKAN: Spasi non-standar dihilangkan. Tambah 4 kolom baru ke SELECT.
 $sql =
-	"select * from  sdm_history_jabatan
-		 where id_user='" . $id . "' and status='1' order by tgl_mulai ASC";
-// echo $sql;
+	"select *, gaji_pokok, tunj_tetap, tunj_keahlian, golongan from sdm_history_jabatan 
+    where id_user='" . $id . "' and status='1' order by tgl_mulai ASC";
+
 $data2 = $manpro->doQuery($sql, 0, 'object');
 foreach ($data2 as $row) {
 	$i++;
 
-	// 1. Ambil data Jabatan (Kode ini tetap harus ada)
+	// 1. Ambil data Jabatan
 	$qD3 = 'SELECT T0.id,concat("[",T0.id,"] ",T0.nama," :: [",T1.id,"] ",T1.nama," (",T1.kode_unit,")") AS label_jabatan FROM `sdm_jabatan` T0 INNER JOIN sdm_unitkerja T1
-                ON T0.`id_unitkerja`=T1.`id` WHERE T0.id="' . $row->id_jabatan . '" and T0.status="1" ORDER BY T0.nama ASC';
+                 ON T0.`id_unitkerja`=T1.`id` WHERE T0.id="' . $row->id_jabatan . '" and T0.status="1" ORDER BY T0.nama ASC';
 	$data3 = $manpro->doQuery($qD3, 0, 'object');
 
-	// Pastikan data3[0] ada sebelum mengakses propertinya
 	$label_jabatan = !empty($data3[0]->label_jabatan) ? $data3[0]->label_jabatan : "";
 	$id_jabatan = !empty($data3[0]->id) ? $data3[0]->id : "";
 
 
-	// 2. Tentukan Link Generate PDF (Ganti logika upload/lihat berkas lama)
+	// 2. Tentukan Link Generate PDF
 	$is_kontrak_val = $row->is_kontrak;
 
-	// KUNCI PERBAIKAN: Gunakan format URL segment/routing yang sukses
 	$base_route = BE_MAIN_HOST . "/sdm/karyawan";
 
-	// Link mengarah ke segment baru /generate-pdf, membawa ID karyawan & ID riwayat
 	$pdf_url = $base_route . "/generate-pdf?m=sdm&id=" . $id . "&type=" . ($is_kontrak_val == '1' ? 'spk' : 'sk') . "&nik=" . htmlspecialchars($nik) . "&id_riwayat=" . $row->id;
 
 	$btn_text = $is_kontrak_val == '1' ? 'Generate SPK PDF' : 'Generate SK PDF';
 	$btn_class = $is_kontrak_val == '1' ? 'btn-warning' : 'btn-info';
 
-	// Tampilkan tombol generate PDF dan sembunyikan link encode untuk POST
 	$berkasURL = '<a href="' . $pdf_url . '" target="_blank" class="btn btn-sm ' . $btn_class . '"><i class="os-icon os-icon-file-text"></i> ' . $btn_text . '</a>';
 	$berkas = $berkasURL . '<input type="hidden" name="det[' . $i . '][99]" value="' . $security->teksEncode($berkasURL) . '">';
 
 
-	$addJS2 .= 'setupDetail("' . $i . '",1,"' . $row->id . '","' . $umum->reformatText4Js($row->no_sk) . '","' . $umum->reformatText4Js($row->tgl_sk) . '","' . $umum->reformatText4Js($row->tgl_mulai) . '","' . $umum->reformatText4Js($row->tgl_selesai) . '","' . $umum->reformatText4Js($label_jabatan) . '","' . $umum->reformatText4Js($id_jabatan) . '","' . $umum->reformatText4Js($berkas) . '","' . $umum->reformatText4Js($row->nama_jabatan) . '","' . $umum->reformatText4Js($row->is_plt) . '","' . $umum->reformatText4Js($row->is_kontrak) . '","' . $umum->reformatText4Js($row->pencapaian) . '",1);';
+	// MODIFIKASI: Tambahkan 4 parameter gaji/golongan baru ke setupDetail (index 15, 16, 17, 18)
+	$addJS2 .= 'setupDetail("' . $i . '",1,"' . $row->id . '","' . $umum->reformatText4Js($row->no_sk) . '","' . $umum->reformatText4Js($row->tgl_sk) . '","' . $umum->reformatText4Js($row->tgl_mulai) . '","' . $umum->reformatText4Js($row->tgl_selesai) . '","' . $umum->reformatText4Js($label_jabatan) . '","' . $umum->reformatText4Js($id_jabatan) . '","' . $umum->reformatText4Js($berkas) . '","' . $umum->reformatText4Js($row->nama_jabatan) . '","' . $umum->reformatText4Js($row->is_plt) . '","' . $umum->reformatText4Js($row->is_kontrak) . '","' . $umum->reformatText4Js($row->pencapaian) . '","' . $umum->reformatText4Js($row->gaji_pokok) . '","' . $umum->reformatText4Js($row->tunj_tetap) . '","' . $umum->reformatText4Js($row->tunj_keahlian) . '","' . $umum->reformatText4Js($row->golongan) . '",1);';
 }
 $addJS2 .= 'num=' . $i . ';';
+
 
 if ($_POST) {
 	$det = $_POST['det'];
@@ -75,6 +82,11 @@ if ($_POST) {
 	$arrD = array();
 	$strError = "";
 	$jumlTglKosong = 0;
+
+	// ====================================================================
+	// 2. BLOK VALIDASI & RE-RENDERING (Dalam POST)
+	// ====================================================================
+
 	foreach ($det as $key => $val) {
 		$i++;
 		$did = $security->teksEncode($val[0]);
@@ -88,6 +100,13 @@ if ($_POST) {
 		$is_plt = $security->teksEncode($val[8]);
 		$is_kontrak = $security->teksEncode($val[9]);
 		$pencapaian = $security->teksEncode($val[10]);
+
+		// MODIFIKASI: Ambil 4 kolom baru dari POST (Indeks 11, 12, 13, 14)
+		$gaji_pokok = $security->teksEncode($val[11]);
+		$tunj_tetap = $security->teksEncode($val[12]);
+		$tunj_keahlian = $security->teksEncode($val[13]);
+		$golongan = $security->teksEncode($val[14]);
+
 
 		$berkasURL = $security->teksDecode($val[99]);
 		$berkas = (empty($berkasURL)) ? '' : $berkasURL . '<input type="hidden" name="det[' . $i . '][99]" value="' . $security->teksEncode($berkasURL) . '">';
@@ -106,11 +125,10 @@ if ($_POST) {
 				if (empty($jabatan_lama)) $strError .= "<li>Kolom jabatan &lt; 2019 pada baris ke " . $key . " masih kosong.</li>";
 			}
 		}
-		if (empty($tgl_selesai)) $jumlTglKosong++; // $strError .= "<li>Tanggal Selesai pada baris ke ".$key." masih kosong.</li>";
-		// $strError .= $umum->cekFile($_FILES['berkas_' . $key], "dok_file", "berkas pada baris ke " . str_replace('berkas_', '', $key) . "", false);
+		if (empty($tgl_selesai)) $jumlTglKosong++;
 
-		//print_r($val); echo "++".$id."<br />";
-		$addJS2 .= 'setupDetail("' . $i . '",1,"' . $val[0] . '","' . $umum->reformatText4Js($val[1]) . '","' . $umum->reformatText4Js($val[2]) . '","' . $umum->reformatText4Js($val[3]) . '","' . $umum->reformatText4Js($val[4]) . '","' . $umum->reformatText4Js($val[5]) . '","' . $umum->reformatText4Js($val[6]) . '","' . $umum->reformatText4Js($berkas) . '","' . $umum->reformatText4Js($val[7]) . '","' . $umum->reformatText4Js($val[8]) . '","' . $umum->reformatText4Js($val[9]) . '","' . $umum->reformatText4Js($val[10]) . '",1);';
+		// MODIFIKASI: Tambahkan 4 parameter gaji/golongan ke re-rendering setupDetail
+		$addJS2 .= 'setupDetail("' . $i . '",1,"' . $val[0] . '","' . $umum->reformatText4Js($val[1]) . '","' . $umum->reformatText4Js($val[2]) . '","' . $umum->reformatText4Js($val[3]) . '","' . $umum->reformatText4Js($val[4]) . '","' . $umum->reformatText4Js($val[5]) . '","' . $umum->reformatText4Js($val[6]) . '","' . $umum->reformatText4Js($berkas) . '","' . $umum->reformatText4Js($val[7]) . '","' . $umum->reformatText4Js($val[8]) . '","' . $umum->reformatText4Js($val[9]) . '","' . $umum->reformatText4Js($val[10]) . '","' . $umum->reformatText4Js($val[11]) . '","' . $umum->reformatText4Js($val[12]) . '","' . $umum->reformatText4Js($val[13]) . '","' . $umum->reformatText4Js($val[14]) . '",1);';
 	}
 	$addJS2 .= 'num=' . $i . ';';
 
@@ -122,7 +140,6 @@ if ($_POST) {
 		$sqlX1 = "";
 		$sqlX2 = "";
 
-		// select keluarga
 		$arr = array();
 		$arrB = array();
 		$sql = "select id, berkas from sdm_history_jabatan where id_user='" . $id . "' and status='1' ";
@@ -133,12 +150,17 @@ if ($_POST) {
 		}
 
 		$i = 0;
+
+		// ====================================================================
+		// 3. BLOK SIMPAN DB (UPDATE/INSERT)
+		// ====================================================================
+
 		foreach ($det as $key => $val) {
 			$i++;
 			$did = $security->teksEncode($val[0]);
 
 			unset($arr[$did]);
-			$namafile = $umum->generateRandFileName(false, $id, 'pdf'); // $prefix_berkas.'_'.$did.".pdf";
+			$namafile = $umum->generateRandFileName(false, $id, 'pdf');
 			$no_sk = $security->teksEncode($val[1]);
 			$tgl_sk = $security->teksEncode($val[2]);
 			$tgl_mulai = $security->teksEncode($val[3]);
@@ -150,6 +172,13 @@ if ($_POST) {
 			$is_kontrak = $security->teksEncode($val[9]);
 			$pencapaian = $security->teksEncode($val[10]);
 
+			// MODIFIKASI: Ambil 4 kolom baru dari POST (Indeks 11, 12, 13, 14)
+			$gaji_pokok = $security->teksEncode($val[11]);
+			$tunj_tetap = $security->teksEncode($val[12]);
+			$tunj_keahlian = $security->teksEncode($val[13]);
+			$golongan = $security->teksEncode($val[14]);
+
+
 			$arrT = explode('-', $tgl_mulai);
 			if ($arrT[0] >= 2019) {
 				$jabatan_lama = $sdm->getData("nama_jabatan_nama_unitkerja", array('id_jabatan' => $id_jabatan));
@@ -158,17 +187,26 @@ if ($_POST) {
 			}
 
 			if ($did > 0) { // update datanya
-				$sql = "update sdm_history_jabatan set no_sk='" . $no_sk . "', 
-					tgl_sk='" . $tgl_sk . "',
-					tgl_mulai='" . $tgl_mulai . "',
-					tgl_selesai='" . $tgl_selesai . "',	
-					nama_jabatan='" . $jabatan_lama . "',
-					is_plt='" . $is_plt . "',
-					is_kontrak='" . $is_kontrak . "',
-					pencapaian='" . $pencapaian . "',
-					id_jabatan='" . $id_jabatan . "'
-					where id='" . $did . "'";
-				//echo $sql;
+				// PERBAIKAN: Spasi non-standar dihilangkan
+				$sql = "UPDATE sdm_history_jabatan SET 
+                    no_sk='" . $no_sk . "', 
+                    tgl_sk='" . $tgl_sk . "',
+                    tgl_mulai='" . $tgl_mulai . "',
+                    tgl_selesai='" . $tgl_selesai . "', 
+                    nama_jabatan='" . $jabatan_lama . "',
+                    is_plt='" . $is_plt . "',
+                    is_kontrak='" . $is_kontrak . "',
+                    pencapaian='" . $pencapaian . "',
+                    id_jabatan='" . $id_jabatan . "',
+                    
+                    /* MODIFIKASI: Tambahkan 4 kolom gaji/golongan ke UPDATE */
+                    gaji_pokok='" . $gaji_pokok . "',
+                    tunj_tetap='" . $tunj_tetap . "',
+                    tunj_keahlian='" . $tunj_keahlian . "',
+                    golongan='" . $golongan . "' 
+
+                    WHERE id='" . $did . "'";
+
 				mysqli_query($manpro->con, $sql);
 
 				$folder = $umum->getCodeFolder($did);
@@ -185,7 +223,6 @@ if ($_POST) {
 					$res = copy($_FILES['berkas_' . $key]['tmp_name'], $dirO . "/" . $namafile);
 
 					$sql4 = "update sdm_history_jabatan set berkas='" . $namafile . "' where id='" . $did . "'";
-					//echo $sql4.'---> upload';
 					mysqli_query($manpro->con, $sql4);
 				}
 
@@ -195,20 +232,27 @@ if ($_POST) {
 					$ok = false;
 				}
 				$sqlX1 .= $sql . "; ";
-			} else {
-				$sql = "insert into sdm_history_jabatan set  
-					id_user='" . $id . "',
-					no_sk='" . $no_sk . "', 
-					tgl_sk='" . $tgl_sk . "',
-					tgl_mulai='" . $tgl_mulai . "',
-					nama_jabatan='" . $jabatan_lama . "',
-					is_plt='" . $is_plt . "',
-					is_kontrak='" . $is_kontrak . "',
-					pencapaian='" . $pencapaian . "',
-					berkas='',
-					tgl_selesai='" . $tgl_selesai . "', 
-					id_jabatan='" . $id_jabatan . "'";
-				//echo $sql;
+			} else { // insert datanya
+				// PERBAIKAN: Spasi non-standar dihilangkan
+				$sql = "INSERT INTO sdm_history_jabatan SET 
+                    id_user='" . $id . "',
+                    no_sk='" . $no_sk . "', 
+                    tgl_sk='" . $tgl_sk . "',
+                    tgl_mulai='" . $tgl_mulai . "',
+                    nama_jabatan='" . $jabatan_lama . "',
+                    is_plt='" . $is_plt . "',
+                    is_kontrak='" . $is_kontrak . "',
+                    pencapaian='" . $pencapaian . "',
+                    berkas='',
+                    tgl_selesai='" . $tgl_selesai . "', 
+                    id_jabatan='" . $id_jabatan . "',
+                    
+                    /* MODIFIKASI: Tambahkan 4 kolom gaji/golongan ke INSERT */
+                    gaji_pokok='" . $gaji_pokok . "',
+                    tunj_tetap='" . $tunj_tetap . "',
+                    tunj_keahlian='" . $tunj_keahlian . "',
+                    golongan='" . $golongan . "'";
+
 				mysqli_query($manpro->con, $sql);
 
 				$new_id = mysqli_insert_id($manpro->con);
@@ -220,11 +264,10 @@ if ($_POST) {
 				}
 
 				if (is_uploaded_file($_FILES['berkas_' . $key]['tmp_name'])) {
-					$namafile = $umum->generateRandFileName(false, $id, 'pdf'); // $prefix_berkas.'_'.$new_id.".pdf";
+					$namafile = $umum->generateRandFileName(false, $id, 'pdf');
 					$res = copy($_FILES['berkas_' . $key]['tmp_name'], $dirO . "/" . $namafile);
 
 					$sql2x = "update sdm_history_jabatan set berkas='" . $namafile . "' where id='" . $new_id . "'";
-					//echo $sql2x;die();
 					mysqli_query($manpro->con, $sql2x);
 				}
 
@@ -242,19 +285,11 @@ if ($_POST) {
 			}
 			$sqlX1 .= $sql2 . "; ";
 		}
-		//die();
-		// hapus yg sudah g ada
-		//print_r($arr);
+
+		// Hapus data yang sudah tidak ada (update status='0')
 		foreach ($arr as $key => $val) {
 			$sql = "update sdm_history_jabatan set status='0' where id='" . $key . "' ";
 			$res = mysqli_query($manpro->con, $sql);
-
-			/* biarkan file tetap di server
-				$namafile=$nik.'_'.$key.'.pdf';
-				if(file_exists($dirO."/".$namafile)){
-					unlink($dirO."/".$namafile);
-				}
-				*/
 
 			if (strlen(mysqli_error($manpro->con)) > 0) {
 				$sqlX2 .= mysqli_error($manpro->con) . "; ";
@@ -271,7 +306,7 @@ if ($_POST) {
 			exit;
 		} else {
 			mysqli_query($manpro->con, "ROLLBACK");
-			$manpro->insertLog('gagal update data  riwayat jabatan (' . $id . ')', '', $sqlX2);
+			$manpro->insertLog('gagal update data  riwayat jabatan (' . $id . ')', '', $sqlX2);
 			header("location:" . BE_MAIN_HOST . "/home/pesan?code=1");
 			exit;
 		}

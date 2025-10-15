@@ -53,11 +53,8 @@
 							<tr>
 								<th style="width:1%"></th>
 								<th style="width:1%">No</th>
-								<th>No SK & Jabatan <em class="text-danger">*</em></th>
-
-
-								<th style="width:25%">Data Lain-Lain<em class="text-danger">*</em></th>
-
+								<th>No SK, Jabatan, Pencapaian <em class="text-danger">*</em></th>
+								<th style="width:25%">Data Lain-Lain (Tgl, PLT, Kontrak) <em class="text-danger">*</em></th>
 							</tr>
 						</thead>
 						<tbody id="ui<?= $acak ?>_1"></tbody>
@@ -65,9 +62,6 @@
 
 					<br />
 					<div class="text-center"><input type="button" class="btn btn-success" id="b1<?= $acak ?>" value="tambah satu baris data" /></div>
-
-
-
 
 					<input class="btn btn-primary" type="submit" id="sf" name="sf" value="Simpan" />
 				</form>
@@ -89,11 +83,19 @@
 		$('.' + ele).remove();
 	}
 
-	function setupDetail(no_urut, kat, id, no_sk, tglsk, tglmulai, tglselesai, label_jabatan, id_jabatan, berkas, label_jabatan2, plt, kontrak, pencapaian, isDelEnabled) {
+	/*
+	 * 4 PARAMETER BARU: gaji_pokok, tunj_tetap, tunj_keahlian, golongan
+	 * Urutan Parameter Baru di JS: 
+	 * ... 14: pencapaian, 15: gaji_pokok, 16: tunj_tetap, 17: tunj_keahlian, 18: golongan, 19: isDelEnabled
+	 */
+	function setupDetail(no_urut, kat, id, no_sk, tglsk, tglmulai, tglselesai, label_jabatan, id_jabatan, berkas, label_jabatan2, plt, kontrak, pencapaian, gaji_pokok, tunj_tetap, tunj_keahlian, golongan, isDelEnabled) {
 
 		var dstyle = 'ele<?= $acak ?>' + no_urut;
 		var html = '';
 
+		// ====================================================================
+		// BARIS PERTAMA (No, Jabatan, Tgl)
+		// ====================================================================
 		html += '<tr class="' + dstyle + '">';
 
 		html += '<td class="align-top" rowspan="2">';
@@ -107,63 +109,86 @@
 		html += '<input type="hidden" name="det[' + no_urut + '][0]" value="' + id + '">';
 		html += '</td>';
 
+		// KOLOM KIRI (No SK, Jabatan, Pencapaian)
 		html += '<td class="align-top">';
 		html += 'No SK: <input type="text" class="form-control" id="no_sk<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][1]" value="' + no_sk + '"/>';
 		html += 'Jika tahun mulai menjabat &ge; 2019 isi kolom di bawah ini (autocomplete): <textarea class="form-control border border-primary" id="nama_jabatan<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][5]" rows="3" onfocus="textareaOneLiner(this)">' + label_jabatan + '</textarea>';
 		html += '<input type="hidden" id="id_jabatan<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][6]" value="' + id_jabatan + '"/>';
 		html += 'Jika tahun mulai menjabat &lt; 2019 isi kolom di bawah ini (isian bebas): <textarea class="form-control" id="nama_jabatan2<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][7]" rows="3" onfocus="textareaOneLiner(this)">' + label_jabatan2 + '</textarea>';
 		html += 'Pencapaian<textarea class="form-control" id="pencapaian<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][10]" rows="2" onfocus="textareaOneLiner(this)">' + pencapaian + '</textarea>';
-
-		//html +=  berkas;
 		html += '</td>';
 
-		//html += '<td class="align-top">';
-		//html += '<textarea class="form-control border border-primary" id="nama_jabatan<?= $acak ?>'+kat+'_'+no_urut+'" name="det['+no_urut+'][5]" rows="3" onfocus="textareaOneLiner(this)">'+label_jabatan+'</textarea>';
-		//html += '<input type="hidden" id="id_jabatan<?= $acak ?>'+kat+'_'+no_urut+'" name="det['+no_urut+'][6]" value="'+id_jabatan+'"/>';
-		//html += '</td>';
 
-		//html += '<td class="align-top">';
-
-		//html += '</td>';
-
+		// KOLOM KANAN (Tanggal, PLT, Kontrak)
 		html += '<td class="align-top" >';
 		html += 'Tanggal SK: <input type="text" class="form-control" id="tglsk<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][2]" value="' + tglsk + '" alt="tanggal SK" autocomplete="off"/>';
-		html += 'Tanggal Mulai: <input type="text" class="form-control" id="tglmulai<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][3]" value="' + tglmulai + '" alt="tglmulai"  autocomplete="off" />';
-		//html += '<div>s/d</div>';
+		html += 'Tanggal Mulai: <input type="text" class="form-control" id="tglmulai<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][3]" value="' + tglmulai + '" alt="tglmulai"  autocomplete="off" />';
 		html += 'Tanggal Selesai: <input type="text" class="form-control" id="tglselesai<?= $acak ?>' + kat + '_' + no_urut + '" name="det[' + no_urut + '][4]" value="' + tglselesai + '" alt="tglselesai" autocomplete="off" />';
+		// SELECT PLT dan Kontrak
 		html += 'PLT? <select class="form-control border border-primary" name="plt" ><option value="0">Tidak</option><option value="1">Iya</option></select>';
 		html += 'Kontrak? <select class="form-control border border-primary" name="kontrak" ><option value="0">Tidak</option><option value="1">Iya</option></select>';
+		html += 'Golongan: <?= $umum->katUI($arrGOL, "kategori_golongan", "golongan_temp", 'form-control', $golongan) ?>';
 		html += '</td>';
 
-		/*html += '<td class="align-top">';
-		html += '<?= $umum->katUI($arrGOL, "jabatan", "jabatan", 'form-control', '') ?>';
-		html += '</td>';*/
 		html += '</tr>';
 
-		html += '</tr>';
 
+		// ====================================================================
+		// BARIS KEDUA (Gaji, Golongan & Dokumen)
+		// ====================================================================
 		html += '<tr class="' + dstyle + '">';
 
-		html += '<td class="align-top" colspan="3" >';
+		// KOLOM KIRI (Gaji & Golongan) - Gunakan colspan=1 karena kolom pertama rowspan=2
+		html += '<td class="align-top">';
+		html += '<p class="mt-2"><strong>DATA GAJI & GOLONGAN:</strong></p>';
 
-		// Tampilkan tombol generate PDF yang sudah dikirim dari PHP (berkas)
+		// INPUT GOLONGAN (Indeks 14) - DIGANTI JADI SELECT/DROPDOWN
+		html += '<div class="form-group row mb-0">';
+		html += '<label class="col-sm-4 col-form-label" for="golongan' + no_urut + '">Golongan</label>';
+		html += '<div class="col-sm-8">';
+		// PENTING: Panggil PHP di sini. Ubah nama default 'kategori_golongan' menjadi 'golongan_temp' agar tidak terjadi duplikasi ID/Name saat looping.
+
+		html += '</div>';
+		html += '</div>'; // end form-group row
+
+		// INPUT GAJI (Indeks 11, 12, 13)
+		html += 'Gaji Pokok: <input type="text" class="form-control text-right" name="det[' + no_urut + '][11]" value="' + gaji_pokok + '" placeholder="0.00"/>';
+		html += 'Tunjangan Tetap: <input type="text" class="form-control text-right" name="det[' + no_urut + '][12]" value="' + tunj_tetap + '" placeholder="0.00"/>';
+		html += 'Tunjangan Keahlian: <input type="text" class="form-control text-right" name="det[' + no_urut + '][13]" value="' + tunj_keahlian + '" placeholder="0.00"/>';
+		html += '</td>';
+
+		// KOLOM KANAN (Dokumen)
+		html += '<td class="align-top">';
 		html += '<p><strong>Dokumen (PDF):</strong></p>';
 		html += berkas;
-		// Tambahkan input hidden untuk memastikan form tidak error saat disubmit tanpa file
 		html += '<input type="hidden" name="berkas_' + no_urut + '" value="GENERATED">';
 		html += '<small class="form-text text-success">Dokumen di atas digenerate otomatis. Tekan tombol untuk membuat/mencetak PDF.</small>';
-
 		html += '</td>';
+
 		html += '</tr>';
 
+
 		$('#ui<?= $acak ?>_' + kat).append(html);
-		// select box
+
+		// ====================================================================
+		// POST-RENDER SETUP
+		// ====================================================================
+
+		// 1. Golongan: Ganti nama sementara 'golongan_temp' ke nama array POST yang benar (det[X][14])
+		// Dan set nilai terpilihnya (golongan)
+		$('select[name=golongan_temp]').attr('name', 'det[' + no_urut + '][14]').attr('id', 'golongan' + no_urut);
+		$('#golongan' + no_urut + ' option[value="' + golongan + '"]').attr('selected', 'selected');
+
+
+		// 2. PLT (Indeks 8)
 		$('select[name=plt]').attr('name', 'det[' + no_urut + '][8]').attr('id', 'det' + no_urut + '8');
 		$('#det' + no_urut + '8 option[value="' + plt + '"]').attr('selected', 'selected');
 
+		// 3. Kontrak (Indeks 9)
 		$('select[name=kontrak]').attr('name', 'det[' + no_urut + '][9]').attr('id', 'det' + no_urut + '9');
 		$('#det' + no_urut + '9 option[value="' + kontrak + '"]').attr('selected', 'selected');
 
+		// 4. DATEPICKER SETUP
 		$('#tglsk<?= $acak ?>' + kat + '_' + no_urut).datepick({
 			monthsToShow: 1,
 			dateFormat: 'yyyy-mm-dd'
@@ -177,7 +202,7 @@
 			dateFormat: 'yyyy-mm-dd'
 		});
 
-		// auto complete
+		// 5. AUTO COMPLETE SETUP
 		$(document).on('focus', '#nama_jabatan<?= $acak ?>' + kat + '_' + no_urut + '', function(e) {
 			$(this).autocomplete({
 				source: '<?= BE_MAIN_HOST ?>/sdm/ajax?act=jabatan_unitkerja&include_ro=1',
@@ -197,7 +222,8 @@
 
 		$('#b1<?= $acak ?>').click(function() {
 			num++;
-			setupDetail(num, 1, '', '', '', '', '', '', '', '', '', '', '', '', 1);
+			// Tambahkan nilai default untuk 4 kolom baru (gaji, tunj, gol)
+			setupDetail(num, 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1);
 		});
 
 		<?= $addJS2 ?>
