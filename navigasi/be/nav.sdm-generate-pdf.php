@@ -32,7 +32,22 @@ if (empty($manpro->con)) {
 // =========================================================
 $nik_clean = mysqli_real_escape_string($manpro->con, $nik);
 
-$qKaryawan = 'SELECT id, nama, nik FROM sdm_user_detail WHERE nik="' . $nik_clean . '"';
+// QUERY KARYAWAN: Mengambil semua detail yang dibutuhkan
+$qKaryawan = 'SELECT 
+    id, 
+    nama, 
+    nik, 
+    alamat,      
+    telp,        
+    ktp,         
+    status_nikah,
+    tempat_lahir,
+    tgl_lahir,   
+    jk           
+FROM 
+    sdm_user_detail 
+WHERE 
+    nik="' . $nik_clean . '"';
 $dataKaryawan = $manpro->doQuery($qKaryawan, 0, 'object');
 
 if (empty($dataKaryawan)) {
@@ -40,6 +55,7 @@ if (empty($dataKaryawan)) {
 }
 $id_user = $dataKaryawan[0]->id;
 
+// QUERY RIWAYAT JABATAN (SPK/SK)
 $qSPK = "
     SELECT T0.no_sk, T0.tgl_sk, T0.tgl_mulai, T0.tgl_selesai, T0.nama_jabatan, T0.is_kontrak, T0.pencapaian
     FROM sdm_history_jabatan T0
@@ -53,19 +69,36 @@ if (empty($dataSPK)) {
 
 // 4.3. ASSIGN DATA FINAL
 $spk = $dataSPK[0];
-$pejabat_sdm = "Direktur SDM/Pejabat Berwenang"; // Ganti
+
+// DEFINISIKAN ALIAS UNTUK DATA KARYAWAN (Perbaikan: agar tidak terjadi error pada $karyawan->alamat, dll.)
+$karyawan = $dataKaryawan[0];
+
+$pejabat_sdm = "Feby Dwiardiani"; // Ganti
 
 $data_final = [
-    'nomor_sk'    => htmlspecialchars($spk->no_sk),
-    'tgl_sk'      => htmlspecialchars($spk->tgl_sk),
-    'nama'        => htmlspecialchars($dataKaryawan[0]->nama),
-    'nik'         => htmlspecialchars($dataKaryawan[0]->nik),
-    'jabatan'     => htmlspecialchars($spk->nama_jabatan),
-    'tgl_mulai'   => htmlspecialchars($spk->tgl_mulai),
-    'tgl_selesai' => htmlspecialchars($spk->tgl_selesai),
-    'pejabat_sdm' => htmlspecialchars($pejabat_sdm),
-    'is_kontrak'  => htmlspecialchars($spk->is_kontrak)
+    // Data dari Riwayat Jabatan
+    'nomor_sk'      => htmlspecialchars($spk->no_sk),
+    'tgl_sk'        => htmlspecialchars($spk->tgl_sk),
+    'jabatan'       => htmlspecialchars($spk->nama_jabatan),
+    'tgl_mulai'     => $umum->format_tgl($spk->tgl_mulai),
+    'tgl_selesai'   => $umum->format_tgl($spk->tgl_selesai),
+    'is_kontrak'    => htmlspecialchars($spk->is_kontrak),
+
+    // Data dari Detail Karyawan (Menggunakan alias $karyawan)
+    'nama'          => htmlspecialchars($karyawan->nama),
+    'nik'           => htmlspecialchars($karyawan->nik),
+    'alamat'        => htmlspecialchars($karyawan->alamat),
+    'telp'          => htmlspecialchars($karyawan->telp),
+    'ktp'           => htmlspecialchars($karyawan->ktp),
+    'status_nikah'  => htmlspecialchars($karyawan->status_nikah),
+    'tempat_lahir'  => htmlspecialchars($karyawan->tempat_lahir),
+    'tgl_lahir'     => $umum->format_tgl(htmlspecialchars($karyawan->tgl_lahir)), // YYYY-MM-DD
+    'jk'            => htmlspecialchars($karyawan->jk),
+
+    // Data Tetap
+    'pejabat_sdm'   => htmlspecialchars($pejabat_sdm),
 ];
+
 
 // =========================================================
 // 5. DOMPDF GENERATOR DAN PENGHENTIAN ROUTING
@@ -75,6 +108,9 @@ require_once 'third_party/dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+// Catatan: $data_final['tgl_mulai'] dan $data_final['tgl_selesai'] sudah dalam format tanggal, 
+// sehingga konversi strtotime mungkin memerlukan penyesuaian jika $umum->format_tgl mengembalikan format non-standar.
+// Saya mempertahankan konversi date() standar Anda, asumsikan formatnya bisa di-parse.
 $tgl_mulai_format = date('d F Y', strtotime($data_final['tgl_mulai']));
 $tgl_selesai_format = date('d F Y', strtotime($data_final['tgl_selesai']));
 
@@ -136,7 +172,7 @@ $size = 9;
 
 // Atur posisi X dan Y (semakin besar X => makin ke kanan; semakin besar Y => makin ke bawah)
 $canvas->page_text(
-    490,
+    475,
     815,  // <-- ini posisinya lebih ke kanan & sedikit ke bawah
     "Hal {PAGE_NUM} dari {PAGE_COUNT}",
     $font,

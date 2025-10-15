@@ -1,3 +1,70 @@
+<?php
+$full_jabatan = $data_final['jabatan'] ?? '';
+
+// Memisahkan Posisi dan Bagian
+if (strpos($full_jabatan, '::') !== false) {
+    list($posisi, $bagian_tambahan) = explode('::', $full_jabatan, 2);
+    $nama_posisi = trim($posisi);
+    $nama_bagian_display = trim($bagian_tambahan);
+} else {
+    $nama_posisi = $full_jabatan;
+    $nama_bagian_display = "BAGIAN SDM & TI"; // Default jika parsing gagal
+}
+function format_tgl_teks($tgl_db)
+{
+    if (empty($tgl_db)) return '';
+
+    $timestamp = strtotime($tgl_db);
+    $hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    $bulan = [
+        1 => 'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    ];
+    $angka_ke_teks = function ($angka) {
+        $satuan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
+        $belasan = ['', 'Sebelas', 'Dua Belas', 'Tiga Belas', 'Empat Belas', 'Lima Belas', 'Enam Belas', 'Tujuh Belas', 'Delapan Belas', 'Sembilan Belas'];
+        $puluhan = ['', 'Sepuluh', 'Dua Puluh', 'Tiga Puluh', 'Empat Puluh', 'Lima Puluh', 'Enam Puluh', 'Tujuh Puluh', 'Delapan Puluh', 'Sembilan Puluh'];
+
+        $angka = (int) $angka;
+        if ($angka < 10) return $satuan[$angka];
+        if ($angka == 10) return $puluhan[1];
+        if ($angka < 20) return $belasan[$angka - 10];
+        if ($angka < 100) return $puluhan[(int)($angka / 10)] . ($angka % 10 != 0 ? ' ' . $satuan[$angka % 10] : '');
+        return (string) $angka; // Jika angka terlalu besar, kembalikan angka saja (untuk tahun)
+    };
+
+    $nama_hari = $hari[date('w', $timestamp)];
+    $tgl_angka = date('d', $timestamp);
+    $tgl_teks = $angka_ke_teks((int)$tgl_angka);
+    $nama_bulan = $bulan[(int)date('m', $timestamp)];
+    $tahun_angka = date('Y', $timestamp);
+    $tahun_teks = (string) $tahun_angka; // Tidak perlu konversi tahun ke teks (Dua Ribu Dua Puluh Lima) jika terlalu rumit
+
+    // Asumsi: Kita hanya konversi tanggal ke teks, bulan dan tahun tetap (untuk menghindari fungsi terbilang yang kompleks)
+    // TAPI karena di template sudah ada contoh: "Rabu, Tanggal Satu Bulan Oktober Tahun Dua Ribu Dua Puluh Lima (01-10-2025)"
+    // Kita buat sederhana saja:
+    // Kita gunakan $tgl_mulai_format (e.g., 01 Oktober 2025)
+
+    return $nama_hari . ", Tanggal " . $tgl_teks . " Bulan " . $nama_bulan . " Tahun " . $tahun_teks . " (" . date('d-m-Y', $timestamp) . ")";
+}
+
+// Konversi tanggal SK (tgl_sk) ke format teks untuk PIHAK PERTAMA
+$tgl_sk_teks_lengkap = format_tgl_teks($data_final['tgl_sk']);
+
+// Siapkan data untuk PIHAK KEDUA (asumsi data detail seperti jenis kelamin, tgl lahir, status, alamat TIDAK ADA di $data_final)
+// Karena data tersebut tidak ada di $data_final, kita biarkan data Eric Surya Satria (placeholder) tetap dipertahankan kecuali Nama, NIK, Jabatan.
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -7,7 +74,7 @@
     <style>
         @page {
             size: A4;
-            margin: 2cm;
+            margin: 2.5cm;
         }
 
         body {
@@ -30,6 +97,7 @@
             font-weight: bold;
             line-height: 1.2;
             margin: 0;
+            text-transform: uppercase;
         }
 
         li {
@@ -161,51 +229,51 @@
     <!-- HEADER (halaman 1) -->
     <div class="header">
         <div class="judul-besar">PERJANJIAN KERJA WAKTU TERTENTU</div>
-        <div class="judul-besar">IT INFRASTRUKTUR & CYBER SECURITY OFFICER</div>
-        <div class="judul-besar">BAGIAN SDM & TI</div>
+        <div class="judul-besar"><?= strtoupper(html_entity_decode($nama_posisi)); ?></div>
+        <div class="judul-besar">Bagian <?= strtoupper(html_entity_decode($nama_bagian_display)); ?></div>
         <div class="judul-besar">PT LPP AGRO NUSANTARA</div>
-        <div class="nomor"><strong>Nomor: 191/SPK/LPPAN/SDM/X/2025</strong></div>
+        <div class="nomor"><strong>Nomor: <?= $data_final['nomor_sk'] ?></strong></div>
     </div>
 
-    <p>Pada hari ini Rabu, Tanggal Satu Bulan Oktober Tahun Dua Ribu Dua Puluh Lima (01-10-2025), di Yogyakarta, yang bertanda tangan di bawah ini:</p>
+    <p>Pada hari ini <?= $tgl_sk_teks_lengkap; ?>, di Yogyakarta, yang bertanda tangan di bawah ini:</p>
 
     <!-- ROMAWI I -->
     <ol class="romawi" style="--start: 0;">
-        <li><strong>PT LPP Agro Nusantara</strong>, yang dalam hal ini diwakili oleh <strong>Feby Dwiardiani</strong> selaku <strong>Kepala Bagian SDM & TI</strong>, dalam hal ini bertindak untuk dan atas nama <strong>PT LPP Agro Nusantara</strong>, yang berkedudukan di <strong>Yogyakarta</strong> dan beralamat di <strong>Jl. LPP No. 1 Yogyakarta</strong>, untuk selanjutnya disebut:</li>
+        <li><strong>PT LPP Agro Nusantara</strong>, yang dalam hal ini diwakili oleh <strong><?= $data_final['pejabat_sdm']; ?></strong> selaku <strong>Kepala Bagian SDM & TI</strong>, dalam hal ini bertindak untuk dan atas nama <strong>PT LPP Agro Nusantara</strong>, yang berkedudukan di <strong>Yogyakarta</strong> dan beralamat di <strong>Jl. LPP No. 1 Yogyakarta</strong>, untuk selanjutnya disebut:</li>
     </ol>
 
     <div class="garis-center">-------------------------------------------------PIHAK PERTAMA------------------------------------------------</div>
 
     <!-- ROMAWI II -->
     <ol class="romawi" style="--start: 1; ">
-        <li><strong>Eric Surya Satria</strong></li>
+        <li><strong><?= ucwords(html_entity_decode(explode(',', $data_final['nama'])[0])) ?></strong></li>
     </ol>
 
     <table class="identitas">
         <tr>
             <td>- Jenis Kelamin</td>
             <td>:</td>
-            <td>Laki-Laki</td>
+            <td><?= $data_final['jk'] ?></td>
         </tr>
         <tr>
             <td>- Tempat/Tanggal Lahir</td>
             <td>:</td>
-            <td>Denpasar/ 3 April 2001</td>
+            <td><?= $data_final['tempat_lahir'] ?>/ <?= $data_final['tgl_lahir'] ?></td>
         </tr>
         <tr>
             <td>- NIK</td>
             <td>:</td>
-            <td>3573030304010007</td>
+            <td><?= $data_final['ktp'] ?></td>
         </tr>
         <tr>
             <td>- Status</td>
             <td>:</td>
-            <td>Belum Menikah</td>
+            <td><?= $data_final['status_nikah'] ?></td>
         </tr>
         <tr>
             <td>- Alamat</td>
             <td>:</td>
-            <td>Jalan Kemayoran VI / AH-11 RT 002 RW 000 Desa Cemorokandang Kecamatan Kedungkandang Kota Malang Provinsi Jawa Timur.</td>
+            <td><?= $data_final['alamat'] ?></td>
         </tr>
     </table>
 
@@ -218,9 +286,9 @@
     <p><strong>PARA PIHAK</strong> terlebih dahulu menerangkan hal-hal sebagai berikut:</p>
 
     <ol class="arabic">
-        <li>Bahwa dalam rangka memenuhi kebutuhan <strong>Sumber Daya Manusia</strong> dengan posisi sebagai <strong>IT Infrastruktur & Cyber Security Officer PT LPP Agro Nusantara</strong>, <strong>PIHAK PERTAMA</strong> memerlukan tenaga yang mempunyai keahlian dan kemampuan di bidang tersebut dan dituangkan dalam <strong>KONTRAK KERJA</strong>.</li>
+        <li>Bahwa dalam rangka memenuhi kebutuhan <strong>Sumber Daya Manusia</strong> dengan posisi sebagai <strong style="text-transform:none;"><?= ucwords(strtolower(html_entity_decode($nama_posisi))) ?> PT LPP Agro Nusantara</strong>, <strong>PIHAK PERTAMA</strong> memerlukan tenaga yang mempunyai keahlian dan kemampuan di bidang tersebut dan dituangkan dalam <strong>KONTRAK KERJA</strong>.</li>
         <li>Bahwa <strong>PIHAK KEDUA</strong> memiliki keahlian dan kemampuan serta berpengalaman di bidang tersebut.</li>
-        <li>Bahwa <strong>PIHAK KEDUA</strong> menyatakan kesediaannya untuk bekerja pada <strong>PIHAK PERTAMA</strong>, dengan posisi sebagai <strong>IT Infrastruktur & Cyber Security Officer PT LPP Agro Nusantara</strong>, yang dituangkan dalam <strong>KONTRAK KERJA</strong>.</li>
+        <li>Bahwa <strong>PIHAK KEDUA</strong> menyatakan kesediaannya untuk bekerja pada <strong>PIHAK PERTAMA</strong>, dengan posisi sebagai <strong><?= ucwords(strtolower(html_entity_decode($nama_posisi))) ?> PT LPP Agro Nusantara</strong>, yang dituangkan dalam <strong>KONTRAK KERJA</strong>.</li>
     </ol>
 
     <p>Berdasarkan hal-hal tersebut di atas, maka <strong>PARA PIHAK</strong> setuju dan sepakat untuk membuat dan mengadakan <strong>KONTRAK KERJA</strong> pada <strong>PT LPP Agro Nusantara</strong> untuk selanjutnya disebut sebagai:</p>
@@ -234,10 +302,10 @@
     <div class="pasal-title">PENEMPATAN DAN WAKTU KERJA</div>
 
     <ol class="arabic">
-        <li>PIHAK PERTAMA dengan ini memberi tugas dan tanggung jawab kepada PIHAK KEDUA sebagai IT Infrastruktur & Cyber Security Officer PT LPP Agro Nusantara.</li>
+        <li>PIHAK PERTAMA dengan ini memberi tugas dan tanggung jawab kepada PIHAK KEDUA sebagai <?= ucwords(strtolower(html_entity_decode($nama_posisi))) ?> PT LPP Agro Nusantara.</li>
         <li>PIHAK KEDUA menerima dan menyetujui pekerjaan yang diberikan oleh PIHAK PERTAMA sebagaimana dimaksud pada ayat (1) Pasal ini.</li>
         <li>PIHAK KEDUA melaksanakan pekerjaan dan kewajibannya pada perusahaan PIHAK PERTAMA atau di tempat lain yang ditentukan oleh PIHAK PERTAMA untuk melaksanakan pekerjaan dan kewajibannya pada perusahaan PIHAK PERTAMA sesuai dengan ketentuan yang berlaku.</li>
-        <li>Waktu kerja PIHAK KEDUA adalah sesuai dengan waktu kerja yang berlaku pada PIHAK PERTAMA. Teknis pelaksanaan kerja diatur bersama-sama dengan Kepala Bagian SDM & TI.</li>
+        <li>Waktu kerja PIHAK KEDUA adalah sesuai dengan waktu kerja yang berlaku pada PIHAK PERTAMA. Teknis pelaksanaan kerja diatur bersama-sama dengan Kepala Bagian <?= strtoupper(html_entity_decode($nama_bagian_display)); ?>.</li>
         <li>PIHAK PERTAMA dapat melakukan penyesuaian pekerjaan yang ditugaskan kepada PIHAK KEDUA sesuai dengan kebutuhan PIHAK PERTAMA serta kompetensi PIHAK KEDUA dan penyesuaian tersebut dituangkan dalam adendum KONTRAK KERJA.</li>
     </ol>
 
@@ -245,7 +313,7 @@
     <div class="pasal-title">Pasal 2</div>
     <div class="pasal-title">STATUS</div>
 
-    <p>PIHAK KEDUA diterima bekerja dengan status Karyawan Kontrak (PKWT), jenis KONTRAK KERJA “Perjanjian Kerja Waktu Tertentu” pada PIHAK PERTAMA dengan posisi sebagai IT Infrastruktur & Cyber Security Officer PT LPP Agro Nusantara.</p>
+    <p>PIHAK KEDUA diterima bekerja dengan status Karyawan Kontrak (PKWT), jenis KONTRAK KERJA “Perjanjian Kerja Waktu Tertentu” pada PIHAK PERTAMA dengan posisi sebagai <?= ucwords(strtolower(html_entity_decode($nama_posisi))) ?> PT LPP Agro Nusantara.</p>
 
     <!-- PASAL 3 -->
     <div class="pasal-title">Pasal 3</div>
@@ -275,7 +343,7 @@
     <div class="pasal-title">JANGKA WAKTU</div>
 
     <ol class="arabic">
-        <li>Jangka waktu KONTRAK KERJA ini terhitung mulai tanggal 1 Oktober 2025 dan berakhir tanggal 31 Desember 2025.</li>
+        <li>Jangka waktu KONTRAK KERJA ini terhitung mulai tanggal <?= $data_final['tgl_mulai'] ?> dan berakhir tanggal <?= $data_final['tgl_selesai'] ?>.</li>
         <li>Apabila PIHAK PERTAMA bermaksud untuk memperpanjang KONTRAK KERJA ini, maka PIHAK PERTAMA akan memberitahukan maksudnya tersebut kepada PIHAK KEDUA dan dalam hal PIHAK KEDUA menyetujui perpanjangan tersebut maka dibuatkan perpanjangan KONTRAK KERJA.</li>
     </ol>
 
@@ -414,8 +482,8 @@
             <td></td>
         </tr>
         <tr>
-            <td style="text-align:center;"><strong><u>Eric Surya Satria</u></strong></td>
-            <td style="text-align:center;"><strong><u>Feby Dwiardiani</u></strong></td>
+            <td style="text-align:center;"><strong><u><?= ucwords(html_entity_decode(explode(',', $data_final['nama'])[0])) ?></u></strong></td>
+            <td style="text-align:center;"><strong><u><?= ucwords(html_entity_decode($data_final['pejabat_sdm'])) ?></u></strong></td>
         </tr>
     </table>
 </body>
