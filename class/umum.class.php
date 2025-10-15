@@ -345,7 +345,38 @@ class Umum extends func
 		return adodb_mktime($jam['0'], $jam['1'], $jam['2'], $tgl['1'], $tgl['0'], $tgl['2']);
 		exit;
 	}
+	function format_tgl($tgl)
+	{
+		// Array untuk terjemahan nama bulan
+		$bulan_indonesia = [
+			1 => 'Januari',
+			2 => 'Februari',
+			3 => 'Maret',
+			4 => 'April',
+			5 => 'Mei',
+			6 => 'Juni',
+			7 => 'Juli',
+			8 => 'Agustus',
+			9 => 'September',
+			10 => 'Oktober',
+			11 => 'November',
+			12 => 'Desember'
+		];
 
+		// Mengubah string tanggal menjadi objek waktu
+		$timestamp = strtotime($tgl);
+
+		// Mengambil komponen tanggal
+		$tanggal = date('d', $timestamp); // Hari (contoh: 01, 23)
+		$bulan_angka = date('n', $timestamp); // Bulan (angka tanpa 0 di depan, contoh: 1, 10)
+		$tahun = date('Y', $timestamp); // Tahun (contoh: 2025)
+
+		// Menghilangkan nol di depan tanggal jika ada (opsional, tergantung preferensi)
+		$tanggal_tanpa_nol = ltrim($tanggal, '0');
+
+		// Menggabungkan kembali dengan nama bulan Indonesia
+		return $tanggal_tanpa_nol . ' ' . $bulan_indonesia[$bulan_angka] . ' ' . $tahun;
+	}
 	function filterTanggalFromListTanggal($list, $target_bulan, $target_tahun)
 	{
 		$list = $GLOBALS['security']->teksEncode($list);
