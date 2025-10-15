@@ -34,20 +34,25 @@ $nik_clean = mysqli_real_escape_string($manpro->con, $nik);
 
 // QUERY KARYAWAN: Mengambil semua detail yang dibutuhkan
 $qKaryawan = 'SELECT 
-    id, 
-    nama, 
-    nik, 
-    alamat,      
-    telp,        
-    ktp,         
-    status_nikah,
-    tempat_lahir,
-    tgl_lahir,   
-    jk           
+    T0.id, 
+    T0.nama, 
+    T0.nik, 
+    T0.alamat,      
+    T0.telp,        
+    T0.ktp,         
+    T0.status_nikah,
+    T0.tempat_lahir,
+    T0.tgl_lahir,   
+    T0.jk,
+    T0.status_karyawan,
+    T1.level AS level_karyawan  
 FROM 
-    sdm_user_detail 
+    sdm_user_detail T0
+JOIN 
+    sdm_user T1 ON T0.id = T1.id
 WHERE 
-    nik="' . $nik_clean . '"';
+    T0.nik="' . $nik_clean . '"';
+
 $dataKaryawan = $manpro->doQuery($qKaryawan, 0, 'object');
 
 if (empty($dataKaryawan)) {
@@ -56,8 +61,10 @@ if (empty($dataKaryawan)) {
 $id_user = $dataKaryawan[0]->id;
 
 // QUERY RIWAYAT JABATAN (SPK/SK)
+// MODIFIKASI: Tambahkan 4 kolom baru ke SELECT
 $qSPK = "
-    SELECT T0.no_sk, T0.tgl_sk, T0.tgl_mulai, T0.tgl_selesai, T0.nama_jabatan, T0.is_kontrak, T0.pencapaian
+    SELECT T0.no_sk, T0.tgl_sk, T0.tgl_mulai, T0.tgl_selesai, T0.nama_jabatan, T0.is_kontrak, T0.pencapaian,
+           T0.gaji_pokok, T0.tunj_tetap, T0.tunj_keahlian, T0.golongan
     FROM sdm_history_jabatan T0
     WHERE T0.id = '" . $id_riwayat . "' AND T0.id_user = '" . $id_user . "' AND T0.status = '1'";
 
@@ -70,10 +77,76 @@ if (empty($dataSPK)) {
 // 4.3. ASSIGN DATA FINAL
 $spk = $dataSPK[0];
 
-// DEFINISIKAN ALIAS UNTUK DATA KARYAWAN (Perbaikan: agar tidak terjadi error pada $karyawan->alamat, dll.)
+// DEFINISIKAN ALIAS UNTUK DATA KARYAWAN
 $karyawan = $dataKaryawan[0];
+$level_karyawan_raw = $karyawan->level_karyawan;
+$golongan_id_raw = $spk->golongan;
 
-$pejabat_sdm = "Feby Dwiardiani"; // Ganti
+$bod_minus = 0; // Default
+if ((int)$level_karyawan_raw <= 15) {
+    $bod_minus = 0;
+} else {
+    // Diasumsikan $umum mengacu pada $GLOBALS['umum']
+    $arrLK = $GLOBALS['umum']->getKategori('level_karyawan');
+
+    if (isset($arrLK[$level_karyawan_raw])) {
+        // Lakukan replacement 'BOD-'
+        $bod_minus = $arrLK[$level_karyawan_raw];
+    } else {
+        // Fallback jika level tidak terdefinisi
+        $bod_minus = 'N/A';
+    }
+}
+$golongan_label = '';
+// Ambil array kategori Golongan
+$arrGOL = $GLOBALS['umum']->getKategori('kategori_golongan');
+
+if (isset($arrGOL[$golongan_id_raw])) {
+    // Ambil label Golongan dari array mapping
+    $golongan_label = $arrGOL[$golongan_id_raw]; // Mengambil label hasil gabungan alias/golongan
+} else {
+    // Fallback jika ID Golongan tidak ditemukan atau kosong
+    $golongan_label = 'N/A';
+}
+$pejabat_sdm_obj = [
+    (object)
+    [
+        'nama' => 'Pranoto Hadi Raharjo',
+        'jabatan' => 'Direktur'
+    ],
+    [
+        'nama'    => 'Sosiawan Hary Kustanto',
+        'jabatan' => 'SEVP Business Support'
+    ],
+    [
+        'nama' => 'Feby Dwiardiani',
+        'Jabatan' => 'Kepala Bagian SDM & TI'
+    ]
+];
+if (strpos($karyawan->status_karyawan, "sme") === 0) {
+    $pejabat_sdm_terpilih = $pejabat_sdm_obj[0];
+} else if (strpos($karyawan->status_karyawan, "karyawan_pimpinan") === 0) {
+    $pejabat_sdm_terpilih = $pejabat_sdm_obj[1];
+} else {
+    $pejabat_sdm_terpilih = $pejabat_sdm_obj[1];
+}
+
+if (is_object($pejabat_sdm_terpilih)) {
+    // Jika elemen terpilih adalah Objek (seperti Elemen 0)
+    $nama_pejabat_sdm = $pejabat_sdm_terpilih->nama;
+    $jabatan_pejabat_sdm = $pejabat_sdm_terpilih->jabatan;
+} else {
+    // Jika elemen terpilih adalah Array Asosiatif (seperti Elemen 1 dan 2)
+    $nama_pejabat_sdm = $pejabat_sdm_terpilih['nama'];
+    $jabatan_pejabat_sdm = $pejabat_sdm_terpilih['jabatan'];
+}
+// var_dump($pejabat_sdm_terpilih);
+$gaji_pokok_float    = (float)($spk->gaji_pokok ?? 0.00);
+$tunj_tetap_float    = (float)($spk->tunj_tetap ?? 0.00);
+$tunj_keahlian_float = (float)($spk->tunj_keahlian ?? 0.00);
+
+$gaji_total_float = $gaji_pokok_float + $tunj_tetap_float + $tunj_keahlian_float;
+$gaji_total_str = number_format($gaji_total_float, 2, '.', '');
 
 $data_final = [
     // Data dari Riwayat Jabatan
@@ -83,8 +156,12 @@ $data_final = [
     'tgl_mulai'     => $umum->format_tgl($spk->tgl_mulai),
     'tgl_selesai'   => $umum->format_tgl($spk->tgl_selesai),
     'is_kontrak'    => htmlspecialchars($spk->is_kontrak),
+    'gaji'          => htmlspecialchars($gaji_total_str),
+    'gaji_pokok'    => htmlspecialchars($gaji_pokok_float),
+    'tunj_tetap'    => htmlspecialchars($tunj_tetap_float),
+    'tunj_keahlian' => htmlspecialchars($tunj_keahlian_float),
+    'golongan'      => htmlspecialchars($golongan_label),
 
-    // Data dari Detail Karyawan (Menggunakan alias $karyawan)
     'nama'          => htmlspecialchars($karyawan->nama),
     'nik'           => htmlspecialchars($karyawan->nik),
     'alamat'        => htmlspecialchars($karyawan->alamat),
@@ -94,12 +171,14 @@ $data_final = [
     'tempat_lahir'  => htmlspecialchars($karyawan->tempat_lahir),
     'tgl_lahir'     => $umum->format_tgl(htmlspecialchars($karyawan->tgl_lahir)), // YYYY-MM-DD
     'jk'            => htmlspecialchars($karyawan->jk),
-
-    // Data Tetap
-    'pejabat_sdm'   => htmlspecialchars($pejabat_sdm),
+    'level_karyawan' => $bod_minus,
+    'status_karyawan' => $karyawan->status_karyawan,
+    'pejabat_sdm'     => htmlspecialchars($nama_pejabat_sdm),
+    // Anda mungkin juga ingin menyimpan jabatannya
+    'jabatan_pejabat_sdm' => htmlspecialchars($jabatan_pejabat_sdm),
 ];
 
-
+// var_dump($data_final['status_karyawan']);
 // =========================================================
 // 5. DOMPDF GENERATOR DAN PENGHENTIAN ROUTING
 // =========================================================
@@ -108,9 +187,7 @@ require_once 'third_party/dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// Catatan: $data_final['tgl_mulai'] dan $data_final['tgl_selesai'] sudah dalam format tanggal, 
-// sehingga konversi strtotime mungkin memerlukan penyesuaian jika $umum->format_tgl mengembalikan format non-standar.
-// Saya mempertahankan konversi date() standar Anda, asumsikan formatnya bisa di-parse.
+// Pastikan tanggal diformat ke format yang mudah dibaca di PDF
 $tgl_mulai_format = date('d F Y', strtotime($data_final['tgl_mulai']));
 $tgl_selesai_format = date('d F Y', strtotime($data_final['tgl_selesai']));
 
@@ -136,7 +213,6 @@ $html = ob_get_clean();
 if (ob_get_length() > 0) {
     ob_end_clean();
 }
-
 
 
 $options = new Options();
@@ -173,7 +249,7 @@ $size = 9;
 // Atur posisi X dan Y (semakin besar X => makin ke kanan; semakin besar Y => makin ke bawah)
 $canvas->page_text(
     475,
-    815,  // <-- ini posisinya lebih ke kanan & sedikit ke bawah
+    815,
     "Hal {PAGE_NUM} dari {PAGE_COUNT}",
     $font,
     $size,
@@ -182,7 +258,7 @@ $canvas->page_text(
 
 
 // stream ke browser
-$filename = ($type === 'spk' ? 'SPK-' : 'SK_Pengangkatan-') . $data_final['nik'] . "-" . date('Ymd') . ".pdf";
+$filename = ($type === 'spk' ? 'SPK-' : 'SK_Pengangkatan-') . $data_final['nama'] . "-" . date('Ymd') . ".pdf";
 $dompdf->stream($filename, ["Attachment" => 0]);
 
 exit;

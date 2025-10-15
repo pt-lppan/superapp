@@ -70,11 +70,11 @@ $tgl_sk_teks_lengkap = format_tgl_teks($data_final['tgl_sk']);
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Perjanjian Kerja Waktu Tertentu - SPK Eric (Hal 1-7)</title>
+    <title>Perjanjian Kerja Waktu Tertentu - SPK <?= ucwords(html_entity_decode(explode(',', $data_final['nama'])[0])) ?></title>
     <style>
         @page {
             size: A4;
-            margin: 2.5cm;
+            margin: 2.2cm;
         }
 
         body {
@@ -221,6 +221,14 @@ $tgl_sk_teks_lengkap = format_tgl_teks($data_final['tgl_sk']);
             border: 1px solid blue;
             width: 40%;
         }
+
+        .avoid-break {
+            /* Mencegah Dompdf memecah elemen ini */
+            page-break-inside: avoid;
+            /* Memaksa Dompdf untuk selalu meninggalkan/mengambil minimal 2 baris */
+            orphans: 2;
+            widows: 2;
+        }
     </style>
 </head>
 
@@ -297,176 +305,204 @@ $tgl_sk_teks_lengkap = format_tgl_teks($data_final['tgl_sk']);
 
     <p>Dengan ketentuan dan syarat-syarat sebagai berikut:</p>
 
-    <!-- PASAL 1 (hal 2) -->
-    <div class="pasal-title">Pasal 1</div>
-    <div class="pasal-title">PENEMPATAN DAN WAKTU KERJA</div>
+    <!-- PASAL 1 -->
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 1</div>
+        <div class="pasal-title">PENEMPATAN DAN WAKTU KERJA</div>
 
-    <ol class="arabic">
-        <li>PIHAK PERTAMA dengan ini memberi tugas dan tanggung jawab kepada PIHAK KEDUA sebagai <?= ucwords(strtolower(html_entity_decode($nama_posisi))) ?> PT LPP Agro Nusantara.</li>
-        <li>PIHAK KEDUA menerima dan menyetujui pekerjaan yang diberikan oleh PIHAK PERTAMA sebagaimana dimaksud pada ayat (1) Pasal ini.</li>
-        <li>PIHAK KEDUA melaksanakan pekerjaan dan kewajibannya pada perusahaan PIHAK PERTAMA atau di tempat lain yang ditentukan oleh PIHAK PERTAMA untuk melaksanakan pekerjaan dan kewajibannya pada perusahaan PIHAK PERTAMA sesuai dengan ketentuan yang berlaku.</li>
-        <li>Waktu kerja PIHAK KEDUA adalah sesuai dengan waktu kerja yang berlaku pada PIHAK PERTAMA. Teknis pelaksanaan kerja diatur bersama-sama dengan Kepala Bagian <?= strtoupper(html_entity_decode($nama_bagian_display)); ?>.</li>
-        <li>PIHAK PERTAMA dapat melakukan penyesuaian pekerjaan yang ditugaskan kepada PIHAK KEDUA sesuai dengan kebutuhan PIHAK PERTAMA serta kompetensi PIHAK KEDUA dan penyesuaian tersebut dituangkan dalam adendum KONTRAK KERJA.</li>
-    </ol>
+        <ol class="arabic">
+            <li>PIHAK PERTAMA dengan ini memberi tugas dan tanggung jawab kepada PIHAK KEDUA sebagai <?= ucwords(strtolower(html_entity_decode($nama_posisi))) ?> PT LPP Agro Nusantara.</li>
+            <li>PIHAK KEDUA menerima dan menyetujui pekerjaan yang diberikan oleh PIHAK PERTAMA sebagaimana dimaksud pada ayat (1) Pasal ini.</li>
+            <li>PIHAK KEDUA melaksanakan pekerjaan dan kewajibannya pada perusahaan PIHAK PERTAMA atau di tempat lain yang ditentukan oleh PIHAK PERTAMA untuk melaksanakan pekerjaan dan kewajibannya pada perusahaan PIHAK PERTAMA sesuai dengan ketentuan yang berlaku.</li>
+            <li>Waktu kerja PIHAK KEDUA adalah sesuai dengan waktu kerja yang berlaku pada PIHAK PERTAMA. Teknis pelaksanaan kerja diatur bersama-sama dengan Kepala Bagian <?= strtoupper(html_entity_decode($nama_bagian_display)); ?>.</li>
+            <li>PIHAK PERTAMA dapat melakukan penyesuaian pekerjaan yang ditugaskan kepada PIHAK KEDUA sesuai dengan kebutuhan PIHAK PERTAMA serta kompetensi PIHAK KEDUA dan penyesuaian tersebut dituangkan dalam adendum KONTRAK KERJA.</li>
+        </ol>
 
+    </div>
     <!-- PASAL 2 -->
-    <div class="pasal-title">Pasal 2</div>
-    <div class="pasal-title">STATUS</div>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 2</div>
+        <div class="pasal-title">STATUS</div>
 
-    <p>PIHAK KEDUA diterima bekerja dengan status Karyawan Kontrak (PKWT), jenis KONTRAK KERJA “Perjanjian Kerja Waktu Tertentu” pada PIHAK PERTAMA dengan posisi sebagai <?= ucwords(strtolower(html_entity_decode($nama_posisi))) ?> PT LPP Agro Nusantara.</p>
-
+        <p>PIHAK KEDUA diterima bekerja dengan status Karyawan Kontrak (PKWT), jenis KONTRAK KERJA “Perjanjian Kerja Waktu Tertentu” pada PIHAK PERTAMA dengan posisi sebagai <?= ucwords(strtolower(html_entity_decode($nama_posisi))) ?> PT LPP Agro Nusantara.</p>
+    </div>
     <!-- PASAL 3 -->
-    <div class="pasal-title">Pasal 3</div>
-    <div class="pasal-title">URAIAN TUGAS</div>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 3</div>
+        <div class="pasal-title">URAIAN TUGAS</div>
 
-    <p>(1) Uraian tugas PIHAK KEDUA sebagai berikut:</p>
-    <ol class="alpha">
-        <li>Merancang, mengimplementasikan, dan memelihara arsitektur infrastruktur TI yang resilien dan scalable;</li>
-        <li>Mengelola operasional server, jaringan, dan solusi cloud, termasuk pemantauan kinerja;</li>
-        <li>Menerapkan dan memantau kebijakan keamanan siber serta melakukan deteksi ancaman;</li>
-        <li>Menanggapi dan menyelesaikan insiden keamanan siber dengan cepat dan efektif;</li>
-        <li>Menganalisis kebutuhan dan merancang arsitektur serta topologi infrastruktur dan keamanan TI yang sesuai standar;</li>
-        <li>Melakukan instalasi, konfigurasi, dan optimasi seluruh perangkat keras dan lunak server, jaringan, dan perangkat keamanan (Firewall, IPS, SIEM, IAM);</li>
-        <li>Merumuskan dan memastikan implementasi kebijakan keamanan siber, termasuk enkripsi dan akses data, sesuai regulasi dan hasil audit;</li>
-        <li>Melaksanakan pemeliharaan rutin infrastruktur, termasuk backup dan recovery data, serta manajemen kerentanan dan patch keamanan;</li>
-        <li>Mengkoordinasikan dan melakukan penilaian risiko keamanan siber (Vulnerability assessment/Penetration testing) serta mengelola program kesadaran keamanan;</li>
-        <li>Memberikan dukungan tingkat lanjut untuk masalah infrastruktur dan keamanan yang dilaporkan pengguna;</li>
-        <li>Melakukan inventarisasi dan manajemen siklus hidup aset infrastruktur dan keamanan TI;</li>
-        <li>Tugas lain yang diberikan oleh PIHAK PERTAMA terkait bidang tersebut.</li>
-    </ol>
+        <p>(1) Uraian tugas PIHAK KEDUA sebagai berikut:</p>
+        <ol class="alpha">
+            <li>Merancang, mengimplementasikan, dan memelihara arsitektur infrastruktur TI yang resilien dan scalable;</li>
+            <li>Mengelola operasional server, jaringan, dan solusi cloud, termasuk pemantauan kinerja;</li>
+            <li>Menerapkan dan memantau kebijakan keamanan siber serta melakukan deteksi ancaman;</li>
+            <li>Menanggapi dan menyelesaikan insiden keamanan siber dengan cepat dan efektif;</li>
+            <li>Menganalisis kebutuhan dan merancang arsitektur serta topologi infrastruktur dan keamanan TI yang sesuai standar;</li>
+            <li>Melakukan instalasi, konfigurasi, dan optimasi seluruh perangkat keras dan lunak server, jaringan, dan perangkat keamanan (Firewall, IPS, SIEM, IAM);</li>
+            <li>Merumuskan dan memastikan implementasi kebijakan keamanan siber, termasuk enkripsi dan akses data, sesuai regulasi dan hasil audit;</li>
+            <li>Melaksanakan pemeliharaan rutin infrastruktur, termasuk backup dan recovery data, serta manajemen kerentanan dan patch keamanan;</li>
+            <li>Mengkoordinasikan dan melakukan penilaian risiko keamanan siber (Vulnerability assessment/Penetration testing) serta mengelola program kesadaran keamanan;</li>
+            <li>Memberikan dukungan tingkat lanjut untuk masalah infrastruktur dan keamanan yang dilaporkan pengguna;</li>
+            <li>Melakukan inventarisasi dan manajemen siklus hidup aset infrastruktur dan keamanan TI;</li>
+            <li>Tugas lain yang diberikan oleh PIHAK PERTAMA terkait bidang tersebut.</li>
+        </ol>
 
-    <p>(2) PIHAK PERTAMA berhak memerintahkan kepada PIHAK KEDUA untuk melaksanakan pekerjaan dan/atau tugasnya sebagaimana tersebut dalam ayat (1) Pasal ini.</p>
-    <p>(3) Dalam melaksanakan tugas, PIHAK KEDUA bertanggung jawab langsung kepada Kepala Bagian SDM & TI.</p>
-
+        <p>(2) PIHAK PERTAMA berhak memerintahkan kepada PIHAK KEDUA untuk melaksanakan pekerjaan dan/atau tugasnya sebagaimana tersebut dalam ayat (1) Pasal ini.</p>
+        <p>(3) Dalam melaksanakan tugas, PIHAK KEDUA bertanggung jawab langsung kepada Kepala Bagian SDM & TI.</p>
+    </div>
     <!-- PASAL 4 -->
-    <div class="pasal-title">Pasal 4</div>
-    <div class="pasal-title">JANGKA WAKTU</div>
-
-    <ol class="arabic">
-        <li>Jangka waktu KONTRAK KERJA ini terhitung mulai tanggal <?= $data_final['tgl_mulai'] ?> dan berakhir tanggal <?= $data_final['tgl_selesai'] ?>.</li>
-        <li>Apabila PIHAK PERTAMA bermaksud untuk memperpanjang KONTRAK KERJA ini, maka PIHAK PERTAMA akan memberitahukan maksudnya tersebut kepada PIHAK KEDUA dan dalam hal PIHAK KEDUA menyetujui perpanjangan tersebut maka dibuatkan perpanjangan KONTRAK KERJA.</li>
-    </ol>
-
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 4</div>
+        <div class="pasal-title">JANGKA WAKTU</div>
+        <ol class="arabic">
+            <li>Jangka waktu KONTRAK KERJA ini terhitung mulai tanggal <?= $data_final['tgl_mulai'] ?> dan berakhir tanggal <?= $data_final['tgl_selesai'] ?>.</li>
+            <li>Apabila PIHAK PERTAMA bermaksud untuk memperpanjang KONTRAK KERJA ini, maka PIHAK PERTAMA akan memberitahukan maksudnya tersebut kepada PIHAK KEDUA dan dalam hal PIHAK KEDUA menyetujui perpanjangan tersebut maka dibuatkan perpanjangan KONTRAK KERJA.</li>
+        </ol>
+    </div>
     <!-- PASAL 5 -->
-    <div class="pasal-title">Pasal 5</div>
-    <div class="pasal-title">PENGGAJIAN</div>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 5</div>
+        <div class="pasal-title">PENGGAJIAN</div>
+        <?php
+        // Pastikan nilai gaji yang kosong/nol di backend sudah menjadi '0' atau '0.00'.
+        // Di sini kita cek apakah nilai gaji lebih dari nol untuk narasi.
+        $gaji_keahlian_ada = (float)$data_final['tunj_keahlian'] > 0;
 
-    <ol class="arabic">
-        <li>PIHAK KEDUA mendapatkan Gaji sebesar Rp2.655.042 (dua juta enam ratus lima puluh lima ribu empat puluh dua rupiah) dengan rincian sebagai berikut: Gaji Pokok sebesar Rp1.991.282 dan Tunjangan Tetap sebesar Rp663.760.</li>
-        <li>Pembayaran Gaji dilakukan pada tanggal 27 (dua puluh tujuh) setiap bulannya melalui Rekening PIHAK KEDUA. Pajak PPh Pasal 21 ditanggung oleh PIHAK PERTAMA.</li>
-        <li>Apabila di dalam perjalanan masa KONTRAK KERJA terdapat kenaikan Upah Minimum Kota/Kabupaten (UMK) yang mengakibatkan Gaji PIHAK KEDUA berada di bawah Upah Minimum Kota/Kabupaten (UMK), maka Gaji PIHAK KEDUA akan disesuaikan dengan proporsi sebesar 75% (tujuh puluh lima persen) Gaji Pokok dan 25% (dua puluh lima persen) Tunjangan Tetap.</li>
-    </ol>
-
+        // Variabel untuk menampung narasi Tunjangan Keahlian
+        $naratif_keahlian = '';
+        $naratif_tetap = "";
+        if ($gaji_keahlian_ada) {
+            // KONDISI JIKA ADA: Tambahkan Tunjangan Keahlian dengan pemisah koma (,)
+            $naratif_keahlian = ", dan Tunjangan Keahlian sebesar Rp " . number_format($data_final['tunj_keahlian'], 0, ',', '.');
+            $naratif_tetap = ",";
+        } else {
+            $naratif_tetap = " dan";
+        }
+        ?>
+        <ol class="arabic">
+            <li>PIHAK KEDUA mendapatkan Gaji sebesar Rp<?= number_format($data_final['gaji'], 0, ',', '.') ?> (<?= $umum->terbilang_rupiah($data_final['gaji']) ?>)
+                dengan rincian sebagai berikut: Gaji Pokok sebesar Rp <?= number_format($data_final['gaji_pokok'], 0, ',', '.') ?><?= $naratif_tetap ?> Tunjangan Tetap sebesar Rp <?= number_format($data_final['tunj_tetap'], 0, ',', '.') ?> <?= $naratif_keahlian ?>.
+            </li>
+            <li>Pembayaran Gaji dilakukan pada tanggal 27 (dua puluh tujuh) setiap bulannya melalui Rekening PIHAK KEDUA. Pajak PPh Pasal 21 ditanggung oleh PIHAK PERTAMA.</li>
+            <li>Apabila di dalam perjalanan masa KONTRAK KERJA terdapat kenaikan Upah Minimum Kota/Kabupaten (UMK) yang mengakibatkan Gaji PIHAK KEDUA berada di bawah Upah Minimum Kota/Kabupaten (UMK), maka Gaji PIHAK KEDUA akan disesuaikan dengan proporsi sebesar 75% (tujuh puluh lima persen) Gaji Pokok dan 25% (dua puluh lima persen) Tunjangan Tetap.</li>
+        </ol>
+    </div>
     <!-- PASAL 6 -->
-    <div class="pasal-title">Pasal 6</div>
-    <div class="pasal-title">PENDAPATAN LAIN SELAIN GAJI</div>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 6</div>
+        <div class="pasal-title">PENDAPATAN LAIN SELAIN GAJI</div>
 
-    <p>PIHAK KEDUA mendapatkan:</p>
-    <ol class="arabic">
-        <li>Mendapatkan Bantuan Makan Siang sesuai dengan ketentuan yang berlaku;</li>
-        <li>Mendapatkan program BPJS Kesehatan dan BPJS Ketenagakerjaan;</li>
-        <li>Mendapatkan upah lembur setara dengan IIA apabila PIHAK KEDUA bekerja melebihi waktu kerja;</li>
-        <li>Mendapatkan Tunjangan Hari Raya sesuai dengan ketentuan yang berlaku;</li>
-        <li>Mendapatkan uang kompensasi akibat berakhirnya dan/atau putusnya KONTRAK KERJA ini sesuai dengan peraturan yang berlaku;</li>
-        <li>Memperoleh Biaya Perjalanan Dinas, apabila PIHAK KEDUA ditugaskan untuk melakukan Perjalanan Dinas dengan hak disetarakan BOD-4;</li>
-        <li>Memperoleh hak cuti fisik selama 12 (dua belas) hari dalam jangka waktu 1 (satu) tahun setelah bekerja 1 (satu) tahun penuh, apabila ada cuti bersama menjadi pengurang hak cuti yang dimiliki.</li>
-    </ol>
-
+        <p>PIHAK KEDUA mendapatkan:</p>
+        <ol class="arabic">
+            <li>Mendapatkan Bantuan Makan Siang sesuai dengan ketentuan yang berlaku;</li>
+            <li>Mendapatkan program BPJS Kesehatan dan BPJS Ketenagakerjaan;</li>
+            <li>Mendapatkan upah lembur setara dengan <?= $data_final['golongan'] ?> apabila PIHAK KEDUA bekerja melebihi waktu kerja;</li>
+            <li>Mendapatkan Tunjangan Hari Raya sesuai dengan ketentuan yang berlaku;</li>
+            <li>Mendapatkan uang kompensasi akibat berakhirnya dan/atau putusnya KONTRAK KERJA ini sesuai dengan peraturan yang berlaku;</li>
+            <li>Memperoleh Biaya Perjalanan Dinas, apabila PIHAK KEDUA ditugaskan untuk melakukan Perjalanan Dinas dengan hak disetarakan <?= $data_final['level_karyawan'] ?>;</li>
+            <li>Memperoleh hak cuti fisik selama 12 (dua belas) hari dalam jangka waktu 1 (satu) tahun setelah bekerja 1 (satu) tahun penuh, apabila ada cuti bersama menjadi pengurang hak cuti yang dimiliki.</li>
+        </ol>
+    </div>
     <!-- PASAL 7 -->
-    <div class="pasal-title">Pasal 7</div>
-    <div class="pasal-title">TATA TERTIB</div>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 7</div>
+        <div class="pasal-title">TATA TERTIB</div>
 
-    <p>(1) Dalam melaksanakan tugas dan/atau pekerjaannya sehari-hari PIHAK KEDUA wajib melaksanakan dengan sebaik-baiknya dengan penuh tanggung jawab serta memperhatikan petunjuk dan/atau arahan yang diberikan oleh PIHAK PERTAMA atau sesuai dengan ketentuan yang ada dalam perusahaan PIHAK PERTAMA, sebagai berikut:</p>
+        <p>(1) Dalam melaksanakan tugas dan/atau pekerjaannya sehari-hari PIHAK KEDUA wajib melaksanakan dengan sebaik-baiknya dengan penuh tanggung jawab serta memperhatikan petunjuk dan/atau arahan yang diberikan oleh PIHAK PERTAMA atau sesuai dengan ketentuan yang ada dalam perusahaan PIHAK PERTAMA, sebagai berikut:</p>
 
-    <ol class="arabic">
-        <li>PARA PIHAK secara bersama-sama berkewajiban membina hubungan kerja yang harmonis agar tercipta ketenangan kerja dan kelancaran usaha;</li>
-        <li>PIHAK KEDUA wajib mematuhi segala ketentuan yang berlaku atau ditetapkan oleh PIHAK PERTAMA;</li>
-        <li>PIHAK KEDUA menjamin tidak pernah terlibat dalam penyuapan dan bersedia untuk menjalankan kepatuhan terhadap anti penyuapan sesuai dengan Sistem Manajemen Anti Penyuapan PIHAK PERTAMA;</li>
-        <li>Melaksanakan tugas-tugasnya sesuai dengan uraian tugas sebagaimana dimaksud dalam Pasal 3 KONTRAK KERJA ini dengan sebaik-baiknya dan penuh tanggung jawab;</li>
-        <li>PIHAK KEDUA wajib menjaga dan memelihara alat-alat kerja serta inventaris milik PIHAK PERTAMA dengan penuh tanggung jawab yang dikenakan oleh perusahaan;</li>
-        <li>Dalam menggunakan alat-alat kerja dan/atau barang inventaris milik PIHAK PERTAMA, maka PIHAK KEDUA harus mengindahkan petunjuk-petunjuk yang diarahkan oleh PIHAK PERTAMA;</li>
-        <li>Apabila selesai KONTRAK KERJA ini dan tidak ada perpanjangan atas KONTRAK KERJA ini dan/atau terjadi Pemutusan Hubungan Kerja sebelum berakhirnya KONTRAK KERJA ini, maka PIHAK KEDUA diwajibkan mengembalikan semua alat-alat kerja dan/atau inventaris dalam keadaan baik dan terpelihara kepada PIHAK PERTAMA;</li>
-        <li>Menjaga nama baik PIHAK PERTAMA dimanapun PIHAK PERTAMA berada, baik selama KONTRAK KERJA ini berlangsung maupun KONTRAK KERJA ini berakhir dengan cara dan bentuk apapun;</li>
-        <li>Menjaga dan menyimpan rahasia perusahaan dengan tidak membuka dan/atau menyebarluaskan kepada pihak lain dengan cara dan bentuk apapun.</li>
-    </ol>
+        <ol class="arabic">
+            <li>PARA PIHAK secara bersama-sama berkewajiban membina hubungan kerja yang harmonis agar tercipta ketenangan kerja dan kelancaran usaha;</li>
+            <li>PIHAK KEDUA wajib mematuhi segala ketentuan yang berlaku atau ditetapkan oleh PIHAK PERTAMA;</li>
+            <li>PIHAK KEDUA menjamin tidak pernah terlibat dalam penyuapan dan bersedia untuk menjalankan kepatuhan terhadap anti penyuapan sesuai dengan Sistem Manajemen Anti Penyuapan PIHAK PERTAMA;</li>
+            <li>Melaksanakan tugas-tugasnya sesuai dengan uraian tugas sebagaimana dimaksud dalam Pasal 3 KONTRAK KERJA ini dengan sebaik-baiknya dan penuh tanggung jawab;</li>
+            <li>PIHAK KEDUA wajib menjaga dan memelihara alat-alat kerja serta inventaris milik PIHAK PERTAMA dengan penuh tanggung jawab yang dikenakan oleh perusahaan;</li>
+            <li>Dalam menggunakan alat-alat kerja dan/atau barang inventaris milik PIHAK PERTAMA, maka PIHAK KEDUA harus mengindahkan petunjuk-petunjuk yang diarahkan oleh PIHAK PERTAMA;</li>
+            <li>Apabila selesai KONTRAK KERJA ini dan tidak ada perpanjangan atas KONTRAK KERJA ini dan/atau terjadi Pemutusan Hubungan Kerja sebelum berakhirnya KONTRAK KERJA ini, maka PIHAK KEDUA diwajibkan mengembalikan semua alat-alat kerja dan/atau inventaris dalam keadaan baik dan terpelihara kepada PIHAK PERTAMA;</li>
+            <li>Menjaga nama baik PIHAK PERTAMA dimanapun PIHAK PERTAMA berada, baik selama KONTRAK KERJA ini berlangsung maupun KONTRAK KERJA ini berakhir dengan cara dan bentuk apapun;</li>
+            <li>Menjaga dan menyimpan rahasia perusahaan dengan tidak membuka dan/atau menyebarluaskan kepada pihak lain dengan cara dan bentuk apapun.</li>
+        </ol>
 
-    <p>(2) Jika PIHAK KEDUA terbukti melakukan pelanggaran dan/atau penyimpangan terhadap tata tertib sebagimana diatur dalam ayat (1) Pasal ini dan/atau Peraturan Perusahaan PIHAK PERTAMA, maka PIHAK PERTAMA berhak memberikan sanksi sesuai dengan ketentuan yang berlaku di PIHAK PERTAMA dan/atau Peraturan Perundang-Undangan yang berlaku.</p>
-
+        <p>(2) Jika PIHAK KEDUA terbukti melakukan pelanggaran dan/atau penyimpangan terhadap tata tertib sebagimana diatur dalam ayat (1) Pasal ini dan/atau Peraturan Perusahaan PIHAK PERTAMA, maka PIHAK PERTAMA berhak memberikan sanksi sesuai dengan ketentuan yang berlaku di PIHAK PERTAMA dan/atau Peraturan Perundang-Undangan yang berlaku.</p>
+    </div>
     <!-- PASAL 8 -->
-    <div class="pasal-title">Pasal 8</div>
-    <div class="pasal-title">EVALUASI DAN PENILAIAN KINERJA</div>
-
-    <ol class="arabic">
-        <li>PIHAK PERTAMA secara regular (per bulan) dapat melakukan evaluasi terhadap kinerja dari pelaksanaan pekerjaan (performance appraisal) PIHAK KEDUA.</li>
-        <li>Apabila berdasarkan hasil evaluasi dan/atau penilaian PIHAK PERTAMA terhadap kinerja dari pelaksanaan pekerjaan PIHAK KEDUA memperoleh hasil kinerja yang tidak baik dan/atau PIHAK KEDUA melakukan pelanggaran terhadap ketentuan-ketentuan sebagaimana diatur dalam KONTRAK KERJA ini dan/atau Peraturan Perusahaan, maka PIHAK PERTAMA dapat memutus KONTRAK KERJA ini secara sepihak dengan terlebih dahulu melakukan pemberitahuan kepada PIHAK KEDUA minimal 1 (satu) bulan sebelum PIHAK KEDUA diberhentikan.</li>
-    </ol>
-
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 8</div>
+        <div class="pasal-title">EVALUASI DAN PENILAIAN KINERJA</div>
+        <ol class="arabic">
+            <li>PIHAK PERTAMA secara regular (per bulan) dapat melakukan evaluasi terhadap kinerja dari pelaksanaan pekerjaan (performance appraisal) PIHAK KEDUA.</li>
+            <li>Apabila berdasarkan hasil evaluasi dan/atau penilaian PIHAK PERTAMA terhadap kinerja dari pelaksanaan pekerjaan PIHAK KEDUA memperoleh hasil kinerja yang tidak baik dan/atau PIHAK KEDUA melakukan pelanggaran terhadap ketentuan-ketentuan sebagaimana diatur dalam KONTRAK KERJA ini dan/atau Peraturan Perusahaan, maka PIHAK PERTAMA dapat memutus KONTRAK KERJA ini secara sepihak dengan terlebih dahulu melakukan pemberitahuan kepada PIHAK KEDUA minimal 1 (satu) bulan sebelum PIHAK KEDUA diberhentikan.</li>
+        </ol>
+    </div>
     <!-- PASAL 9 -->
-    <div class="pasal-title">Pasal 9</div>
-    <div class="pasal-title">KERAHASIAAN</div>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 9</div>
+        <div class="pasal-title">KERAHASIAAN</div>
 
-    <ol class="arabic">
-        <li>PIHAK KEDUA terikat dengan ketentuan Rahasia Jabatan yaitu segala sesuatu yang diketahui oleh PIHAK KEDUA mengenai keadaan perusahaan PIHAK PERTAMA dan/atau segala sesuatu hal yang diketahuinya melalui media apapun dan cara apapun selama PIHAK KEDUA menjalankan tugas dan/atau pekerjaannya di perusahaan PIHAK PERTAMA yang menurut ketentuan Rahasia Jabatan harus dirahasiakan termasuk namun tidak terbatas pada keterangan-keterangan, informasi, pernyataan, maupun dokumen-dokumen (selanjutnya disebut Informasi Rahasia).</li>
-        <li>PIHAK KEDUA dilarang memberitahukan dan/atau membocorkan dan/atau membuat Informasi Rahasia itu dapat diakses oleh orang yang tidak berhak baik melalui media apapun dan dengan cara apapun selama hubungan kerja dengan PIHAK PERTAMA berlangsung maupun setelah hubungan kerja dengan PIHAK PERTAMA dihentikan, dengan cara dan bentuk apapun. Oleh karena itu PIHAK KEDUA wajib menjaga dan melindungi Informasi Rahasia dengan upaya yang cukup.</li>
-        <li>PIHAK KEDUA wajib menyerahkan dan/atau mengembalikan seluruh Informasi Rahasia yang dipergunakan oleh PIHAK KEDUA untuk melaksanakan pekerjaan dan hanya akan menggunakannya untuk kepentingan PIHAK PERTAMA semata-mata.</li>
-        <li>Apabila PIHAK KEDUA melakukan pelanggaran terhadap ketentuan dalam Pasal ini, maka terhadapnya akan dikenakan sanksi sesuai dengan hukum dan Peraturan Perundang-Undangan yang mengatur mengenai Informasi Rahasia dan/atau kerahasiaan data yang berlaku di Negara Republik Indonesia.</li>
-    </ol>
-
+        <ol class="arabic">
+            <li>PIHAK KEDUA terikat dengan ketentuan Rahasia Jabatan yaitu segala sesuatu yang diketahui oleh PIHAK KEDUA mengenai keadaan perusahaan PIHAK PERTAMA dan/atau segala sesuatu hal yang diketahuinya melalui media apapun dan cara apapun selama PIHAK KEDUA menjalankan tugas dan/atau pekerjaannya di perusahaan PIHAK PERTAMA yang menurut ketentuan Rahasia Jabatan harus dirahasiakan termasuk namun tidak terbatas pada keterangan-keterangan, informasi, pernyataan, maupun dokumen-dokumen (selanjutnya disebut Informasi Rahasia).</li>
+            <li>PIHAK KEDUA dilarang memberitahukan dan/atau membocorkan dan/atau membuat Informasi Rahasia itu dapat diakses oleh orang yang tidak berhak baik melalui media apapun dan dengan cara apapun selama hubungan kerja dengan PIHAK PERTAMA berlangsung maupun setelah hubungan kerja dengan PIHAK PERTAMA dihentikan, dengan cara dan bentuk apapun. Oleh karena itu PIHAK KEDUA wajib menjaga dan melindungi Informasi Rahasia dengan upaya yang cukup.</li>
+            <li>PIHAK KEDUA wajib menyerahkan dan/atau mengembalikan seluruh Informasi Rahasia yang dipergunakan oleh PIHAK KEDUA untuk melaksanakan pekerjaan dan hanya akan menggunakannya untuk kepentingan PIHAK PERTAMA semata-mata.</li>
+            <li>Apabila PIHAK KEDUA melakukan pelanggaran terhadap ketentuan dalam Pasal ini, maka terhadapnya akan dikenakan sanksi sesuai dengan hukum dan Peraturan Perundang-Undangan yang mengatur mengenai Informasi Rahasia dan/atau kerahasiaan data yang berlaku di Negara Republik Indonesia.</li>
+        </ol>
+    </div>
     <!-- PASAL 10 -->
-    <div class="pasal-title">Pasal 10</div>
-    <div class="pasal-title">PEMUTUSAN KONTRAK KERJA</div>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 10</div>
+        <div class="pasal-title">PEMUTUSAN KONTRAK KERJA</div>
 
-    <ol class="arabic">
-        <li>(1) PIHAK PERTAMA secara sepihak dapat memberhentikan PIHAK KEDUA dengan terlebih dahulu memberitahukan maksudnya tersebut kepada PIHAK KEDUA minimal 1 (satu) bulan sebelumnya (one month notice), terkait dengan kondisi sebagai berikut:</li>
-        <li style="margin-left:20pt;">1. PIHAK KEDUA melanggar tata tertib sebagaimana diatur dalam Pasal 7 KONTRAK KERJA ini;</li>
-        <li style="margin-left:20pt;">2. Berdasarkan hasil evaluasi dan penilaian pekerjaan sebagaimana diatur dalam Pasal 8 KONTRAK KERJA ini;</li>
-        <li style="margin-left:20pt;">3. PIHAK KEDUA melanggar kerahasiaan sebagaimana diatur dalam Pasal 9 KONTRAK KERJA ini;</li>
-        <li style="margin-left:20pt;">4. PIHAK KEDUA terbukti kurang cakap, berkelakuan buruk, tidak mampu bekerja dalam tim maupun individu, lalai dalam kewajiban, tidak patuh perintah dan/atau melakukan perbuatan atau pekerjaan yang merugikan PIHAK PERTAMA;</li>
-        <li style="margin-left:20pt;">5. PIHAK KEDUA terbukti melakukan tindak pidana yang telah diputuskan oleh pengadilan;</li>
-        <li style="margin-left:20pt;">6. PIHAK KEDUA melakukan pelanggaran berat dan/atau pelanggaran yang dilakukan secara berulang-ulang walaupun telah diberikan teguran dan/atau peringatan oleh PIHAK PERTAMA, baik secara lisan maupun secara tertulis.</li>
-        <li>(2) PIHAK KEDUA dapat mengajukan pengunduran diri (Resign) dengan ketentuan sebagai berikut:</li>
-        <li style="margin-left:20pt;">1. Mengajukan Surat Pengunduran Diri (Resign) dalam jangka waktu 30 (tiga puluh) hari kalender (one month notice);</li>
-        <li style="margin-left:20pt;">2. Untuk jabatan-jabatan tertentu maka berkewajiban untuk membuat Laporan Serah Terima kepada Perusahaan dan/atau yang menggantikannya.</li>
-        <li>(3) Apabila salah satu PIHAK mengakhiri KONTRAK KERJA ini sebelum berakhirnya jangka waktu yang ditetapkan dalam Pasal 5 KONTRAK KERJA ini, maka besaran uang kompensasi dihitung berdasarkan jangka waktu kontrak yang telah dilaksanakan oleh PIHAK KEDUA.</li>
-        <li>(4) Dalam hal KONTRAK KERJA ini diakhiri karena adanya permohonan pengunduran diri (Resign) oleh PIHAK KEDUA, maka PIHAK PERTAMA dibebaskan dari dan/atau tidak diwajibkan untuk membayar upah dan/atau kewajiban lainnya dalam bentuk apapun kepada PIHAK KEDUA atas sisa jangka waktu kontrak yang masih berjalan sampai berakhirnya KONTRAK KERJA ini.</li>
-        <li>(5) Apabila terjadi pemutusan KONTRAK KERJA ini, maka segala sesuatunya mengacu pada aturan dalam Undang-Undang Nomor 13 Tahun 2003 tentang Ketenagakerjaan, Undang-Undang Nomor 2 Tahun 2004 tentang Penyelesaian Perselisihan Hubungan Industrial dan Undang-Undang Nomor 6 Tahun 2023 tentang Penetapan Peraturan Pemerintah Pengganti Undang-Undang Nomor 2 Tahun 2022 tentang Cipta Kerja menjadi Undang-Undang.</li>
-    </ol>
-
+        <ol class="arabic">
+            <li>(1) PIHAK PERTAMA secara sepihak dapat memberhentikan PIHAK KEDUA dengan terlebih dahulu memberitahukan maksudnya tersebut kepada PIHAK KEDUA minimal 1 (satu) bulan sebelumnya (one month notice), terkait dengan kondisi sebagai berikut:</li>
+            <li style="margin-left:20pt;">1. PIHAK KEDUA melanggar tata tertib sebagaimana diatur dalam Pasal 7 KONTRAK KERJA ini;</li>
+            <li style="margin-left:20pt;">2. Berdasarkan hasil evaluasi dan penilaian pekerjaan sebagaimana diatur dalam Pasal 8 KONTRAK KERJA ini;</li>
+            <li style="margin-left:20pt;">3. PIHAK KEDUA melanggar kerahasiaan sebagaimana diatur dalam Pasal 9 KONTRAK KERJA ini;</li>
+            <li style="margin-left:20pt;">4. PIHAK KEDUA terbukti kurang cakap, berkelakuan buruk, tidak mampu bekerja dalam tim maupun individu, lalai dalam kewajiban, tidak patuh perintah dan/atau melakukan perbuatan atau pekerjaan yang merugikan PIHAK PERTAMA;</li>
+            <li style="margin-left:20pt;">5. PIHAK KEDUA terbukti melakukan tindak pidana yang telah diputuskan oleh pengadilan;</li>
+            <li style="margin-left:20pt;">6. PIHAK KEDUA melakukan pelanggaran berat dan/atau pelanggaran yang dilakukan secara berulang-ulang walaupun telah diberikan teguran dan/atau peringatan oleh PIHAK PERTAMA, baik secara lisan maupun secara tertulis.</li>
+            <li>(2) PIHAK KEDUA dapat mengajukan pengunduran diri (Resign) dengan ketentuan sebagai berikut:</li>
+            <li style="margin-left:20pt;">1. Mengajukan Surat Pengunduran Diri (Resign) dalam jangka waktu 30 (tiga puluh) hari kalender (one month notice);</li>
+            <li style="margin-left:20pt;">2. Untuk jabatan-jabatan tertentu maka berkewajiban untuk membuat Laporan Serah Terima kepada Perusahaan dan/atau yang menggantikannya.</li>
+            <li>(3) Apabila salah satu PIHAK mengakhiri KONTRAK KERJA ini sebelum berakhirnya jangka waktu yang ditetapkan dalam Pasal 5 KONTRAK KERJA ini, maka besaran uang kompensasi dihitung berdasarkan jangka waktu kontrak yang telah dilaksanakan oleh PIHAK KEDUA.</li>
+            <li>(4) Dalam hal KONTRAK KERJA ini diakhiri karena adanya permohonan pengunduran diri (Resign) oleh PIHAK KEDUA, maka PIHAK PERTAMA dibebaskan dari dan/atau tidak diwajibkan untuk membayar upah dan/atau kewajiban lainnya dalam bentuk apapun kepada PIHAK KEDUA atas sisa jangka waktu kontrak yang masih berjalan sampai berakhirnya KONTRAK KERJA ini.</li>
+            <li>(5) Apabila terjadi pemutusan KONTRAK KERJA ini, maka segala sesuatunya mengacu pada aturan dalam Undang-Undang Nomor 13 Tahun 2003 tentang Ketenagakerjaan, Undang-Undang Nomor 2 Tahun 2004 tentang Penyelesaian Perselisihan Hubungan Industrial dan Undang-Undang Nomor 6 Tahun 2023 tentang Penetapan Peraturan Pemerintah Pengganti Undang-Undang Nomor 2 Tahun 2022 tentang Cipta Kerja menjadi Undang-Undang.</li>
+        </ol>
+    </div>
     <!-- PASAL 11 -->
-    <div class="pasal-title">Pasal 11</div>
-    <div class="pasal-title">HAK KEKAYAAN INTELEKTUAL</div>
-
-    <ol class="arabic">
-        <li>Yang dimaksud dengan Hak Kekayaan Intelektual adalah semua yang ada dan yang akan ada dikemudian hari atau desain industri (baik terdaftar maupun tidak terdaftar) termasuk, tanpa mengurangi hal-hal umum yang tersebut di atas, semua paten yang ada dan untuk yang akan datang (hak cipta, hak desain, hak pusat data, merek dagang, hak tata letak sirkuit terpadu, hak pengembangan tanaman, hak internet/nama situs, ketrampilan), Informasi Rahasia dan semua aplikasi untuk semua yang disebut di atas dan semua hak yang berlaku untuk hal-hal tersebut di atas.</li>
-        <li>Segala Hak Kekayaan Intelektual yang dihasilkan sendiri oleh PIHAK KEDUA dan/atau bersama-sama dengan Karyawan PIHAK PERTAMA yang timbul sehubungan dengan adanya pelaksanaan KONTRAK KERJA ini antara PIHAK PERTAMA dan PIHAK KEDUA, maka sepenuhnya menjadi milik dan mutlak kepunyaan PIHAK PERTAMA.</li>
-        <li>PIHAK PERTAMA berhak mempublikasikan dan/atau mereproduksi hasil pekerjaan PIHAK KEDUA sesuai keperluan PIHAK PERTAMA tanpa perlu meminta persetujuan baik itu lisan maupun tertulis dari PIHAK KEDUA.</li>
-        <li>PIHAK KEDUA menjamin bahwa materi tertulis dalam hasil pekerjaan dan/atau dokumen-dokumen lainnya bukan merupakan suatu pelanggaran terhadap Hak Kekayaan Intelektual pihak manapun sebagaimana diatur dalam Peraturan Perundang-Undangan yang berlaku.</li>
-        <li>PIHAK yang melakukan pelanggaran terhadap ketentuan dalam Pasal ini akan dikenakan sanksi sesuai dengan hukum dan Peraturan Perundang-Undangan tentang Hak Kekayaan Intelektual yang berlaku di Negara Republik Indonesia.</li>
-    </ol>
-
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 11</div>
+        <div class="pasal-title">HAK KEKAYAAN INTELEKTUAL</div>
+        <ol class="arabic">
+            <li>Yang dimaksud dengan Hak Kekayaan Intelektual adalah semua yang ada dan yang akan ada dikemudian hari atau desain industri (baik terdaftar maupun tidak terdaftar) termasuk, tanpa mengurangi hal-hal umum yang tersebut di atas, semua paten yang ada dan untuk yang akan datang (hak cipta, hak desain, hak pusat data, merek dagang, hak tata letak sirkuit terpadu, hak pengembangan tanaman, hak internet/nama situs, ketrampilan), Informasi Rahasia dan semua aplikasi untuk semua yang disebut di atas dan semua hak yang berlaku untuk hal-hal tersebut di atas.</li>
+            <li>Segala Hak Kekayaan Intelektual yang dihasilkan sendiri oleh PIHAK KEDUA dan/atau bersama-sama dengan Karyawan PIHAK PERTAMA yang timbul sehubungan dengan adanya pelaksanaan KONTRAK KERJA ini antara PIHAK PERTAMA dan PIHAK KEDUA, maka sepenuhnya menjadi milik dan mutlak kepunyaan PIHAK PERTAMA.</li>
+            <li>PIHAK PERTAMA berhak mempublikasikan dan/atau mereproduksi hasil pekerjaan PIHAK KEDUA sesuai keperluan PIHAK PERTAMA tanpa perlu meminta persetujuan baik itu lisan maupun tertulis dari PIHAK KEDUA.</li>
+            <li>PIHAK KEDUA menjamin bahwa materi tertulis dalam hasil pekerjaan dan/atau dokumen-dokumen lainnya bukan merupakan suatu pelanggaran terhadap Hak Kekayaan Intelektual pihak manapun sebagaimana diatur dalam Peraturan Perundang-Undangan yang berlaku.</li>
+            <li>PIHAK yang melakukan pelanggaran terhadap ketentuan dalam Pasal ini akan dikenakan sanksi sesuai dengan hukum dan Peraturan Perundang-Undangan tentang Hak Kekayaan Intelektual yang berlaku di Negara Republik Indonesia.</li>
+        </ol>
+    </div>
     <!-- PASAL 12 -->
-    <div class="pasal-title">Pasal 12</div>
-    <div class="pasal-title">ADENDUM</div>
-
-    <p>Sepanjang secara prinsip tidak ditentukan secara khusus dan/atau lain dalam KONTRAK KERJA ini, maka hal-hal yang belum diatur atau perubahan syarat-syarat dalam KONTRAK KERJA ini akan diatur secara mufakat antara PARA PIHAK untuk kemudian dituangkan dalam suatu kontrak tambahan atau adendum (penambahan, pengurangan, penyesuaian KONTRAK KERJA) yang merupakan satu kesatuan dan bagian yang tidak terpisahkan dengan KONTRAK KERJA ini.</p>
-
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 12</div>
+        <div class="pasal-title">ADENDUM</div>
+        <p>Sepanjang secara prinsip tidak ditentukan secara khusus dan/atau lain dalam KONTRAK KERJA ini, maka hal-hal yang belum diatur atau perubahan syarat-syarat dalam KONTRAK KERJA ini akan diatur secara mufakat antara PARA PIHAK untuk kemudian dituangkan dalam suatu kontrak tambahan atau adendum (penambahan, pengurangan, penyesuaian KONTRAK KERJA) yang merupakan satu kesatuan dan bagian yang tidak terpisahkan dengan KONTRAK KERJA ini.</p>
+    </div>
     <!-- PASAL 13 -->
-    <div class="pasal-title">Pasal 13</div>
-    <div class="pasal-title">PENYELESAIAN PERSELISIHAN</div>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 13</div>
+        <div class="pasal-title">PENYELESAIAN PERSELISIHAN</div>
 
-    <ol class="arabic">
-        <li>Apabila timbul perselisihan mengenai penafsiran dan/atau pelaksanaan dari KONTRAK KERJA ini, maka PARA PIHAK sepakat untuk menyelesaikan secara musyawarah.</li>
-        <li>Apabila perselisihan tidak dapat diselesaikan sebagaimana dimaksud pada ayat (1) Pasal ini, maka PARA PIHAK sepakat untuk menyelesaikannya secara Hubungan Industrial dengan berpedoman pada aturan dalam Undang-Undang Nomor 2 Tahun 2004 tentang Penyelesaian Perselisihan Hubungan Industrial (PPHI) dan/atau peraturan lain yang terkait masalah Ketenagakerjaan Republik Indonesia.</li>
-    </ol>
-
+        <ol class="arabic">
+            <li>Apabila timbul perselisihan mengenai penafsiran dan/atau pelaksanaan dari KONTRAK KERJA ini, maka PARA PIHAK sepakat untuk menyelesaikan secara musyawarah.</li>
+            <li>Apabila perselisihan tidak dapat diselesaikan sebagaimana dimaksud pada ayat (1) Pasal ini, maka PARA PIHAK sepakat untuk menyelesaikannya secara Hubungan Industrial dengan berpedoman pada aturan dalam Undang-Undang Nomor 2 Tahun 2004 tentang Penyelesaian Perselisihan Hubungan Industrial (PPHI) dan/atau peraturan lain yang terkait masalah Ketenagakerjaan Republik Indonesia.</li>
+        </ol>
+    </div>
     <!-- PASAL 14 -->
-    <div class="pasal-title">Pasal 14</div>
-    <div class="pasal-title">LAIN-LAIN</div>
-
-    <p>KONTRAK KERJA ini tunduk dan patuh pada peraturan tentang Ketenagakerjaan yang berlaku. Apabila terdapat perubahan Peraturan Perundang-Undangan dan/atau aturan turunannya dari Pemerintah tentang Ketenagakerjaan, maka secara otomatis hal-hal yang belum diatur dalam KONTRAK KERJA ini akan tunduk dan patuh pada perubahan peraturan tersebut.</p>
+    <div class="avoid-break">
+        <div class="pasal-title">Pasal 14</div>
+        <div class="pasal-title">LAIN-LAIN</div>
+        <p>KONTRAK KERJA ini tunduk dan patuh pada peraturan tentang Ketenagakerjaan yang berlaku. Apabila terdapat perubahan Peraturan Perundang-Undangan dan/atau aturan turunannya dari Pemerintah tentang Ketenagakerjaan, maka secara otomatis hal-hal yang belum diatur dalam KONTRAK KERJA ini akan tunduk dan patuh pada perubahan peraturan tersebut.</p>
+        <p>Demikian KONTRAK KERJA ini dibuat rangkap 2 (dua), di atas kertas bermaterai dan mempunyai kekuatan hukum yang sama. PARA PIHAK telah membubuhi tanda tangannya masing-masing sebagai bukti di kemudian hari.</p>
+    </div>
 
     <!-- PENUTUP & TANDA TANGAN -->
-    <p>Demikian KONTRAK KERJA ini dibuat rangkap 2 (dua), di atas kertas bermaterai dan mempunyai kekuatan hukum yang sama. PARA PIHAK telah membubuhi tanda tangannya masing-masing sebagai bukti di kemudian hari.</p>
 
     <table style="width:100%; margin-top:60pt; font-size:11pt; border-collapse:collapse;">
         <tr>
